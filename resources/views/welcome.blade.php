@@ -10,7 +10,10 @@
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
 
         <!-- Styles -->
+        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
         <style>
+
             html, body {
                 background-color: #fff;
                 color: #636b6f;
@@ -45,7 +48,7 @@
             }
 
             .title {
-                font-size: 84px;
+                font-size: 70px;
             }
 
             .links > a {
@@ -61,6 +64,7 @@
             .m-b-md {
                 margin-bottom: 30px;
             }
+
         </style>
     </head>
     <body>
@@ -71,28 +75,28 @@
                         <a href="{{ url('/home') }}">Home</a>
                     @else
                         <a href="{{ route('login') }}">Login</a>
-
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}">Register</a>
-                        @endif
                     @endauth
                 </div>
             @endif
 
             <div class="content">
                 <div class="title m-b-md">
-                    warehouse management system
+                    jewelry warehouse management system
                 </div>
 
-                <div class="links">
-                    <a href="https://laravel.com/docs">Docs</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://blog.laravel.com">Blog</a>
-                    <a href="https://nova.laravel.com">Nova</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://vapor.laravel.com">Vapor</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
+                <div class="row">
+                    <div class="col-sm-3">
+                            <img src="/img/welcm1.jpg" alt="jewlry" style="width:100%">
+                    </div>
+                    <div class="col-sm-3">
+                            <img src="/img/welcm2.jpg" alt="jewlry" style="width:100%">
+                    </div>
+                    <div class="col-sm-3">
+                            <img src="/img/welcm3.jpg" alt="jewlry" style="width:100%">
+                    </div>
+                    <div class="col-sm-3">
+                            <img src="/img/welcm4.jpg" alt="jewlry" style="width:100%">
+                    </div>
                 </div>
             </div>
         </div>

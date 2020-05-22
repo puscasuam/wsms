@@ -30,4 +30,8 @@ class ProductController extends Controller
 
         return $product;
     }
+
+    public function getAllProducts(){
+        return view('products');
+    }
 }

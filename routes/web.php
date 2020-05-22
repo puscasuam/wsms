@@ -25,4 +25,9 @@ Route::get('/table', function () {
     return view('table');
 });
 
+Route::get('/add-brand', 'BrandController@addBrand');
+Route::get('/add-category', 'CategoryController@addCategory');
+Route::get('/add-product', 'ProductController@addProduct');
+Route::get('/add-product-material', 'ProductController@addProductMaterial');
 
+Route::get('/add-material', 'MaterialController@addMaterial');

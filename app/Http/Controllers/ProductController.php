@@ -31,6 +31,15 @@ class ProductController extends Controller
         return $product;
     }
 
+    public function addGemstoneProduct()
+    {
+        $product = Product::find(1);
+        $product->gemstone()->attach([2,4]);
+
+
+        return $product;
+    }
+
     public function getAllProducts(){
         return view('products');
     }

@@ -23,4 +23,9 @@ class Product extends Model
         return $this->belongsToMany(Material::class, 'material_product');
     }
 
+    public function gemstone()
+    {
+        return $this->belongsToMany(Gemstone::class, 'gemstone_product');
+    }
+
 }

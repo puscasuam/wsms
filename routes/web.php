@@ -30,7 +30,11 @@ Route::get('/add-brand', 'BrandController@addBrand');
 Route::get('/add-category', 'CategoryController@addCategory');
 Route::get('/add-product', 'ProductController@addProduct')->name('addProduct');
 
+Route::get('/add-gemstone', 'GemstoneController@addGemstone')->name('addGemstone');
+Route::get('/add-gemstone-product', 'ProductController@addGemstoneProduct');
 
 Route::get('/add-product-material', 'ProductController@addProductMaterial');
 
 Route::get('/add-material', 'MaterialController@addMaterial');
+
+

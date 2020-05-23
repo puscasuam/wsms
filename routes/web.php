@@ -37,4 +37,8 @@ Route::get('/add-product-material', 'ProductController@addProductMaterial');
 
 Route::get('/add-material', 'MaterialController@addMaterial');
 
+Route::get('/add-location', 'LocationController@addLocation');
+
+Route::get('/add-sublocation', 'SublocationController@addSublocation');
+
 

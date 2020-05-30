@@ -14,6 +14,75 @@ class SublocationTableSeeder extends Seeder
         DB::table('sublocations')->insert(
             [
                 'location_id'=>2,
+                'name'=>'B1',
+                'capacity'=>10
+            ]);
+
+        DB::table('sublocations')->insert(
+            [
+                'location_id'=>2,
+                'name'=>'B2',
+                'capacity'=>10
+            ]);
+
+        DB::table('sublocations')->insert(
+            [
+                'location_id'=>2,
+                'name'=>'B3',
+                'capacity'=>10
+            ]);
+
+        DB::table('sublocations')->insert(
+            [
+                'location_id'=>2,
+                'name'=>'B4',
+                'capacity'=>10
+            ]);
+
+        DB::table('sublocations')->insert(
+            [
+                'location_id'=>2,
+                'name'=>'B5',
+                'capacity'=>10
+            ]);
+
+        DB::table('sublocations')->insert(
+            [
+                'location_id'=>2,
+                'name'=>'B6',
+                'capacity'=>10
+            ]);
+
+        DB::table('sublocations')->insert(
+            [
+                'location_id'=>2,
+                'name'=>'B7',
+                'capacity'=>10
+            ]);
+
+        DB::table('sublocations')->insert(
+            [
+                'location_id'=>2,
+                'name'=>'B8',
+                'capacity'=>10
+            ]);
+
+        DB::table('sublocations')->insert(
+            [
+                'location_id'=>2,
+                'name'=>'B9',
+                'capacity'=>10
+            ]);
+
+        DB::table('sublocations')->insert(
+            [
+                'location_id'=>2,
+                'name'=>'B10',
+                'capacity'=>10
+            ]);
+        DB::table('sublocations')->insert(
+            [
+                'location_id'=>2,
                 'name'=>'A1',
                 'capacity'=>10
             ]);

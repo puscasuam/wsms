@@ -36,6 +36,13 @@ class ProductController extends Controller
         $product = Product::find(1);
         $product->gemstone()->attach([2,4]);
 
+        return $product;
+    }
+
+    public function addProductSublocation()
+    {
+        $product = Product::find(1);
+        $product->sublocation()->attach([2,4]);
 
         return $product;
     }

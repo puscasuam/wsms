@@ -28,4 +28,8 @@ class Product extends Model
         return $this->belongsToMany(Gemstone::class, 'gemstone_product');
     }
 
+    public function sublocation()
+    {
+        return $this->belongsToMany(Sublocation::class, 'product_sublocation');
+    }
 }

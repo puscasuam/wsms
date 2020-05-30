@@ -32,4 +32,9 @@ class Product extends Model
     {
         return $this->belongsToMany(Sublocation::class, 'product_sublocation');
     }
+
+    public function order()
+    {
+        return $this->belongsToMany(Order::class, 'order_product');
+    }
 }

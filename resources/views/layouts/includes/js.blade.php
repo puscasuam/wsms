@@ -14,3 +14,9 @@
 <!-- Page level custom scripts -->
 <script src="{{asset('js/demo/chart-area-demo.js') }}"></script>
 <script src="{{asset('js/demo/chart-pie-demo.js')}}"></script>
+
+<!-- Multiple Select Library -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+
+<!-- Custom JS -->
+<script src="{{asset('js/custom.js') }}"></script>

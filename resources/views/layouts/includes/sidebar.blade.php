@@ -69,15 +69,14 @@
 
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseProducts" aria-expanded="true" aria-controls="collapseProducts">
             <i class="fas fa-fw fa-folder"></i>
             <span>Products</span>
         </a>
-        <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+        <div id="collapseProducts" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                {{--                        <h6 class="collapse-header">Login Screens:</h6>--}}
-                <a class="collapse-item" href="{{ route('addProduct')}}">New product</a>
-                <a class="collapse-item" href="{{ route('products')}}">Show products</a>
+                <a class="collapse-item" href="{{ route('productAdd')}}">New product</a>
+                <a class="collapse-item" href="{{ route('productsAll')}}">Show products</a>
                 {{--                        <a class="collapse-item" href="forgot-password.html">Forgot Password</a>--}}
                 {{--                        <div class="collapse-divider"></div>--}}
                 {{--                        <h6 class="collapse-header">Other Pages:</h6>--}}
@@ -87,33 +86,33 @@
         </div>
 
 
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseParteners" aria-expanded="true" aria-controls="collapseParteners">
             <i class="fas fa-fw fa-folder"></i>
             <span>Parteners</span>
         </a>
-        <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+        <div id="collapseParteners" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item" href="">New partener</a>
                 <a class="collapse-item" href="">Show parteners</a>
             </div>
         </div>
 
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseOrders" aria-expanded="true" aria-controls="collapseOrders">
             <i class="fas fa-fw fa-folder"></i>
             <span>Orders</span>
         </a>
-        <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+        <div id="collapseOrders" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item" href="">New order</a>
                 <a class="collapse-item" href="">Show orders</a>
             </div>
         </div>
 
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTransactions" aria-expanded="true" aria-controls="collapseTransactions">
             <i class="fas fa-fw fa-folder"></i>
             <span>Transactions</span>
         </a>
-        <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+        <div id="collapseTransactions" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item" href="">New transaction</a>
                 <a class="collapse-item" href="">Show transactions</a>
@@ -121,11 +120,11 @@
         </div>
 
 
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseEmployee" aria-expanded="true" aria-controls="collapseEmployee">
             <i class="fas fa-fw fa-folder"></i>
             <span>Employees</span>
         </a>
-        <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+        <div id="collapseEmployee" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item" href="">New employee</a>
                 <a class="collapse-item" href="">Edit employee</a>

@@ -3,51 +3,74 @@
 namespace App\Http\Controllers;
 
 use App\Brand;
+use App\Category;
+use App\Gemstone;
+use App\Helper\ProductHelper;
+use App\Material;
 use App\Product;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    public function addProduct()
+    /**
+     * @var ProductHelper
+     */
+    private $productHelper;
+
+    public function __construct(ProductHelper $productHelper)
     {
-        $product = new Product();
-        $product->name = "prod1";
-        $product->price = 20.20;
-        $product->description = "descrip prod 1";
-        $product->stock = 6;
-        $product->image = "prod1";
-        $product->brand_id = 1;
-        $product->category_id = 5;
-        $product->save();
-
-        return "Product saved";
+        $this->productHelper = $productHelper;
     }
 
-    public function addProductMaterial()
+
+    /**
+     * Prepare a form for add / view / update product
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function form()
     {
-        $product = Product::find(1);
-        $product->material()->attach([1]);
-
-        return $product;
+        return $this->productHelper->form();
     }
 
-    public function addGemstoneProduct()
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function post(Request $request)
     {
-        $product = Product::find(1);
-        $product->gemstone()->attach([2,4]);
-
-        return $product;
+        return $this->productHelper->post($request);
     }
 
-    public function addProductSublocation()
-    {
-        $product = Product::find(1);
-        $product->sublocation()->attach([2,4]);
 
-        return $product;
+    /**
+     * Delete a product
+     *
+     * @param Request $request
+     * @return mixed
+     */
+    public function delete(Request $request){
+
+        dd($request);
+
+        return $this->productHelper->delete($request->id);
     }
 
-    public function getAllProducts(){
-        return view('products');
+    /**
+     * Get a product by id
+     *
+     * @param Request $request
+     * @return mixed
+     */
+    public function get(Request $request){
+        return $this->productHelper->get($request->id);
     }
+
+    /**
+     * @return Product[]|\Illuminate\Database\Eloquent\Collection
+     */
+    public function all(Request $request){
+        return $this->productHelper->all($request);
+    }
+
 }

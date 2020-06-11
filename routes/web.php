@@ -22,13 +22,11 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/products', 'ProductController@getAllProducts')->name('products');
 
-Route::get('/table', function () {
-    return view('table');
-});
 
 Route::get('/add-brand', 'BrandController@addBrand');
 Route::get('/add-category', 'CategoryController@addCategory');
-Route::get('/add-product', 'ProductController@addProduct')->name('addProduct');
+
+
 
 Route::get('/add-gemstone', 'GemstoneController@addGemstone')->name('addGemstone');
 Route::get('/add-gemstone-product', 'ProductController@addGemstoneProduct');
@@ -44,3 +42,15 @@ Route::get('/add-product-sublocation', 'ProductController@addProductSublocation'
 
 
 
+//Routes for products
+Route::get('/products', 'ProductController@all')->name('productsAll');
+Route::get('/product/{id}', 'ProductController@get')->name('productGet');
+Route::post('/product', 'ProductController@post')->name('productAdd');
+Route::delete('/product/{id}', 'ProductController@delete')->name('productDelete');
+Route::get('/product/{id}', 'ProductController@delete')->name('productDelete');
+
+Route::get('/product', 'ProductController@form')->name('newProduct');
+
+//Route::get('/products', function () {
+//    return view('product/all');
+//});

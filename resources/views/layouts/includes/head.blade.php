@@ -28,3 +28,6 @@
 {{--<link href="{{ asset('css/fontawesome.css') }}">--}}
 {{--<link href="{{ asset('css/solid.css') }}">--}}
 {{--<link href="{{ asset('css/light.css') }}">--}}
+
+<link type="text/css" rel="stylesheet" href="{{ mix('css/app.css') }}">
+

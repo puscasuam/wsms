@@ -44,12 +44,19 @@ Route::get('/add-product-sublocation', 'ProductController@addProductSublocation'
 
 //Routes for products
 Route::get('/products', 'ProductController@all')->name('productsAll');
+
+//for filters
+Route::post('/products', 'ProductController@all')->name('productsAll');
+
 Route::get('/product/{id}', 'ProductController@get')->name('productGet');
 Route::post('/product', 'ProductController@post')->name('productAdd');
 Route::delete('/product/{id}', 'ProductController@delete')->name('productDelete');
-Route::get('/product/{id}', 'ProductController@delete')->name('productDelete');
+//Route::get('/product/{id}', 'ProductController@delete')->name('productDelete');
 
 Route::get('/product', 'ProductController@form')->name('newProduct');
+
+//view
+Route::get('/product/{id}/view', 'ProductController@view')->name('productView');
 
 //Route::get('/products', function () {
 //    return view('product/all');

@@ -1,5 +1,5 @@
 
-/**mhbnhhbhj */
+/** function to upload an image */
 function initImageUpload(box) {
     let uploadField = box.querySelector('.image-upload');
 
@@ -16,6 +16,7 @@ function initImageUpload(box) {
 
         reader.onload = function() {
             thumb.style.backgroundImage = 'url(' + reader.result + ')';
+            document.getElementById("image-body").value = reader.result;
         };
         reader.readAsDataURL(file);
         thumb.className += ' js--no-default';
@@ -34,16 +35,14 @@ function initImageUpload(box) {
 
 }
 
-// let boxes = document.getElementById('box-image');
-// initImageUpload(boxes);
-
 // In your Javascript (external .js resource or <script> tag)
 $(document).ready(function() {
     $('#gemstone').select2();
     $('#material').select2();
-    $('#location').select2();
     $('#brand').select2();
     $('#category').select2();
+    $('#sublocation').select2();
+    $('#location').select2();
 
     let boxes = document.getElementById('box-image');
     if (boxes) {

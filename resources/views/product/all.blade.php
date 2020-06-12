@@ -20,13 +20,42 @@
                 <div id="collapseFilters" class="collapse">
                     <div class="bg-white py-2 collapse-inner rounded">
 
-                        <form action="/product" method="POST">
+                        <form action="/products" method="POST">
                             @csrf
 
                             <div class="row">
 
-
                                 <div class="col-sm-6 pl-5">
+
+                                    <!-- Filter Name -->
+                                    <div class="form-row form-group row">
+                                        <label for="name" class="col-sm-2 col-form-label">Name</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="name" name="name">
+                                        </div>
+                                    </div>
+
+                                    <!-- Filter PriceFrom -->
+                                    <div class="form-row form-group row">
+                                        <label for="price" class="col-sm-2 col-form-label">Price</label>
+                                        <div class="col-sm-4">
+                                            <input type="number" class="form-control" id="price_from" name="price_from">
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <input type="number" class="form-control" id="price_to" name="price_to">
+                                        </div>
+                                    </div>
+
+                                    <!-- Filter Stock -->
+                                    <div class="form-row form-group row">
+                                        <label for="stock" class="col-sm-2 col-form-label">Stock</label>
+                                        <div class="col-sm-4">
+                                            <input type="number" class="form-control" id="stock_from" name="stock_from">
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <input type="number" class="form-control" id="stock_to" name="stock_to">
+                                        </div>
+                                    </div>
 
                                     <!-- Filter Brand -->
                                     <div class="form-row form-group row">
@@ -40,6 +69,11 @@
                                             </select>
                                         </div>
                                     </div>
+
+
+
+                                </div>
+                                <div class="col-sm-6 pl-5">
 
                                     <!-- Filter Material -->
                                     <div class="form-row form-group row">
@@ -66,9 +100,6 @@
                                             </select>
                                         </div>
                                     </div>
-
-                                </div>
-                                <div class="col-sm-6 pl-5">
 
                                     <!-- Filter Category -->
                                     <div class="form-row form-group row">
@@ -152,13 +183,13 @@
                                 {{$sublocation->name}}{{$loop->last ? '' : ','}}
                             @endforeach
                             <td>
-                                <a class="btn btn-default" href="{{ route('productAdd')}}" aria-label="View">
+                                <a href="{{ URL('/product/'. $product->id . '/view')}}" aria-label="View">
                                     <i class="fa fa-eye" aria-hidden="true"></i>
                                 </a>
-                                <a class="btn btn-default" href="{{ route('productAdd')}}" aria-label="Edit">
+                                <a href="{{ URL('/product/'.$product->id )}}" aria-label="Edit">
                                     <i class="fa fa-cog" aria-hidden="true"></i>
                                 </a>
-                                <a class="btn btn-default" href="{{ route('productAdd')}}" aria-label="Delete">
+                                <a href="{{ URL('productAdd')}}" aria-label="Delete">
                                     <i class="fa fa-eraser" aria-hidden="true"></i>
                                 </a>
                             </td>

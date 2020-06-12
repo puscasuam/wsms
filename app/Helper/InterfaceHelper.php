@@ -10,6 +10,8 @@ interface InterfaceHelper
 
     public function get(int $id);
 
+    public function view(int $id);
+
     public function all(Request $request);
 
     public function post(Request $request);

@@ -126,7 +126,7 @@
 
     <div class="row justify-content-center ">
         <div class="col-lg-4">
-            <img src="/img/login2.jpg" alt="jewlry" style="width:100%">
+            <img src="/img/web/login2.jpg" alt="jewlry" style="width:100%">
         </div>
 
         <div class="col-md-12 col-lg-8">

@@ -2,11 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Brand;
-use App\Category;
-use App\Gemstone;
 use App\Helper\ProductHelper;
-use App\Material;
 use App\Product;
 use Illuminate\Http\Request;
 
@@ -50,9 +46,6 @@ class ProductController extends Controller
      * @return mixed
      */
     public function delete(Request $request){
-
-        dd($request);
-
         return $this->productHelper->delete($request->id);
     }
 
@@ -60,10 +53,14 @@ class ProductController extends Controller
      * Get a product by id
      *
      * @param Request $request
-     * @return mixed
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function get(Request $request){
         return $this->productHelper->get($request->id);
+    }
+
+    public function view(Request $request){
+        return $this->productHelper->view($request->id);
     }
 
     /**

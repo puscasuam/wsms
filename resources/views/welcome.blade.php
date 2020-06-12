@@ -90,16 +90,16 @@
 
                 <div class="row">
                     <div class="col-sm-3">
-                            <img src="/img/welcm1.jpg" alt="jewlry" style="width:100%">
+                            <img src="{{asset('storage/web/welcm1.jpg')}}" alt="jewlry" style="width:100%">
                     </div>
                     <div class="col-sm-3">
-                            <img src="/img/welcm2.jpg" alt="jewlry" style="width:100%">
+                            <img src="{{asset('storage/web/welcm2.jpg')}}" alt="jewlry" style="width:100%">
                     </div>
                     <div class="col-sm-3">
-                            <img src="/img/welcm3.jpg" alt="jewlry" style="width:100%">
+                            <img src="{{asset('storage/web/welcm3.jpg')}}" alt="jewlry" style="width:100%">
                     </div>
                     <div class="col-sm-3">
-                            <img src="/img/welcm4.jpg" alt="jewlry" style="width:100%">
+                            <img src="{{asset('storage/web/welcm4.jpg')}}" alt="jewlry" style="width:100%">
                     </div>
                 </div>
             </div>

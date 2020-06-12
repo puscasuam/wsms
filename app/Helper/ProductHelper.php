@@ -16,6 +16,7 @@ use App\QueryFilters\Product\StockTo;
 use App\Sublocation;
 use Illuminate\Http\Request;
 use Illuminate\Pipeline\Pipeline;
+use Illuminate\Support\Facades\DB;
 
 class ProductHelper implements InterfaceHelper
 {
@@ -33,6 +34,26 @@ class ProductHelper implements InterfaceHelper
         $categories = Category::all();
         $materials = Material::all();
         $sublocations = Sublocation::all();
+
+        if ($type == 'edit' || $type == 'view') {
+
+            $product->materials = DB::table('material_product')
+                ->select('material_id')
+                ->where('product_id', $product->id)
+                ->pluck('material_id')->toArray();
+
+            $product->gemstones = DB::table('gemstone_product')
+                ->select('gemstone_id')
+                ->where('product_id', $product->id)
+                ->pluck('gemstone_id')->toArray();
+
+            $product->sublocations = DB::table('product_sublocation')
+                ->select('sublocation_id')
+                ->where('product_id', $product->id)
+                ->pluck('sublocation_id')->toArray();
+
+            $product->image = ImageHelper::pngToBase64($product->image);
+        }
 
         return view('/product/new', [
             'brands' => $brands,
@@ -146,7 +167,7 @@ class ProductHelper implements InterfaceHelper
         // stave image in public/storage/product
         ImageHelper::base64ToPng($request->image['body'], $product->image);
 
-        return redirect()->back();
+        return redirect()->route('productsAll');
     }
 
     public function put(Request $request)
@@ -158,8 +179,8 @@ class ProductHelper implements InterfaceHelper
     {
         $product = Product::find($id);
         if ($product) {
-            $destroy = $product->delete();
+            $product->delete();
         }
-        return $destroy;
+        return redirect()->back();
     }
 }

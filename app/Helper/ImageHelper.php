@@ -17,4 +17,14 @@ class ImageHelper
         // after this, we save the file into the storage folder
         Storage::disk('public')->put('product/' . $fileName, base64_decode($data[1]));
     }
+
+    public static function pngToBase64($fileName)
+    {
+        // create base64 string form png
+        $data = base64_encode(Storage::disk('public')->get('product/' . $fileName));
+
+        // return encoded image string
+        return "data:image/png;base64," . $data;
+    }
+
 }

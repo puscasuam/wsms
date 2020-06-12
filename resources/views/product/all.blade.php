@@ -188,21 +188,35 @@
                                 <a href="{{ URL('/product/'.$product->id )}}" aria-label="Edit">
                                     <i class="fa fa-cog" aria-hidden="true"></i>
                                 </a>
-
-                                {{--                                <input type="hidden" name="_method" value="delete"/>--}}
-
-                                {{--                                <form action="{{ url('/product/'.$product->id )}}" method="post">--}}
-                                {{--                                    <input class="btn btn-default" type="submit" value="Delete"/>--}}
-                                {{--                                    @method('delete')--}}
-                                {{--                                    @csrf--}}
-                                {{--                                </form>--}}
-
-
-                                <a href="{{ url('productDelete'}}" aria-label="Delete">
+                                <a href="#" aria-label="Delete" data-target="#deleteProductModal">
                                     <i class="fa fa-eraser" aria-hidden="true"></i>
                                 </a>
                             </td>
                         </tr>
+
+                        <!-- Delete Product Modal-->
+                        <div class="modal fade" id="deleteProductModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Are you sure you want to delete the product?</h5>
+                                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">×</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">Select "Delete" below if you are ready to delete your selected product.</div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                                        <a class="btn btn-primary" href="{{ URL('/product/'.$product->id )}}" onclick="event.preventDefault(); document.getElementById('delete-product-form').submit();">Delete</a>
+                                        <form id="delete-product-form" action="{{ URL('/product/'.$product->id )}}" method="post" style="display: none;">
+                                            @method('delete')
+                                            @csrf
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     @endforeach
                     </tbody>
                 </table>

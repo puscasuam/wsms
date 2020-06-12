@@ -48,4 +48,12 @@ $(document).ready(function() {
     if (boxes) {
         initImageUpload(boxes);
     }
+
+    let productFormType = document.getElementById('product-form-type');
+    if(productFormType){
+        if($(productFormType).val() === "view"){
+            $("#product-form :input").prop("disabled", true);
+        }
+    }
+
 });

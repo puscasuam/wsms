@@ -3,13 +3,14 @@
 
 namespace App\QueryFilters\Product;
 
-use App\QueryFilters\Filter;
-use Closure;
 
-class Name extends Filter
+use App\QueryFilters\Filter;
+
+class Category extends Filter
 {
     protected function applyFilter($builder)
     {
-        return $builder->where('name', 'like', '%' . request($this->filterName()) . '%');
+        return $builder->whereIn('category_id', request($this->filterName()));
     }
+
 }

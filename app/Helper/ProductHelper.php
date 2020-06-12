@@ -7,6 +7,7 @@ use App\Category;
 use App\Gemstone;
 use App\Material;
 use App\Product;
+use App\QueryFilters\Product\Location;
 use App\QueryFilters\Product\Name;
 use App\QueryFilters\Product\PriceFrom;
 use App\QueryFilters\Product\PriceTo;
@@ -83,44 +84,24 @@ class ProductHelper implements InterfaceHelper
 
         if ($request->isMethod('post')) {
             $pipeline = app(Pipeline::class)
-                ->send(Product::query()
-//                    ->select('products.*', 'gemstone_product.gemstone_id', 'material_product.material_id',
-//                        'product_sublocation.sublocation_id')
-//                    ->join('gemstone_product', 'products.id', '=', 'gemstone_product.product_id')
-//                    ->join('material_product', 'products.id', '=', 'material_product.product_id')
-//                    ->join('product_sublocation', 'products.id', '=', 'product_sublocation.product_id')
-                )
+                ->send(Product::query())
                 ->through([
                     Name::class,
                     PriceFrom::class,
                     PriceTo::class,
                     StockFrom::class,
                     StockTo::class,
-                    \App\QueryFilters\Product\Brand::class
+                    \App\QueryFilters\Product\Brand::class,
+                    \App\QueryFilters\Product\Gemstone::class,
+                    \App\QueryFilters\Product\Material::class,
+                    \App\QueryFilters\Product\Category::class,
+                    Location::class,
+
                 ])
                 ->thenReturn();
 
             $products = $pipeline->get();
         }
-
-//        if($request->has('brand')){
-//            $products = DB::table('products')
-//                ->select('products.*')
-//                ->join('brands', 'brands.id', '=', 'products.brand_id')
-//                ->where('brands.name', "Ettika")
-//                ->get()->toArray();
-//
-//            dd($products);
-//        }
-
-//        $products = Product::query()
-//            ->select('products.name', 'products.price')
-//            ->join('brands', 'brands.id', '=', 'products.brand_id')
-//            ->where('brands.name', "Ettika")
-//            ->where('products.name', "thju65")
-//            ->get()->toArray();
-
-//        dd($products);
 
         return view('product/all', [
             'products' => $products,
@@ -131,8 +112,6 @@ class ProductHelper implements InterfaceHelper
             'sublocations' => $sublocations
         ]);
 
-//        $products = Product::all();
-//        return view('product/all', ['products' => $products]);
     }
 
     /**
@@ -145,8 +124,6 @@ class ProductHelper implements InterfaceHelper
     {
         $data = $request->validate([
             'name' => 'required | min:2',
-            'price' => 'required',
-            'stock' => 'required',
             'brand' => 'required',
             'category' => 'required',
             'image' => 'required',
@@ -154,8 +131,8 @@ class ProductHelper implements InterfaceHelper
 
         $product = new Product();
         $product->name = $request->name;
-        $product->price = $request->price;
-        $product->stock = $request->stock;
+        $product->price = 0;
+        $product->stock = 0;
         $product->image = $request->name . '.png';
         $product->brand_id = $request->brand;
         $product->category_id = $request->category;
@@ -167,7 +144,7 @@ class ProductHelper implements InterfaceHelper
         $product->material()->attach($request->material);
 
         // stave image in public/storage/product
-        ImageHelper::base64ToJpg($request->image['body'], $product->image);
+        ImageHelper::base64ToPng($request->image['body'], $product->image);
 
         return redirect()->back();
     }

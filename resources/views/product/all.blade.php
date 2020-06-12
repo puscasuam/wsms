@@ -71,7 +71,6 @@
                                     </div>
 
 
-
                                 </div>
                                 <div class="col-sm-6 pl-5">
 
@@ -145,7 +144,7 @@
 
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                    <thead >
+                    <thead>
                     <tr class="card-header">
                         <th>Name</th>
                         <th>Price</th>
@@ -189,7 +188,17 @@
                                 <a href="{{ URL('/product/'.$product->id )}}" aria-label="Edit">
                                     <i class="fa fa-cog" aria-hidden="true"></i>
                                 </a>
-                                <a href="{{ URL('productAdd')}}" aria-label="Delete">
+
+                                {{--                                <input type="hidden" name="_method" value="delete"/>--}}
+
+                                {{--                                <form action="{{ url('/product/'.$product->id )}}" method="post">--}}
+                                {{--                                    <input class="btn btn-default" type="submit" value="Delete"/>--}}
+                                {{--                                    @method('delete')--}}
+                                {{--                                    @csrf--}}
+                                {{--                                </form>--}}
+
+
+                                <a href="{{ url('productDelete'}}" aria-label="Delete">
                                     <i class="fa fa-eraser" aria-hidden="true"></i>
                                 </a>
                             </td>

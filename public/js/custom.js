@@ -56,4 +56,11 @@ $(document).ready(function() {
         }
     }
 
+    let partnerFormType = document.getElementById('partner-form-type');
+    if(partnerFormType){
+        if($(partnerFormType).val() === "view"){
+            $("#partner-form :input").prop("disabled", true);
+        }
+    }
+
 });

@@ -188,7 +188,7 @@
                                 <a href="{{ URL('/product/'.$product->id )}}" aria-label="Edit">
                                     <i class="fa fa-cog" aria-hidden="true"></i>
                                 </a>
-                                <a href="#" aria-label="Delete" data-target="#deleteProductModal">
+                                <a href="#" aria-label="Delete" data-toggle="modal" data-target="#deleteProductModal">
                                     <i class="fa fa-eraser" aria-hidden="true"></i>
                                 </a>
                             </td>

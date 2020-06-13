@@ -86,14 +86,14 @@
         </div>
 
 
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseParteners" aria-expanded="true" aria-controls="collapseParteners">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePartners" aria-expanded="true" aria-controls="collapsePartners">
             <i class="fas fa-fw fa-folder"></i>
-            <span>Parteners</span>
+            <span>Partners</span>
         </a>
-        <div id="collapseParteners" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+        <div id="collapsePartners" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="">New partener</a>
-                <a class="collapse-item" href="">Show parteners</a>
+                <a class="collapse-item" href="{{ route('partnerAdd')}}">New partner</a>
+                <a class="collapse-item" href="{{ route('partnersAll')}}">Show partners</a>
             </div>
         </div>
 

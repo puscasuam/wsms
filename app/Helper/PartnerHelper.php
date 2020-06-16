@@ -51,7 +51,8 @@ class PartnerHelper implements InterfaceHelper
 
     public function all(Request $request)
     {
-        $partners = Partner::all();
+        $partners = Partner::paginate(1);
+        dd($partners);
 
 //        if ($request->isMethod('post')) {
 //            $pipeline = app(Pipeline::class)

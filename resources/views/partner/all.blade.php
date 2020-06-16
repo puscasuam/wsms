@@ -210,6 +210,7 @@
                     @endforeach
                     </tbody>
                 </table>
+                {{$partner->links()}}
             </div>
         </div>
     </div>

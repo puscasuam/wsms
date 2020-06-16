@@ -216,10 +216,11 @@
                                 </div>
                             </div>
                         </div>
-
                     @endforeach
                     </tbody>
+{{--                    {{ $product->links()}}--}}
                 </table>
+
             </div>
         </div>
     </div>

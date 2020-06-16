@@ -19,36 +19,37 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/custom.css') }}" rel="stylesheet" type="text/css">
 </head>
 
 <body>
 
 <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
     <div class="container">
-{{--        <a class="navbar-brand" href="{{ url('/') }}">--}}
-{{--            <div>Home</div>--}}
-{{--        </a>--}}
-{{--        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"--}}
-{{--                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">--}}
-{{--            <span class="navbar-toggler-icon"></span>--}}
-{{--        </button>--}}
+        {{--        <a class="navbar-brand" href="{{ url('/') }}">--}}
+        {{--            <div>Home</div>--}}
+        {{--        </a>--}}
+        {{--        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"--}}
+        {{--                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">--}}
+        {{--            <span class="navbar-toggler-icon"></span>--}}
+        {{--        </button>--}}
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-{{--            <!-- Left Side Of Navbar -->--}}
-{{--            <ul class="navbar-nav mr-auto">--}}
+            {{--            <!-- Left Side Of Navbar -->--}}
+            {{--            <ul class="navbar-nav mr-auto">--}}
 
-{{--            </ul>--}}
+            {{--            </ul>--}}
 
-{{--            <!-- Right Side Of Navbar -->--}}
+            {{--            <!-- Right Side Of Navbar -->--}}
 
 
             <ul class="navbar-nav ml-auto">
-{{--                <a class="nav-item" href="{{ url('/') }}">--}}
-{{--                    <div>Home</div>--}}
-{{--                </a>--}}
+            {{--                <a class="nav-item" href="{{ url('/') }}">--}}
+            {{--                    <div>Home</div>--}}
+            {{--                </a>--}}
 
 
-                <!-- Authentication Links -->
+            <!-- Authentication Links -->
                 @guest
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url('/') }}">{{ __('Home') }}</a>
@@ -79,60 +80,18 @@
     </div>
 </nav>
 
-<div class="container">
-    {{--    <div class="row h-100 no-gutters">--}}
-    {{--        <div class="col-lg-4">--}}
-    {{--            <img src="/img/login2.jpg" alt="jewlry" style="width:100%">--}}
-    {{--        </div>--}}
-    {{--        <div class="h-100 d-flex bg-white justify-content-center align-items-center col-md-12 col-lg-8">--}}
-    {{--            <h4 class="mb-0"><div>Welcome back,</div><span>Please sign in to your account.</span></h4>--}}
-    {{--            <div class="divider"></div>--}}
-    {{--            <form>--}}
-    {{--                <div class="row">--}}
-    {{--                    <div class="col-md-6">--}}
-    {{--                        <fieldset class="form-group">--}}
-    {{--                            <div role="group" tabindex="-1">--}}
-    {{--                                <label>Email</label>--}}
-    {{--                                <input>--}}
-    {{--                            </div>--}}
-    {{--                        </fieldset>--}}
-    {{--                    </div>--}}
+<div class="flex-center position-ref full-height">
 
-    {{--                    <div class="col-md-6">--}}
-    {{--                        <fieldset class="form-group">--}}
-    {{--                            <div role="group" tabindex="-1">--}}
-    {{--                                <label>Password</label>--}}
-    {{--                                <input>--}}
-    {{--                            </div>--}}
-    {{--                        </fieldset>--}}
-    {{--                    </div>--}}
-    {{--                    <div class="custom-control custom-checkbox"><input autocomplete="off"--}}
-    {{--                                                                       class="custom-control-input" id="exampleCheck"--}}
-    {{--                                                                       name="check" type="checkbox" value="true">--}}
-    {{--                        <label class="custom-control-label" for="exampleCheck"> Keep me logged in </label>--}}
-    {{--                    </div>--}}
+    <div class="row" style="height: 5px"></div>
 
-    {{--                    <div class="divider"></div>--}}
+    <div class="row justify-content">
 
-    {{--                    <div class="d-flex align-items-center"><div class="ml-auto">--}}
-    {{--                            <a class="btn-lg btn btn-link" href="">Recover Password</a>--}}
-    {{--                            <button class="btn btn-primary btn-lg" type="button">Login to Dashboard</button></div></div>--}}
-    {{--                </div>--}}
-
-    {{--            </form>--}}
-    {{--        </div>--}}
-    {{--    </div>--}}
-
-
-    <div class="row justify-content-center ">
-        <div class="col-lg-4">
-            <img src="/img/web/login2.jpg" alt="jewlry" style="width:100%">
+        <div class="col-lg-5">
+            <img src="{{asset('storage/web/login.jpg')}}" alt="login" style="width:100%">
         </div>
 
-        <div class="col-md-12 col-lg-8">
-
-            <div class="card" Style="border: none">
-
+        <div class="col-lg-7">
+            <div class="card" style="border: none; margin-top: 20%;">
                 <div class="card-body">
 
                     <form method="POST" action="{{ route('login') }}">
@@ -211,7 +170,6 @@
             </div>
         </div>
     </div>
-</div>
 </div>
 </body>
 

@@ -165,15 +165,17 @@
                             <td> {{$partner->mobile}} </td>
                             <td> {{$partner->address}} </td>
                             <td>
-                                <a href="{{ URL('/partner/'. $partner->id . '/view')}}" aria-label="View">
-                                    <i class="fa fa-eye" aria-hidden="true"></i>
-                                </a>
-                                <a href="{{ URL('/partner/'.$partner->id )}}" aria-label="Edit">
-                                    <i class="fa fa-cog" aria-hidden="true"></i>
-                                </a>
-                                <a href="#" aria-label="Delete" data-toggle="modal" data-target="#deletePartnerModal">
-                                    <i class="fa fa-eraser" aria-hidden="true"></i>
-                                </a>
+                                <div class="open">
+                                    <button role="button" type="button" class="btn" data-toggle="dropdown">
+                                        <i class="fa fa-bars"></i>
+                                    </button>
+
+                                    <ul class="dropdown-menu" style="text-align: left; padding-left: 20px">
+                                        <li><a href="{{ URL('/partner/'. $partner->id . '/view')}}"><i class="fa fa-eye"></i> View</a></li>
+                                        <li><a href="{{ URL('/partner/'.$partner->id )}}"><i class="fa fa-cog"></i> Edit</a></li>
+                                        <li><a href="#"><i class="fa fa-eraser"></i> Delete</a></li>
+                                    </ul>
+                                </div>
                             </td>
                         </tr>
 
@@ -210,7 +212,8 @@
                     @endforeach
                     </tbody>
                 </table>
-                {{$partner->links()}}
+                {{$partners->links()}}
+
             </div>
         </div>
     </div>

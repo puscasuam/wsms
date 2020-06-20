@@ -134,9 +134,9 @@
                             <div class="row">
                                 <div class="col col-sm-12 pl-5">
                                     <button type="submit" class="btn btn-primary">Apply</button>
+                                    <button type="button" class="btn btn-secondary">Reset</button>
                                 </div>
                             </div>
-
                         </form>
                     </div>
                 </div>
@@ -146,14 +146,14 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                     <tr class="card-header">
-                        <th>Name</th>
-                        <th>Price</th>
-                        <th>Stock</th>
-                        <th>Brand</th>
+                        <th>Name <i class="fa fa-sort" aria-hidden="true"></i></th>
+                        <th>Price <i class="fa fa-sort" aria-hidden="true"></i></th>
+                        <th>Stock <i class="fa fa-sort" aria-hidden="true"></i></th>
+                        <th>Brand<i class="fa fa-sort" aria-hidden="true"></i></th>
                         <th>Category</th>
                         <th>Materials</th>
                         <th>Gemstones</th>
-                        <th>Location</th>
+                        <th>Location <i class="fa fa-sort" aria-hidden="true"></i></th>
                         <th>Actions</th>
                     </tr>
                     </thead>
@@ -182,15 +182,17 @@
                                 {{$sublocation->name}}{{$loop->last ? '' : ','}}
                             @endforeach
                             <td>
-                                <a href="{{ URL('/product/'. $product->id . '/view')}}" aria-label="View">
-                                    <i class="fa fa-eye" aria-hidden="true"></i>
-                                </a>
-                                <a href="{{ URL('/product/'.$product->id )}}" aria-label="Edit">
-                                    <i class="fa fa-cog" aria-hidden="true"></i>
-                                </a>
-                                <a href="#" aria-label="Delete" data-toggle="modal" data-target="#deleteProductModal">
-                                    <i class="fa fa-eraser" aria-hidden="true"></i>
-                                </a>
+                                <div class="open">
+                                    <button role="button" type="button" class="btn" data-toggle="dropdown">
+                                        <i class="fa fa-bars"></i>
+                                    </button>
+
+                                    <ul class="dropdown-menu" style="text-align: left; padding-left: 20px">
+                                        <li><a href="{{ URL('/product/'. $product->id . '/view')}}"><i class="fa fa-eye"></i> View</a></li>
+                                        <li><a href="{{ URL('/product/'.$product->id )}}"><i class="fa fa-cog"></i> Edit</a></li>
+                                        <li><a href="#"><i class="fa fa-eraser"></i> Delete</a></li>
+                                    </ul>
+                                </div>
                             </td>
                         </tr>
 
@@ -218,9 +220,10 @@
                         </div>
                     @endforeach
                     </tbody>
-{{--                    {{ $product->links()}}--}}
-                </table>
 
+                </table>
+{{--                {{ $products->appends(request()->input())->links()}}--}}
+{{--                {{ $products->links()}}--}}
             </div>
         </div>
     </div>

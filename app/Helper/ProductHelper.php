@@ -103,6 +103,10 @@ class ProductHelper implements InterfaceHelper
         $materials = Material::all();
         $sublocations = Sublocation::all();
 
+        if($request->isMethod('get')){
+            $products = Product::paginate(5);
+        }
+
         if ($request->isMethod('post')) {
             $pipeline = app(Pipeline::class)
                 ->send(Product::query())
@@ -117,7 +121,7 @@ class ProductHelper implements InterfaceHelper
                     \App\QueryFilters\Product\Material::class,
                     \App\QueryFilters\Product\Category::class,
                     Location::class,
-
+//                    NameSort::class,
                 ])
                 ->thenReturn();
 
@@ -132,7 +136,6 @@ class ProductHelper implements InterfaceHelper
             'materials' => $materials,
             'sublocations' => $sublocations
         ]);
-
     }
 
     /**

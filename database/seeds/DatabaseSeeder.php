@@ -16,7 +16,9 @@ class DatabaseSeeder extends Seeder
 //        $this->call(CategoriesTableSeeder::class);
 //        $this->call(GemstoneTableSeeder::class);
 //        $this->call(LocationTableSeeder::class);
-       $this->call(SublocationTableSeeder::class);
+//       $this->call(SublocationTableSeeder::class);
+//        $this->call(OrderTypesTableSeeder::class);
+        $this->call(TransactionStatusTableSeeder::class);
 //        $this->call(UserSeeder::class);
     }
 }

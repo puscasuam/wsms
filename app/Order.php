@@ -12,8 +12,14 @@ class Order extends Model
     {
         return $this->belongsTo(Partner::class);
     }
+
     public function order_type()
     {
         return $this->belongsTo(Order_type::class);
+    }
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class, 'order_product');
     }
 }

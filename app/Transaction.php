@@ -12,9 +12,9 @@ class Transaction extends Model
     {
         return $this->hasOne(Order::class);
     }
-//
-//    public function status()
-//    {
-//        return $this->belongsTo(Status::class);
-//    }
+
+    public function status()
+    {
+        return $this->belongsTo(Status::class);
+    }
 }

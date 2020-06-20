@@ -72,7 +72,7 @@
         </a>
         <div id="collapseProducts" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="{{ route('productAdd')}}">New product</a>
+                <a class="collapse-item" href="{{ route('newProduct')}}">New product</a>
                 <a class="collapse-item" href="{{ route('productsAll')}}">Show products</a>
                 {{--                        <a class="collapse-item" href="forgot-password.html">Forgot Password</a>--}}
                 {{--                        <div class="collapse-divider"></div>--}}
@@ -100,8 +100,8 @@
         </a>
         <div id="collapseOrders" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="">New order</a>
-                <a class="collapse-item" href="">Show orders</a>
+                <a class="collapse-item" href="{{ route('orderNew')}}">New order</a>
+                <a class="collapse-item" href="{{ route('ordersAll')}}">Show orders</a>
             </div>
         </div>
 
@@ -109,10 +109,10 @@
             <i class="fas fa-fw fa-folder"></i>
             <span>Transactions</span>
         </a>
+
         <div id="collapseTransactions" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="">New transaction</a>
-                <a class="collapse-item" href="">Show transactions</a>
+{{--                <a class="collapse-item" href="{{ route('transactionsAll')}}">Show transactions</a>--}}
             </div>
         </div>
 

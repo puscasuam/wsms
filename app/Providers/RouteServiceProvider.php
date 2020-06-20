@@ -67,6 +67,7 @@ class RouteServiceProvider extends ServiceProvider
             require base_path('routes/web/order.php');
             require base_path('routes/web/transaction.php');
             require base_path('routes/web.php');
+            require base_path('routes/web/employee.php');
         });
 //        Route::middleware('web')
 //            ->namespace($this->namespace)

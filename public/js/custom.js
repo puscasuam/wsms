@@ -1,20 +1,19 @@
-
 /** function to upload an image */
 function initImageUpload(box) {
     let uploadField = box.querySelector('.image-upload');
 
     uploadField.addEventListener('change', getFile);
 
-    function getFile(e){
+    function getFile(e) {
         let file = e.currentTarget.files[0];
         checkType(file);
     }
 
-    function previewImage(file){
+    function previewImage(file) {
         let thumb = box.querySelector('.js--image-preview'),
             reader = new FileReader();
 
-        reader.onload = function() {
+        reader.onload = function () {
             thumb.style.backgroundImage = 'url(' + reader.result + ')';
             document.getElementById("image-body").value = reader.result;
         };
@@ -22,11 +21,11 @@ function initImageUpload(box) {
         thumb.className += ' js--no-default';
     }
 
-    function checkType(file){
+    function checkType(file) {
         let imageType = /image.*/;
         if (!file.type.match(imageType)) {
             throw 'The file is not an image';
-        } else if (!file){
+        } else if (!file) {
             throw 'No image uploaded';
         } else {
             previewImage(file);
@@ -35,7 +34,7 @@ function initImageUpload(box) {
 }
 
 // In your Javascript (external .js resource or <script> tag)
-$(document).ready(function() {
+$(document).ready(function () {
     $('#gemstone').select2();
     $('#material').select2();
     $('#brand').select2();
@@ -53,22 +52,22 @@ $(document).ready(function() {
     }
 
     let productFormType = document.getElementById('product-form-type');
-    if(productFormType){
-        if($(productFormType).val() === "view"){
+    if (productFormType) {
+        if ($(productFormType).val() === "view") {
             $("#product-form :input").prop("disabled", true);
         }
     }
 
     let partnerFormType = document.getElementById('partner-form-type');
-    if(partnerFormType){
-        if($(partnerFormType).val() === "view"){
+    if (partnerFormType) {
+        if ($(partnerFormType).val() === "view") {
             $("#partner-form :input").prop("disabled", true);
         }
     }
 
-    let date_input=$('input[name="date"]'); //our date input has the name "date"
+    let date_input = $('input[name="date"]'); //our date input has the name "date"
     // var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
-    let options={
+    let options = {
         format: 'dd-mm-yyyy',
         // container: container,
         todayHighlight: true,
@@ -76,16 +75,16 @@ $(document).ready(function() {
     };
     date_input.datepicker(options);
 
-    let date_from=$('input[name="date_from"]'); //our date input has the name "date"
-    let options_date_from={
+    let date_from = $('input[name="date_from"]'); //our date input has the name "date"
+    let options_date_from = {
         format: 'dd-mm-yyyy',
         todayHighlight: true,
         autoclose: true,
     };
     date_from.datepicker(options_date_from);
 
-    let date_to=$('input[name="date_to"]'); //our date input has the name "date"
-    let options_date_to={
+    let date_to = $('input[name="date_to"]'); //our date input has the name "date"
+    let options_date_to = {
         format: 'dd-mm-yyyy',
         // container: container,
         todayHighlight: true,
@@ -94,7 +93,7 @@ $(document).ready(function() {
     date_to.datepicker(options_date_to);
 
     // Add new element
-    $(".add").click(function(){
+    $(".add").click(function () {
 
         // Finding total number of elements added
         let total_element = $(".element").length;
@@ -106,19 +105,19 @@ $(document).ready(function() {
 
         let max = 5;
         // Check total number elements
-        if(total_element < max ){
+        if (total_element < max) {
             // Adding new div container after last occurance of element class
-            $(".element:last").after("<div class='element' id='div_"+ nextindex +"'></div>");
+            $(".element:last").after("<div class='element' id='div_" + nextindex + "'></div>");
 
             // Adding element to <div>
-            $("#div_" + nextindex).append("<input type='text' placeholder='Enter your skill' id='txt_"+ nextindex +"'>&nbsp;<span id='remove_" + nextindex + "' class='remove'>X</span>");
+            $("#div_" + nextindex).append("<input type='text' placeholder='Enter your skill' id='txt_" + nextindex + "'>&nbsp;<span id='remove_" + nextindex + "' class='remove'>X</span>");
 
         }
 
     });
 
     // Remove element
-    $('.container').on('click','.remove',function(){
+    $('.container').on('click', '.remove', function () {
 
         var id = this.id;
         var split_id = id.split("_");
@@ -163,7 +162,7 @@ function recalculate_amount() {
     let amount = 0;
     let finalAmount = 0;
 
-    allProductRows.each(function(key, productRow) {
+    allProductRows.each(function (key, productRow) {
         let productUnits = $(productRow).find('#product-units').val();
         let productPrice = $(productRow).find('#product-price').val();
 
@@ -207,14 +206,32 @@ function recalculate_final_amount() {
         let finalAmount = amount;
 
         if (update_percentage !== '') {
-            if(updateType == "discount"){
+            if (updateType == "discount") {
                 finalAmount = finalAmount * (1 - (parseInt(update_percentage) / 100));
             }
-            if(updateType == "discount"){
+            if (updateType == "discount") {
                 finalAmount = finalAmount * (1 + (parseInt(update_percentage) / 100));
             }
         }
 
         $('#final_amount').val(finalAmount);
     }
+}
+
+function get_units_and_price(select) {
+
+    let allProductRows = $('.product-row');
+
+    let product =  $(productRow).find('#product').val();
+
+
+    // let productUnits = $(productRow).find('#product-units').val();
+    // let productPrice = $(productRow).find('#product-price').val();
+
+    let orderType =  $('#order_type').val();
+
+    if (orderType === "2") {
+
+    }
+
 }

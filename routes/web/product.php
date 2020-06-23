@@ -22,3 +22,6 @@ Route::get('/product', 'ProductController@form')->name('newProduct');
 
 //Used in view form
 Route::get('/product/{id}/view', 'ProductController@view')->name('productView');
+
+//Used in out order to get product details
+Route::post('/product-details-json', 'ProductController@detailsJson')->name('productDetailsJson');

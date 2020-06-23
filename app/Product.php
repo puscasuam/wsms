@@ -3,10 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Kyslik\ColumnSortable\Sortable;
 
 class Product extends Model
 {
     protected $table = "products";
+    use Sortable;
+    public $sortable = ['name'];
 
     public function brand()
     {

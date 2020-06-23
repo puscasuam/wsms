@@ -5,6 +5,9 @@ use Illuminate\Support\Facades\Route;
 //Get all partners
 Route::get('/partners', 'PartnerController@all')->name('partnersAll');
 
+//Used for filter form
+Route::post('/partners', 'PartnerController@all')->name('partnersAll');
+
 //Used in add partner form
 Route::post('/partner', 'PartnerController@post')->name('partnerAdd');
 

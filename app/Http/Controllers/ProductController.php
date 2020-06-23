@@ -70,4 +70,21 @@ class ProductController extends Controller
         return $this->productHelper->all($request);
     }
 
+    public function detailsJson(Request $request)
+    {
+        $id = null;
+        if (isset($_POST['product_id'])) {
+            $id = $_POST['product_id'];
+        }
+
+        /** @var Product $product */
+        $product = Product::find($id);
+
+        $productArray = [
+            'stock' => $product->stock,
+            'price' => $product->price,
+        ];
+
+        return json_encode($productArray);
+    }
 }

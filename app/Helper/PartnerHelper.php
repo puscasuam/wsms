@@ -5,6 +5,13 @@ namespace App\Helper;
 
 
 use App\Partner;
+use App\QueryFilters\Partner\Address;
+use App\QueryFilters\Partner\Cif;
+use App\QueryFilters\Partner\Email;
+use App\QueryFilters\Partner\Mobile;
+use App\QueryFilters\Partner\Name;
+use App\QueryFilters\Partner\Type;
+use Illuminate\Pipeline\Pipeline;
 use Illuminate\Http\Request;
 
 class PartnerHelper implements InterfaceHelper
@@ -51,29 +58,40 @@ class PartnerHelper implements InterfaceHelper
 
     public function all(Request $request)
     {
-        $partners = Partner::paginate(6);
-//        dd($partners);
 
-//        if ($request->isMethod('post')) {
+        if($request->isMethod('get')){
+            $partners = Partner::paginate(6);
+
 //            $pipeline = app(Pipeline::class)
 //                ->send(Product::query())
 //                ->through([
-//                    Name::class,
-//                    PriceFrom::class,
-//                    PriceTo::class,
-//                    StockFrom::class,
-//                    StockTo::class,
-//                    \App\QueryFilters\Product\Brand::class,
-//                    \App\QueryFilters\Product\Gemstone::class,
-//                    \App\QueryFilters\Product\Material::class,
-//                    \App\QueryFilters\Product\Category::class,
-//                    Location::class,
-//
+//                    NameSort::class,
+//                    BrandSort::class,
+//                    PriceSort::class,
+//                    StockSort::class,
 //                ])
 //                ->thenReturn();
 //
-//            $products = $pipeline->get();
-//        }
+//            $products = $pipeline->paginate(5);
+        }
+
+
+        if ($request->isMethod('post')) {
+            $pipeline = app(Pipeline::class)
+                ->send(Partner::query())
+                ->through([
+                    Address::class,
+                    Cif::class,
+                    Email::class,
+                    Mobile::class,
+                    Name::class,
+                    Type::class,
+
+                ])
+                ->thenReturn();
+
+            $partners = $pipeline->paginate(5);
+        }
 
         return view('partner/all', [
             'partners' => $partners,

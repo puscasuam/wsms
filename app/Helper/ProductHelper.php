@@ -7,11 +7,15 @@ use App\Category;
 use App\Gemstone;
 use App\Material;
 use App\Product;
+use App\QueryFilters\Product\BrandSort;
 use App\QueryFilters\Product\Location;
 use App\QueryFilters\Product\Name;
+use App\QueryFilters\Product\NameSort;
 use App\QueryFilters\Product\PriceFrom;
+use App\QueryFilters\Product\PriceSort;
 use App\QueryFilters\Product\PriceTo;
 use App\QueryFilters\Product\StockFrom;
+use App\QueryFilters\Product\stockSort;
 use App\QueryFilters\Product\StockTo;
 use App\Sublocation;
 use Illuminate\Http\Request;
@@ -20,6 +24,7 @@ use Illuminate\Support\Facades\DB;
 
 class ProductHelper implements InterfaceHelper
 {
+
     /**
      * Form used for add new product, edit product and view details
      *
@@ -104,7 +109,29 @@ class ProductHelper implements InterfaceHelper
         $sublocations = Sublocation::all();
 
         if($request->isMethod('get')){
-            $products = Product::paginate(5);
+//            $products = Product::paginate(5);
+
+            $pipeline = app(Pipeline::class)
+                ->send(Product::query())
+                ->through([
+                    Name::class,
+                    PriceFrom::class,
+                    PriceTo::class,
+                    StockFrom::class,
+                    StockTo::class,
+                    \App\QueryFilters\Product\Brand::class,
+                    \App\QueryFilters\Product\Gemstone::class,
+                    \App\QueryFilters\Product\Material::class,
+                    \App\QueryFilters\Product\Category::class,
+                    Location::class,
+                    NameSort::class,
+                    BrandSort::class,
+                    PriceSort::class,
+                    StockSort::class,
+                ])
+                ->thenReturn();
+
+            $products = $pipeline->paginate(8);
         }
 
         if ($request->isMethod('post')) {
@@ -121,11 +148,14 @@ class ProductHelper implements InterfaceHelper
                     \App\QueryFilters\Product\Material::class,
                     \App\QueryFilters\Product\Category::class,
                     Location::class,
-//                    NameSort::class,
+                    NameSort::class,
+                    BrandSort::class,
+                    PriceSort::class,
+                    StockSort::class,
                 ])
                 ->thenReturn();
 
-            $products = $pipeline->get();
+            $products = $pipeline->paginate(8);
         }
 
         return view('product/all', [

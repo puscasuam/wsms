@@ -49,4 +49,13 @@ class OrderController extends Controller
         return $this->orderHelper->delete($request->id);
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function post(Request $request)
+    {
+        return $this->orderHelper->post($request);
+    }
+
 }

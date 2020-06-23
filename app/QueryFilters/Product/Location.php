@@ -12,6 +12,7 @@ class Location extends Filter
     {
         return $builder
             ->select('products.*','product_sublocation.sublocation_id')
+            ->distinct()
             ->join('product_sublocation', 'products.id', '=', 'product_sublocation.product_id')
             ->whereIn('product_sublocation.sublocation_id', request($this->filterName()));
     }

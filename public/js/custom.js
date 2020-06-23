@@ -52,10 +52,10 @@ $(document).ready(function () {
     }
 
     let productFormType = document.getElementById('product-form-type');
-    if (productFormType) {
-        if ($(productFormType).val() === "view") {
-            $("#product-form :input").prop("disabled", true);
-        }
+        if (productFormType) {
+            if ($(productFormType).val() === "view") {
+                $("#product-form :input").prop("disabled", true);
+            }
     }
 
     let partnerFormType = document.getElementById('partner-form-type');
@@ -113,7 +113,6 @@ $(document).ready(function () {
             $("#div_" + nextindex).append("<input type='text' placeholder='Enter your skill' id='txt_" + nextindex + "'>&nbsp;<span id='remove_" + nextindex + "' class='remove'>X</span>");
 
         }
-
     });
 
     // Remove element
@@ -145,6 +144,9 @@ function add_or_remove_product_row(button) {
         productRemoveRow.css("display", "");
 
         productRemoveRow.insertAfter($('.product-row:last'));
+
+        // Needed for creating search-select
+        // $('.product').select2();
     } else {
 
         // Remove the row
@@ -160,11 +162,10 @@ function recalculate_amount() {
     let allProductRows = $('.product-row');
 
     let amount = 0;
-    let finalAmount = 0;
 
     allProductRows.each(function (key, productRow) {
-        let productUnits = $(productRow).find('#product-units').val();
-        let productPrice = $(productRow).find('#product-price').val();
+        let productUnits = $(productRow).find('.product_units').val();
+        let productPrice = $(productRow).find('.product_price').val();
 
         if (productUnits !== '' && productPrice !== '') {
             amount = amount + parseInt(productUnits) * parseInt(productPrice);
@@ -209,7 +210,7 @@ function recalculate_final_amount() {
             if (updateType == "discount") {
                 finalAmount = finalAmount * (1 - (parseInt(update_percentage) / 100));
             }
-            if (updateType == "discount") {
+            if (updateType == "surcharge") {
                 finalAmount = finalAmount * (1 + (parseInt(update_percentage) / 100));
             }
         }
@@ -220,18 +221,110 @@ function recalculate_final_amount() {
 
 function get_units_and_price(select) {
 
-    let allProductRows = $('.product-row');
-
-    let product =  $(productRow).find('#product').val();
-
-
-    // let productUnits = $(productRow).find('#product-units').val();
-    // let productPrice = $(productRow).find('#product-price').val();
-
-    let orderType =  $('#order_type').val();
+    let orderType = $('#order_type').val();
 
     if (orderType === "2") {
+        let product_id = select.val();
 
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $.ajax({
+            url: '/product-details-json',
+            method:'POST',
+            data: {
+                product_id: product_id
+            },
+            // dataType: "json",
+            success: function(data) {
+
+                data = JSON.parse(data);
+                if (data && (data.price > 0) && (data.stock >= 0)) {
+
+                    // Get the entire row
+                    let productRow = select.parents('.product-row:first');
+
+                    // Set the units and price
+                    let units = productRow.find('.product_units');
+                    units.val(data.stock);
+                    units.trigger("change");
+
+                    let price = productRow.find('.product_price');
+                    price.val(data.price);
+                    price.trigger("change");
+                    price.prop("disabled", true);
+
+                    // recreate the select
+                    // recreate_select(select);
+                }
+            },
+            failure: function(errMsg) {
+                alert(errMsg);
+            }
+        });
+    }
+}
+
+function recreate_select(select) {
+
+    // let selectedOptions = $('.product-row .product :selected');
+    // let dummySelect = $('.product-dummy-row .product');
+    //
+    // $.each(selectedOptions, function (index, selectedOption) {
+    //     let value = $(selectedOption).val();
+    //     // dummySelect.find('option[value="' + value + '"]').prop('disabled', true);
+    //
+    //     $('.product-row .product')
+    // });
+
+    // let selectedOptions = $('.product-row .product :selected');
+    // let cloneDummySelect = $('.product-dummy-row .product').clone();
+    //
+    // $.each(selectedOptions, function (index, selectedOption) {
+    //     let value = $(selectedOption).val();
+    //     cloneDummySelect.find('option[value="' + value + '"]').prop('disabled', true);
+    //     cloneDummySelect.find('option[value="' + value + '"]').prop('disabled', true);
+    // });
+
+    // select.html(cloneDummySelect.html());
+}
+
+function change_products_selects() {
+
+    let allSelects = $('.product-row .product');
+    allSelects.change(function () {
+        let selectedOptions = $('.product-row .product :selected');
+        $.each(selectedOptions, function (index, selectedOption) {
+            let value = $(selectedOption).val();
+            allSelects.find('option[value="' + value + '"]').prop('disabled', true);
+        });
+    })
+}
+
+function change_sort_direction(button, inputId){
+
+    let directionIcon = $(button.children('i:first')[0]);
+
+    console.log(directionIcon);
+
+    let direction = '';
+    if (directionIcon.hasClass('fa-sort')) {
+        direction = 'asc';
+        directionIcon.removeClass('fa-sort');
+        directionIcon.addClass('fa-arrow-up');
+    } else if (directionIcon.hasClass('fa-arrow-up')) {
+        direction = 'desc';
+        directionIcon.removeClass('fa-arrow-up');
+        directionIcon.addClass('fa-arrow-down');
+    } else {
+        direction = '';
+        directionIcon.removeClass('fa-arrow-down');
+        directionIcon.addClass('fa-sort');
     }
 
+    $(inputId).val(direction);
 }
+

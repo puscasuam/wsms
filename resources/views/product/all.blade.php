@@ -33,16 +33,32 @@
                                         <div class="col-sm-8">
                                             <input type="text" class="form-control" id="name" name="name">
                                         </div>
+                                        <div class="col-sm-1">
+                                            <button type="button" class="btn" id="name_sort_button"
+                                                    name="name_sort_button"
+                                                    onclick="change_sort_direction($(this), '#name_sort')">
+                                                <i class="fa fa-sort" aria-hidden="true"></i>
+                                            </button>
+                                            <input type="hidden" id="name_sort" name="name_sort" value="">
+                                        </div>
                                     </div>
 
                                     <!-- Filter PriceFrom -->
                                     <div class="form-row form-group row">
                                         <label for="price" class="col-sm-2 col-form-label">Price</label>
                                         <div class="col-sm-4">
-                                            <input type="number" class="form-control" id="price_from" name="price_from">
+                                            <input type="number" class="form-control" id="price_from" name="price_from" min="0">
                                         </div>
                                         <div class="col-sm-4">
-                                            <input type="number" class="form-control" id="price_to" name="price_to">
+                                            <input type="number" class="form-control" id="price_to" name="price_to" min="0">
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <button type="button" class="btn" id="price_sort_button"
+                                                    name="price_sort_button"
+                                                    onclick="change_sort_direction($(this), '#price_sort')">
+                                                <i class="fa fa-sort" aria-hidden="true"></i>
+                                            </button>
+                                            <input type="hidden" id="price_sort" name="price_sort" value="">
                                         </div>
                                     </div>
 
@@ -50,10 +66,18 @@
                                     <div class="form-row form-group row">
                                         <label for="stock" class="col-sm-2 col-form-label">Stock</label>
                                         <div class="col-sm-4">
-                                            <input type="number" class="form-control" id="stock_from" name="stock_from">
+                                            <input type="number" class="form-control" id="stock_from" name="stock_from" min="0">
                                         </div>
                                         <div class="col-sm-4">
-                                            <input type="number" class="form-control" id="stock_to" name="stock_to">
+                                            <input type="number" class="form-control" id="stock_to" name="stock_to" min="0">
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <button type="button" class="btn" id="stock_sort_button"
+                                                    name="stock_sort_button"
+                                                    onclick="change_sort_direction($(this), '#stock_sort')">
+                                                <i class="fa fa-sort" aria-hidden="true"></i>
+                                            </button>
+                                            <input type="hidden" id="stock_sort" name="stock_sort" value="">
                                         </div>
                                     </div>
 
@@ -68,38 +92,19 @@
                                                 @endforeach
                                             </select>
                                         </div>
+                                        <div class="col-sm-1">
+                                            <button type="button" class="btn" id="brand_sort_button"
+                                                    name="brand_sort_button"
+                                                    onclick="change_sort_direction($(this), '#brand_sort')">
+                                                <i class="fa fa-sort" aria-hidden="true"></i>
+                                            </button>
+                                            <input type="hidden" id="brand_sort" name="brand_sort" value="">
+                                        </div>
                                     </div>
-
-
                                 </div>
+
+
                                 <div class="col-sm-6 pl-5">
-
-                                    <!-- Filter Material -->
-                                    <div class="form-row form-group row">
-                                        <label for="material" class="col-sm-2 col-form-label">Materials</label>
-                                        <div class="col-sm-8">
-                                            <select style="width: 100%;" id="material" class="form-control"
-                                                    name="material[]" multiple>
-                                                @foreach($materials as $material)
-                                                    <option value={{$material->id}}>{{ $material->name}}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <!-- Filter Location -->
-                                    <div class="form-row form-group row">
-                                        <label for="location" class="col-sm-2 col-form-label">Locations</label>
-                                        <div class="col-sm-8">
-                                            <select style="width: 100%;" id="location" class="form-control"
-                                                    name="location[]" multiple>
-                                                @foreach($sublocations as $sublocation)
-                                                    <option value={{$sublocation->id}}>{{ $sublocation->name}}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-
                                     <!-- Filter Category -->
                                     <div class="form-row form-group row">
                                         {{--                            <label class="col-form-label col-sm-2 pt-0">category</label>--}}
@@ -109,6 +114,19 @@
                                                     name="category[]" multiple>
                                                 @foreach($categories as $category)
                                                     <option value={{$category->id}}>{{ $category->name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <!-- Filter Material -->
+                                    <div class="form-row form-group row">
+                                        <label for="material" class="col-sm-2 col-form-label">Materials</label>
+                                        <div class="col-sm-8">
+                                            <select style="width: 100%;" id="material" class="form-control"
+                                                    name="material[]" multiple>
+                                                @foreach($materials as $material)
+                                                    <option value={{$material->id}}>{{ $material->name}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -127,6 +145,18 @@
                                         </div>
                                     </div>
 
+                                    <!-- Filter Location -->
+                                    <div class="form-row form-group row">
+                                        <label for="location" class="col-sm-2 col-form-label">Locations</label>
+                                        <div class="col-sm-8">
+                                            <select style="width: 100%;" id="location" class="form-control"
+                                                    name="location[]" multiple>
+                                                @foreach($sublocations as $sublocation)
+                                                    <option value={{$sublocation->id}}>{{ $sublocation->name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
 
                             </div>
@@ -134,7 +164,7 @@
                             <div class="row">
                                 <div class="col col-sm-12 pl-5">
                                     <button type="submit" class="btn btn-primary">Apply</button>
-                                    <button type="button" class="btn btn-secondary">Reset</button>
+                                    <a class="btn btn-secondary" href="{{ route('productsAll') }}">Reset</a>
                                 </div>
                             </div>
                         </form>
@@ -146,14 +176,14 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                     <tr class="card-header">
-                        <th>Name <i class="fa fa-sort" aria-hidden="true"></i></th>
-                        <th>Price <i class="fa fa-sort" aria-hidden="true"></i></th>
-                        <th>Stock <i class="fa fa-sort" aria-hidden="true"></i></th>
-                        <th>Brand<i class="fa fa-sort" aria-hidden="true"></i></th>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Stock</th>
+                        <th>Brand</th>
                         <th>Category</th>
                         <th>Materials</th>
                         <th>Gemstones</th>
-                        <th>Location <i class="fa fa-sort" aria-hidden="true"></i></th>
+                        <th>Location</th>
                         <th>Actions</th>
                     </tr>
                     </thead>
@@ -188,8 +218,10 @@
                                     </button>
 
                                     <ul class="dropdown-menu" style="text-align: left; padding-left: 20px">
-                                        <li><a href="{{ URL('/product/'. $product->id . '/view')}}"><i class="fa fa-eye"></i> View</a></li>
-                                        <li><a href="{{ URL('/product/'.$product->id )}}"><i class="fa fa-cog"></i> Edit</a></li>
+                                        <li><a href="{{ URL('/product/'. $product->id . '/view')}}"><i
+                                                    class="fa fa-eye"></i> View</a></li>
+                                        <li><a href="{{ URL('/product/'.$product->id )}}"><i class="fa fa-cog"></i> Edit</a>
+                                        </li>
                                         <li><a href="#"><i class="fa fa-eraser"></i> Delete</a></li>
                                     </ul>
                                 </div>
@@ -197,20 +229,27 @@
                         </tr>
 
                         <!-- Delete Product Modal-->
-                        <div class="modal fade" id="deleteProductModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="deleteProductModal" tabindex="-1" role="dialog"
+                             aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Are you sure you want to delete the product?</h5>
+                                        <h5 class="modal-title" id="exampleModalLabel">Are you sure you want to delete
+                                            the product?</h5>
                                         <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">×</span>
                                         </button>
                                     </div>
-                                    <div class="modal-body">Select "Delete" below if you are ready to delete your selected product.</div>
+                                    <div class="modal-body">Select "Delete" below if you are ready to delete your
+                                        selected product.
+                                    </div>
                                     <div class="modal-footer">
-                                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                                        <a class="btn btn-primary" href="{{ URL('/product/'.$product->id )}}" onclick="event.preventDefault(); document.getElementById('delete-product-form').submit();">Delete</a>
-                                        <form id="delete-product-form" action="{{ URL('/product/'.$product->id )}}" method="post" style="display: none;">
+                                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel
+                                        </button>
+                                        <a class="btn btn-primary" href="{{ URL('/product/'.$product->id )}}"
+                                           onclick="event.preventDefault(); document.getElementById('delete-product-form').submit();">Delete</a>
+                                        <form id="delete-product-form" action="{{ URL('/product/'.$product->id )}}"
+                                              method="post" style="display: none;">
                                             @method('delete')
                                             @csrf
                                         </form>
@@ -222,8 +261,9 @@
                     </tbody>
 
                 </table>
-{{--                {{ $products->appends(request()->input())->links()}}--}}
-{{--                {{ $products->links()}}--}}
+                {{--                {!! $products->appends(\Request::except('page'))->render()!!}--}}
+                {{--                {{ $products->links()}}--}}
+                {{ $products->appends(request()->input())->links()}}
             </div>
         </div>
     </div>

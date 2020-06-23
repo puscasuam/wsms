@@ -2,7 +2,7 @@
 use Illuminate\Support\Facades\Route;
 
 //Routes for orders
-//Get all products
+//Get all orders
 Route::get('/orders', 'OrderController@all')->name('ordersAll');
 
 //Used for filter form
@@ -11,9 +11,9 @@ Route::post('/orders', 'OrderController@all')->name('ordersAll');
 ////Get a order - by id
 //Route::get('/order/{id}', 'OrderController@get')->name('orderGet');
 
-////Used in add product form
-//Route::post('/product', 'ProductController@post')->name('productAdd');
-//
+//Used in add order form
+Route::post('/order', 'OrderController@post')->name('orderAdd');
+
 //Route::delete('/product/{id}', 'ProductController@delete')->name('productDelete');
 ////Route::get('/product/{id}', 'ProductController@delete')->name('productDelete');
 //

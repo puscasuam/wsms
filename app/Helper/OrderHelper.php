@@ -22,8 +22,8 @@ class OrderHelper implements InterfaceHelper
     public function form($order = null, $type = 'new')
     {
         $orderTypes = Order_type::all();
-        $partners = Partner::all();
-        $products = Product::all();
+        $partners = Partner::withTrashed()->get();
+        $products = Product::withTrashed()->get();
 
 //        if ($type == 'edit') {
 //

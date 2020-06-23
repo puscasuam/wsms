@@ -22,8 +22,8 @@ class OrderHelper implements InterfaceHelper
     public function form($order = null, $type = 'new')
     {
         $orderTypes = Order_type::all();
-        $partners = Partner::withTrashed()->get();
-        $products = Product::withTrashed()->get();
+        $partners = Partner::all();
+        $products = Product::all();
 
 //        if ($type == 'edit') {
 //
@@ -66,8 +66,8 @@ class OrderHelper implements InterfaceHelper
     {
         $orders = Order::all();
         $orderTypes = Order_type::all();
-        $partners = Partner::all();
-        $products = Product::all();
+        $partners = Partner::withTrashed()->get();
+        $products = Product::withTrashed()->get();
 
         if ($request->isMethod('get')) {
             $orders = Order::all();
@@ -100,9 +100,6 @@ class OrderHelper implements InterfaceHelper
 
     public function post(Request $request)
     {
-//        dd($request);
-
-
         $data = $request->validate([
             'order_type' => 'required',
             'partner' => 'required',
@@ -116,9 +113,9 @@ class OrderHelper implements InterfaceHelper
         $order->amount = $request->amount;
         $order->date = Carbon::parse(strtotime($request->date))->format('Y-m-d H:i:s');
 
-        if($request->order_type === "2") {
+        if ($request->order_type === '2') {
 
-            if(isset($request->update_type) && isset($request->update_percentage) && isset($request->final_amount)){
+            if (isset($request->update_type) && isset($request->update_percentage) && isset($request->final_amount)) {
                 $order->update_operation = $request->update_type;
                 $order->update_percentage = $request->update_percentage;
                 $order->final_amount = $request->final_amount;
@@ -130,24 +127,26 @@ class OrderHelper implements InterfaceHelper
         //for relations many to many + update stock and price in product table
         foreach ($request->product as $key => $product_id) {
 
-            if (isset($request->product_units[$key]) && isset($request->product_price[$key])) {
-                $order->products()->attach($product_id, ['units' => $request->product_units[$key], 'price' => $request->product_price[$key]]);
-            }
+            if (!is_null($product_id)) {
+                if (isset($request->product_units[$key]) && isset($request->product_price[$key]) && $request->product_units[$key] !== '0') {
+                    $order->products()->attach($product_id, ['units' => $request->product_units[$key], 'price' => $request->product_price[$key]]);
+                }
 
-            $product = Product::find($product_id);
-            $oldStock = $product->stock;
-            $oldPrice = $product->price;
+                $product = Product::find($product_id);
+                $oldStock = $product->stock;
+                $oldPrice = $product->price;
 
-            if($request->order_type === "1"){
-                $newStock = $oldStock + $request->product_units[$key];
-                $newPrice = ($oldPrice + $request->product_price[$key]) /2 ;
-                $product->stock = $newStock;
-                $product->price = $newPrice;
-            } elseif($request->order_type === "2") {
-                $newStock = $oldStock - $request->product_units[$key];
-                $product->stock = $newStock;
+                if ($request->order_type === '1') {
+                    $newStock = $oldStock + $request->product_units[$key];
+                    $newPrice = ($oldPrice + $request->product_price[$key]) / 2;
+                    $product->stock = $newStock;
+                    $product->price = $newPrice;
+                } elseif ($request->order_type === '2') {
+                    $newStock = $oldStock - $request->product_units[$key];
+                    $product->stock = $newStock;
+                }
+                $product->save();
             }
-            $product->save();
         }
 
         return redirect()->route('ordersAll');

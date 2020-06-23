@@ -22,14 +22,32 @@ class EmployeeHelper implements InterfaceHelper
         ]);
     }
 
+    /**
+     * Get an employee - used for editing the employee
+     *
+     * @param int $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function get(int $id)
     {
-        // TODO: Implement get() method.
+        $employee = Employee::find($id);
+        if ($employee) {
+            return $this->form($employee, 'edit');
+        }
     }
 
+    /**
+     * Get an employee - used for view a product
+     *
+     * @param int $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function view(int $id)
     {
-        // TODO: Implement view() method.
+        $employee = Employee::find($id);
+        if ($employee) {
+            return $this->form($employee, 'view');
+        }
     }
 
     public function all(Request $request)
@@ -141,6 +159,11 @@ class EmployeeHelper implements InterfaceHelper
 
     public function delete(int $id)
     {
-        // TODO: Implement delete() method.
+        $employee = Employee::find($id);
+        if ($employee) {
+            $employee->delete();
+        }
+        return redirect()->back();
     }
+
 }

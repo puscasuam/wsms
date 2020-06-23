@@ -70,11 +70,8 @@
                         <div class="form-row form-group row product-row product-add-row">
                             <label for="product" class="col-sm-2 col-form-label">Products</label>
                             <div class="col-sm-3">
-
-                                <input type="hidden" class="excluded-products">
-
                                 <select class="form-control product" name="product[]" onchange="get_units_and_price($(this))">
-                                    <option selected>Choose product</option>
+                                    <option value="" selected>Choose product</option>
                                     @foreach($products as $product)
                                         <option value={{$product->id}}
                                         @if (isset($order->products) && in_array($product->id, $order->products))
@@ -83,17 +80,18 @@
                                         >{{ $product->name}}</option>
                                     @endforeach
                                 </select>
+                                <input type="hidden" class="selected-products" name="product[]">
                             </div>
                             <div class="col-sm-2">
-                                <input type="number" class="form-control product_units" name="product_units[]"
-                                       onchange="recalculate_amount()"
+                                <input type="number" class="form-control product_units" name="product_units[]" data-initial=""
+                                       onchange="recalculate_amount($(this))"
                                        {{--                                       value="{{ isset($product->name) ? $product->name : '' }}"--}}
                                        placeholder="units">
                                 <div class="validation">@error('product_units') {{$message}} @enderror </div>
                             </div>
                             <div class="col-sm-2">
                                 <input type="number" class="form-control product_price" name="product_price[]"
-                                       onchange="recalculate_amount()"
+                                       onchange="recalculate_amount($(this))"
                                        {{--                                       value="{{ isset($product->name) ? $product->name : '' }}"--}}
                                        placeholder="price">
                                 <div class="validation">@error('product_price') {{$message}} @enderror </div>
@@ -104,7 +102,7 @@
                                 <?php $count++; ?>
 
                                 <button type="button" class="btn btn-success"
-                                        onClick="add_or_remove_product_row($(this));">
+                                        onClick="add_or_remove_product_row($(this));" disabled>
                                     <i class="fa fa-plus" aria-hidden="true"></i>
                                 </button>
 
@@ -131,7 +129,7 @@
                         <div class="form-row form-group row d-none price-update-row">
                             <label for="update_type" class="col-sm-2 col-form-label">Price update</label>
                             <div class="col-sm-6">
-                                <select id="update_type" name="update_type" class="form-control" onchange="recalculate_amount()">
+                                <select id="update_type" name="update_type" class="form-control" onchange="recalculate_amount($(this))">
                                     <option selected>Choose update type</option>
                                     <option value="discount">Discount</option>
                                     <option value="surcharge">Surcharge</option>
@@ -142,7 +140,7 @@
                                 <input type="number" class="form-control" id="update_percentage"
                                        name="update_percentage"
                                        placeholder="%"
-                                       onchange="recalculate_amount()">
+                                       onchange="recalculate_amount($(this))">
                                 <div class="validation">@error('update_percentage') {{$message}} @enderror </div>
                             </div>
                         </div>
@@ -191,7 +189,7 @@
         <label for="product" class="col-sm-2 col-form-label"></label>
         <div class="col-sm-3">
             <select class="form-control product" name="product[]" onchange="get_units_and_price($(this))">
-                <option selected>Choose product</option>
+                <option value="" selected>Choose product</option>
                 @foreach($products as $product)
                     <option value={{$product->id}}
                     @if (isset($order->products) && in_array($product->id, $order->products))
@@ -200,17 +198,18 @@
                     >{{ $product->name}}</option>
                 @endforeach
             </select>
+            <input type="hidden" class="selected-products" name="product[]">
         </div>
         <div class="col-sm-2">
-            <input type="number" class="form-control product_units" name="product_units[]"
-                   onchange="recalculate_amount()"
+            <input type="number" class="form-control product_units" name="product_units[]" data-initial=""
+                   onchange="recalculate_amount($(this))"
                    {{--                                       value="{{ isset($product->name) ? $product->name : '' }}"--}}
                    placeholder="units">
             <div class="validation">@error('product_units') {{$message}} @enderror </div>
         </div>
         <div class="col-sm-2">
             <input type="number" class="form-control product_price" name="product_price[]"
-                   onchange="recalculate_amount()"
+                   onchange="recalculate_amount($(this))"
                    {{--                                       value="{{ isset($product->name) ? $product->name : '' }}"--}}
                    placeholder="price">
             <div class="validation">@error('product_price') {{$message}} @enderror </div>

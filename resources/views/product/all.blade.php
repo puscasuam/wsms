@@ -218,49 +218,56 @@
                                     </button>
 
                                     <ul class="dropdown-menu" style="text-align: left; padding-left: 20px">
-                                        <li><a href="{{ URL('/product/'. $product->id . '/view')}}"><i
-                                                    class="fa fa-eye"></i> View</a></li>
-                                        <li><a href="{{ URL('/product/'.$product->id )}}"><i class="fa fa-cog"></i> Edit</a>
+                                        <li>
+                                            <a href="{{ URL('/product/'. $product->id . '/view')}}">
+                                                <i class="fa fa-eye"></i> View
+                                            </a>
                                         </li>
                                         <li>
-                                            <a href="#" aria-label="Delete" data-toggle="modal" data-target="#deleteProductModal">
+                                            <a href="{{ URL('/product/'.$product->id )}}">
+                                                <i class="fa fa-cog"></i> Edit
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#" aria-label="Delete" data-toggle="modal" data-target="#deleteProductModal-{{ $product->id }}">
                                                 <i class="fa fa-eraser"></i> Delete
                                             </a>
                                         </li>
                                     </ul>
                                 </div>
+
+                                <!-- Delete Product Modal-->
+                                <div class="modal fade" id="deleteProductModal-{{ $product->id }}" tabindex="-1" role="dialog"
+                                     aria-labelledby="exampleModalLabel-{{ $product->id }}" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel-{{ $product->id }}">
+                                                    Are you sure you want to delete the product?
+                                                </h5>
+                                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">×</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Select "Delete" below if you are ready to delete your selected product.
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                                                <a class="btn btn-primary" href="{{ URL('/product/' . $product->id )}}"
+                                                   onclick="event.preventDefault(); document.getElementById('delete-product-form-{{ $product->id }}').submit();">Delete</a>
+                                                <form id="delete-product-form-{{ $product->id }}" action="{{ URL('/product/' . $product->id )}}"
+                                                      method="post" style="display: none;">
+                                                    @method('delete')
+                                                    @csrf
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </td>
                         </tr>
 
-                        <!-- Delete Product Modal-->
-                        <div class="modal fade" id="deleteProductModal" tabindex="-1" role="dialog"
-                             aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Are you sure you want to delete
-                                            the product?</h5>
-                                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">×</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">Select "Delete" below if you are ready to delete your
-                                        selected product.
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel
-                                        </button>
-                                        <a class="btn btn-primary" href="{{ URL('/product/'.$product->id )}}"
-                                           onclick="event.preventDefault(); document.getElementById('delete-product-form').submit();">Delete</a>
-                                        <form id="delete-product-form" action="{{ URL('/product/'.$product->id )}}"
-                                              method="post" style="display: none;">
-                                            @method('delete')
-                                            @csrf
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     @endforeach
                     </tbody>
 

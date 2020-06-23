@@ -187,15 +187,14 @@
                     </thead>
 
                     <tbody>
-
                     @foreach($employees as $employee)
                         <tr>
                             <td> {{$employee->firstname}} </td>
                             <td> {{$employee->lastname}} </td>
                             <td> {{$employee->user->email}} </td>
-                            <td> {{$employee->user->username}} </td>
                             <td> {{$employee->mobile}} </td>
-                            <td> {{$employee->admin}} </td>
+                            <td> {{$employee->user->name}} </td>
+                            <td> {{ ($employee->admin) ? "Admin" : "Regular"}} </td>
                             <td>
                                 <div class="open">
                                     <button role="button" type="button" class="btn" data-toggle="dropdown">
@@ -207,41 +206,46 @@
                                                     class="fa fa-eye"></i> View</a></li>
                                         <li><a href="{{ URL('/employee/'.$employee->id )}}"><i class="fa fa-cog"></i> Edit</a>
                                         </li>
-                                        <li><a href="#"><i class="fa fa-eraser"></i> Delete</a></li>
+                                        <li>
+                                            <a href="#" aria-label="Delete" data-toggle="modal" data-target="#deleteEmployeeModal-{{ $employee->id}}">
+                                                <i class="fa fa-eraser"></i> Delete
+                                            </a>
+                                        </li>
                                     </ul>
                                 </div>
-                            </td>
-                        </tr>
 
-                        <!-- Delete Product Modal-->
-                        <div class="modal fade" id="deleteEmployeeModal" tabindex="-1" role="dialog"
-                             aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Are you sure you want to delete
-                                            the employee?</h5>
-                                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">×</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">Select "Delete" below if you are ready to delete your
-                                        selected employee.
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel
-                                        </button>
-                                        <a class="btn btn-primary" href="{{ URL('/employee/'.$employee->id )}}"
-                                           onclick="event.preventDefault(); document.getElementById('delete-employee-form').submit();">Delete</a>
-                                        <form id="delete-employee-form" action="{{ URL('/employee/'.$employee->id )}}"
-                                              method="post" style="display: none;">
-                                            @method('delete')
-                                            @csrf
-                                        </form>
+                                <!-- Delete Employee Modal-->
+                                <div class="modal fade" id="deleteEmployeeModal-{{ $employee->id }}" tabindex="-1" role="dialog"
+                                     aria-labelledby="exampleModalLabel-{{ $employee->id }}" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel-{{ $employee->id }}">
+                                                    Are you sure you want to delete the employee?
+                                                </h5>
+                                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">×</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Select "Delete" below if you are ready to delete your selected employee.
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                                                <a class="btn btn-primary" href="{{ URL('/employee/' . $employee->id )}}"
+                                                   onclick="event.preventDefault(); document.getElementById('delete-employee-form-{{ $employee->id }}').submit();">Delete</a>
+                                                <form id="delete-employee-form-{{ $employee->id }}" action="{{ URL('/employee/' . $employee->id )}}"
+                                                      method="post" style="display: none;">
+                                                    @method('delete')
+                                                    @csrf
+                                                </form>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
+
+                            </td>
+                        </tr>
                     @endforeach
                     </tbody>
 

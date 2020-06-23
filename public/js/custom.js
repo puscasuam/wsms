@@ -1,4 +1,5 @@
-/** function to upload an image */
+
+// Function for upload of an image
 function initImageUpload(box) {
     let uploadField = box.querySelector('.image-upload');
 
@@ -52,10 +53,10 @@ $(document).ready(function () {
     }
 
     let productFormType = document.getElementById('product-form-type');
-        if (productFormType) {
-            if ($(productFormType).val() === "view") {
-                $("#product-form :input").prop("disabled", true);
-            }
+    if (productFormType) {
+        if ($(productFormType).val() === "view") {
+            $("#product-form :input").prop("disabled", true);
+        }
     }
 
     let partnerFormType = document.getElementById('partner-form-type');
@@ -143,7 +144,27 @@ function add_or_remove_product_row(button) {
         productRemoveRow.removeClass('product-dummy-row');
         productRemoveRow.css("display", "");
 
-        productRemoveRow.insertAfter($('.product-row:last'));
+        // Create the select for the new row
+        let currentRow = $('.product-row:last');
+        let currentSelect = currentRow.find('.product');
+        let currentSelectedOption = currentSelect.find('option:selected').val();
+        currentSelect.prop('disabled', true);
+        currentRow.find('.selected-products:first').val(currentSelectedOption);
+
+        // Disable the previous selected options for the select
+        let selectedOptions = $('.product-row .product :selected');
+        $.each(selectedOptions, function (index, selectedOption) {
+            let value = $(selectedOption).val();
+            if (value !== "") {
+                productRemoveRow.find('option[value="' + value + '"]').prop('disabled', true);
+            }
+        });
+
+        // Insert the cloned row after the last row
+        productRemoveRow.insertAfter(currentRow);
+
+        // Disable the Add row button
+        $('.product-add-row .btn-success').prop('disabled', true);
 
         // Needed for creating search-select
         // $('.product').select2();
@@ -157,7 +178,21 @@ function add_or_remove_product_row(button) {
     }
 }
 
-function recalculate_amount() {
+function recalculate_amount(input) {
+
+    let orderType = $('#order_type').val();
+
+    // do not allow more then max stock
+    if (orderType === "2") { // out
+        if (input.hasClass('product_units') && (parseInt(input.val()) > parseInt(input.data('initial')))) {
+            input.val(input.data('initial'));
+        }
+    }
+
+    // do not allow less then zero
+    if (parseInt(input.val()) < 0) {
+        input.val(0);
+    }
 
     let allProductRows = $('.product-row');
 
@@ -234,37 +269,42 @@ function get_units_and_price(select) {
 
         $.ajax({
             url: '/product-details-json',
-            method:'POST',
+            method: 'POST',
             data: {
                 product_id: product_id
             },
             // dataType: "json",
-            success: function(data) {
+            success: function (product) {
 
-                data = JSON.parse(data);
-                if (data && (data.price > 0) && (data.stock >= 0)) {
+                product = JSON.parse(product);
+                if (product && (product.price > 0) && (product.stock >= 0)) {
 
                     // Get the entire row
                     let productRow = select.parents('.product-row:first');
 
                     // Set the units and price
                     let units = productRow.find('.product_units');
-                    units.val(data.stock);
+                    units.val(product.stock);
+                    units.data('initial', product.stock);
                     units.trigger("change");
 
                     let price = productRow.find('.product_price');
-                    price.val(data.price);
+                    price.val(product.price);
                     price.trigger("change");
-                    price.prop("disabled", true);
+                    price.prop("readonly", true);
 
                     // recreate the select
                     // recreate_select(select);
                 }
             },
-            failure: function(errMsg) {
+            failure: function (errMsg) {
                 alert(errMsg);
             }
         });
+    }
+
+    if (select.val() !== '') {
+        $('.product-add-row .btn-success').prop('disabled', false);
     }
 }
 
@@ -304,7 +344,18 @@ function change_products_selects() {
     })
 }
 
-function change_sort_direction(button, inputId){
+function disable_previous_selected_options(select) {
+
+    let selectedOptions = $('.product-row .product :selected');
+    $.each(selectedOptions, function (index, selectedOption) {
+        let value = $(selectedOption).val();
+        if (value !== "") {
+            select.find('option[value="' + value + '"]').prop('disabled', true);
+        }
+    });
+}
+
+function change_sort_direction(button, inputId) {
 
     let directionIcon = $(button.children('i:first')[0]);
 

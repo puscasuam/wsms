@@ -133,44 +133,45 @@
                                         <li><a href="{{ URL('/partner/'.$partner->id )}}"><i class="fa fa-cog"></i> Edit</a>
                                         </li>
                                         <li>
-                                            <a href="#" aria-label="Delete" data-toggle="modal" data-target="#deletePartnerModal">
+                                            <a href="#" aria-label="Delete" data-toggle="modal" data-target="#deletePartnerModal-{{ $partner->id }}">
                                                 <i class="fa fa-eraser"></i> Delete
                                             </a>
                                         </li>
                                     </ul>
                                 </div>
-                            </td>
-                        </tr>
 
-                        <!-- Delete Product Modal-->
-                        <div class="modal fade" id="deletePartnerModal" tabindex="-1" role="dialog"
-                             aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Are you sure you want to delete
-                                            the partner?</h5>
-                                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">×</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">Select "Delete" below if you are ready to delete your
-                                        selected partners.
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel
-                                        </button>
-                                        <a class="btn btn-primary" href="{{ URL('/partner/'.$partner->id )}}"
-                                           onclick="event.preventDefault(); document.getElementById('delete-partner-form').submit();">Delete</a>
-                                        <form id="delete-partner-form" action="{{ URL('/partner/'.$partner->id )}}"
-                                              method="post" style="display: none;">
-                                            @method('delete')
-                                            @csrf
-                                        </form>
+                                <!-- Delete Partner Modal-->
+                                <div class="modal fade" id="deletePartnerModal-{{ $partner->id }}" tabindex="-1" role="dialog"
+                                     aria-labelledby="exampleModalLabel-{{ $partner->id }}" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel-{{ $partner->id }}">
+                                                    Are you sure you want to delete the partner?
+                                                </h5>
+                                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">×</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Select "Delete" below if you are ready to delete your selected partner.
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                                                <a class="btn btn-primary" href="{{ URL('/partner/' . $partner->id )}}"
+                                                   onclick="event.preventDefault(); document.getElementById('delete-partner-form-{{ $partner->id }}').submit();">Delete</a>
+                                                <form id="delete-partner-form-{{ $partner->id }}" action="{{ URL('/partner/' . $partner->id )}}"
+                                                      method="post" style="display: none;">
+                                                    @method('delete')
+                                                    @csrf
+                                                </form>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
+
+                            </td>
+                        </tr>
 
                     @endforeach
                     </tbody>

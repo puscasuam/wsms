@@ -47,4 +47,27 @@ class EmployeeController extends Controller
         return $this->employeeHelper->all($request);
     }
 
+    /**
+     * Delete an employee
+     *
+     * @param Request $request
+     * @return mixed
+     */
+    public function delete(Request $request){
+        return $this->employeeHelper->delete($request->id);
+    }
+
+    /**
+     * Get an employee by id
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function get(Request $request){
+        return $this->employeeHelper->get($request->id);
+    }
+
+    public function view(Request $request){
+        return $this->employeeHelper->view($request->id);
+    }
 }

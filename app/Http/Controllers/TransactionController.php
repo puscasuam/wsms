@@ -17,6 +17,7 @@ class TransactionController extends Controller
 
     public function __construct(TransactionHelper $transactionHelper)
     {
+        $this->middleware('auth');
         $this->transactionHelper = $transactionHelper;
     }
 
@@ -27,10 +28,4 @@ class TransactionController extends Controller
 
         return $this->transactionHelper->all($request);
     }
-
-
-
-
-
-
 }

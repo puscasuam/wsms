@@ -123,9 +123,8 @@
         </a>
         <div id="collapseEmployee" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="">New employee</a>
-                <a class="collapse-item" href="">Edit employee</a>
-                <a class="collapse-item" href="">Show employees</a>
+                <a class="collapse-item" href="{{ route('employeeNew')}}">New employee</a>
+                <a class="collapse-item" href="{{ route('employeesAll')}}">Show employees</a>
             </div>
         </div>
 

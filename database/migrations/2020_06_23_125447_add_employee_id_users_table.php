@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class UpdateChangeStatusTypeAndNameTransactionsTable extends Migration
+class AddEmployeeIdUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,12 @@ class UpdateChangeStatusTypeAndNameTransactionsTable extends Migration
      */
     public function up()
     {
-        Schema::table('transactions', function (Blueprint $table) {
-            $table->string('status_id')->change();
-            $table->renameColumn('status_id', 'status');
+        Schema::table('users', function (Blueprint $table) {
+            $table->unsignedBigInteger('employee_id');
+
+            $table->foreign('employee_id')->references('id')->on('employees')
+                ->onDelete('cascade')
+                ->onUpdate('CASCADE');
         });
     }
 

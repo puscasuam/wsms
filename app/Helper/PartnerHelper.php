@@ -111,7 +111,7 @@ class PartnerHelper implements InterfaceHelper
             'cif' => 'required | max:8',
             'name' => 'required',
             'email' => 'required',
-            'mobile' => 'required',
+            'mobile' => 'required | regex:/(0)[0-9]{9}/',
             'address' => 'required',
         ]);
 

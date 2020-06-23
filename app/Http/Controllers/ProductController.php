@@ -15,6 +15,7 @@ class ProductController extends Controller
 
     public function __construct(ProductHelper $productHelper)
     {
+        $this->middleware('auth');
         $this->productHelper = $productHelper;
     }
 

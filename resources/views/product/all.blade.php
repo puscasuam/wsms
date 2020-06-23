@@ -222,7 +222,11 @@
                                                     class="fa fa-eye"></i> View</a></li>
                                         <li><a href="{{ URL('/product/'.$product->id )}}"><i class="fa fa-cog"></i> Edit</a>
                                         </li>
-                                        <li><a href="#"><i class="fa fa-eraser"></i> Delete</a></li>
+                                        <li>
+                                            <a href="#" aria-label="Delete" data-toggle="modal" data-target="#deleteProductModal">
+                                                <i class="fa fa-eraser"></i> Delete
+                                            </a>
+                                        </li>
                                     </ul>
                                 </div>
                             </td>

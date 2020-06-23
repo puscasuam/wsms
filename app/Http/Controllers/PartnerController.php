@@ -14,6 +14,7 @@ class PartnerController extends Controller
 
     public function __construct(PartnerHelper $partnerHelper)
     {
+        $this->middleware('auth');
         $this->partnerHelper = $partnerHelper;
     }
 

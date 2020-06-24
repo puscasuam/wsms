@@ -65,10 +65,18 @@ class ProductController extends Controller
     }
 
     /**
-     * @return Product[]|\Illuminate\Database\Eloquent\Collection
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function all(Request $request){
         return $this->productHelper->all($request);
+    }
+
+    /**
+     * @param Request $request
+     */
+    public function update(Request $request){
+        return $this->productHelper->put($request);
     }
 
     public function detailsJson(Request $request)

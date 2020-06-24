@@ -57,7 +57,7 @@ class ProductHelper implements InterfaceHelper
                 ->where('product_id', $product->id)
                 ->pluck('sublocation_id')->toArray();
 
-            $product->image = ImageHelper::pngToBase64('product',$product->image);
+            $product->image = ImageHelper::pngToBase64('product', $product->image);
         }
 
         return view('/product/new', [
@@ -131,7 +131,7 @@ class ProductHelper implements InterfaceHelper
                 ])
                 ->thenReturn();
 
-            $products = $pipeline->paginate(8);
+            $products = $pipeline->paginate(6);
         }
 
         if ($request->isMethod('post')) {
@@ -155,7 +155,7 @@ class ProductHelper implements InterfaceHelper
                 ])
                 ->thenReturn();
 
-            $products = $pipeline->paginate(8);
+            $products = $pipeline->paginate(6);
         }
 
         return view('product/all', [
@@ -205,7 +205,44 @@ class ProductHelper implements InterfaceHelper
 
     public function put(Request $request)
     {
+        $data = $request->validate([
+            'name' => 'required | min:2',
+            'brand' => 'required',
+            'category' => 'required',
+//            'image.*' => 'required | string',
+        ]);
 
+        $product = Product::find($request->id);
+        $product->name = $request->name;
+        $product->price = $request->price;
+        $product->stock = $request->stock;
+        $product->image = $request->name . '.png';
+        $product->brand_id = $request->brand;
+        $product->category_id = $request->category;
+        $product->description = $request->description;
+        $product->save();
+
+        // Remove all old many to many relations
+        $oldGemstones = DB::table('gemstone_product')
+            ->select('gemstone_id')
+            ->where('product_id', $product->id)
+            ->pluck('gemstone_id')->toArray();
+        $product->gemstone()->detach($oldGemstones);
+
+        $oldMaterials = DB::table('material_product')
+            ->select('material_id')
+            ->where('product_id', $product->id)
+            ->pluck('material_id')->toArray();
+        $product->material()->detach($oldMaterials);
+
+        // Add all new many to many relations
+        $product->gemstone()->attach($request->gemstone);
+        $product->material()->attach($request->material);
+
+        // Save image in public/storage/product
+        ImageHelper::base64ToPng('product', $request->image['body'], $product->image);
+
+        return redirect()->route('productsAll');
     }
 
     public function delete(int $id)

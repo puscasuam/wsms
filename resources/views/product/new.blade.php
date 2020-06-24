@@ -20,6 +20,11 @@
             <form id="product-form" action="/product" method="post" class="form-horizontal row-fluid">
                 @csrf
 
+                @if ($type == 'edit')
+                    @method('PATCH')
+                    <input type="hidden" name="id" value="{{ $product->id }}">
+                @endif
+
                 <div class="row">
                     <div class="col-sm-1"></div>
                     <div class="col-sm-6">
@@ -141,23 +146,6 @@
                             </div>
                         @endif
 
-
-                        {{--                        <fieldset class="form-group">--}}
-                        {{--                            <div class="row">--}}
-                        {{--                                <legend class="col-form-label col-sm-2 pt-0">Category</legend>--}}
-                        {{--                                <div class="col-sm-8">--}}
-                        {{--                                    @foreach($categories as $category)--}}
-                        {{--                                        <div class="form-check">--}}
-                        {{--                                            <input class="form-check-input" type="radio" name="category" id="category-{{$category->id}}" value="{{$category->id}}" >--}}
-                        {{--                                            <label class="form-check-label" for="category-{{$category->id}}">--}}
-                        {{--                                                {{$category->name}}--}}
-                        {{--                                            </label>--}}
-                        {{--                                        </div>--}}
-                        {{--                                    @endforeach--}}
-                        {{--                                </div>--}}
-                        {{--                            </div>--}}
-                        {{--                        </fieldset>--}}
-
                         <div class="form-row form-group row">
                             <label for="description" class="col-sm-2 col-form-label">Description</label>
                             <div class="col-sm-8">
@@ -179,8 +167,14 @@
                                 @endif
                                 <div class="upload-options">
                                     <label>
-                                        <input type="file" class="image-upload" name="image[name]" accept="image/*"/>
-                                        <input type="hidden" id="image-body" name="image[body]" value=""/>
+
+                                        @if ($type == 'edit')
+                                            <input type="file" class="image-upload" name="image[name]" accept="image/*" value="{{ $product->name . '.png' }}"/>
+                                            <input type="hidden" id="image-body" name="image[body]" value="{{ $product->image }}"/>
+                                        @else
+                                            <input type="file" class="image-upload" name="image[name]" accept="image/*"/>
+                                            <input type="hidden" id="image-body" name="image[body]" value=""/>
+                                        @endif
                                     </label>
                                 </div>
                             </div>

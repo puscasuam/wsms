@@ -57,7 +57,7 @@ class ProductHelper implements InterfaceHelper
                 ->where('product_id', $product->id)
                 ->pluck('sublocation_id')->toArray();
 
-            $product->image = ImageHelper::pngToBase64($product->image);
+            $product->image = ImageHelper::pngToBase64('product',$product->image);
         }
 
         return view('/product/new', [

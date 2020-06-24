@@ -9,11 +9,11 @@
             <input type="hidden" id="product-form-type" value="{{$type}}"/>
 
             @if ($type == 'new')
-                <h6 class="m-0 font-weight-bold text-primary">Add new employee</h6>
+                <h6 class="m-0 font-weight-bold text-back">Add new employee</h6>
             @elseif ($type == 'edit')
-                <h6 class="m-0 font-weight-bold text-primary">Edit employee</h6>
+                <h6 class="m-0 font-weight-bold text-back">Edit employee</h6>
             @else ()
-                <h6 class="m-0 font-weight-bold text-primary">View employee</h6>
+                <h6 class="m-0 font-weight-bold text-back">View employee</h6>
             @endif
 
         </div>
@@ -91,7 +91,7 @@
                             <div class="col-sm-8">
                                 <input type="password" class="form-control" id="password-confirmation"
                                        name="password_confirmation"
-                                                                              value="{{ isset($product->name) ? $product->name : '' }}"
+{{--                                                                              value="{{ isset($product->name) ? $product->name : '' }}"--}}
                                        placeholder="Confirm password" autocomplete="off">
                                 <div class="validation">@error('confirm-password') {{$message}} @enderror </div>
                             </div>
@@ -102,8 +102,8 @@
                             <div class="col-sm-8">
                                 <select id="role" name="role" class="form-control">
                                     <option selected></option>
-                                    <option value="true">Yes</option>
-                                    <option value="false">No</option>
+                                    <option value="1">Yes</option>
+                                    <option value="0">No</option>
                                 </select>
                             </div>
                         </div>
@@ -125,6 +125,7 @@
                                     </label>
                                 </div>
                             </div>
+                            <div class="validation" style="margin-left: 10px;">@error('image[name]') {{$message}} @enderror </div>
                         </div>
                     </div>
 
@@ -135,9 +136,9 @@
                     <div class="col-sm-1"></div>
                     <div class="col">
                         @if ($type == 'new')
-                            <button type="submit" class="btn btn-primary">Add employee</button>
+                            <button type="submit" class="btn btn-dark">Add employee</button>
                         @elseif($type == 'edit')
-                            <button type="submit" class="btn btn-primary">Edit employee</button>
+                            <button type="submit" class="btn btn-dark">Edit employee</button>
                         @endif
                         <a href="{{ URL::route('productsAll') }}" class="btn btn-secondary float-right">Back</a>
                     </div>

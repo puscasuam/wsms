@@ -3,9 +3,11 @@
 namespace App\Helper;
 
 use App\Employee;
+use App\Mail\WelcomeMail;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class EmployeeHelper implements InterfaceHelper
 {
@@ -123,22 +125,24 @@ class EmployeeHelper implements InterfaceHelper
             'username'=> 'required',
             'firstName' => 'required | min:2',
             'lastName' => 'required | min:2',
-            'mobile' => 'required',
+            'mobile' => 'required | regex:/(0)[0-9]{9}/',
             'email' => ['required', 'string', 'email', 'max:255'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'role' => 'required',
+            'image.*' => 'required | string',
+
         ]);
 
-        //create new employee
+        // Create new employee
         $employee = new Employee();
         $employee->firstname = $request->firstName;
         $employee->lastname = $request->lastName;
         $employee->mobile = $request->mobile;
-        $employee->admin = $request->admin === "true" ? true : false;
+        $employee->admin = $request->role === "1" ? 1 : 0;
         $employee->image = $request->email . '.png';
         $employee->save();
 
-        //create new user for added employee
+        // Create new user for added employee
         $user = new User();
         $user->name = $request->username;
         $user->email = $request->email;
@@ -146,10 +150,13 @@ class EmployeeHelper implements InterfaceHelper
         $user->employee_id = $employee->id;
         $user->save();
 
-        // stave image in public/storage/product
-        ImageHelper::base64ToPng($request->image['body'], $employee->image);
+        // Save image in public/storage/employee
+        ImageHelper::base64ToPng('employee', $request->image['body'], $employee->image);
 
-        return redirect()->route('productsAll');
+        // Sending email for activate employee account
+        Mail::to($user->email)->send(new WelcomeMail());
+
+        return redirect()->route('employeesAll');
     }
 
     public function put(Request $request)

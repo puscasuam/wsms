@@ -11,7 +11,7 @@
 
             <div class="card mb-4">
 
-                <a class="nav-link collapsed card-header m-0 text-primary" href="#" data-toggle="collapse"
+                <a class="nav-link collapsed card-header m-0 text-balck" href="#" data-toggle="collapse"
                    data-target="#collapseFilters"
                    aria-expanded="true" aria-controls="collapsePages">
                     <i class="fa fas fa-filter"></i>

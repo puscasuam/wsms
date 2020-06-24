@@ -169,9 +169,7 @@
                     </div>
 
                     <div class="col-sm-4">
-
                         <div class="wrapper">
-
                             <div class="box" id="box-image">
                                 @if ($type == 'edit' || $type == 'view')
                                     <div class="js--image-preview js--no-default"
@@ -186,6 +184,7 @@
                                     </label>
                                 </div>
                             </div>
+                            <div class="validation" style="margin-left: 10px;">@error('image[name]') {{$message}} @enderror </div>
                         </div>
                     </div>
 

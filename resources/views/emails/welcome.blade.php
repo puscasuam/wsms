@@ -1,12 +1,16 @@
 @component('mail::message')
-# Introduction
+# Welcome to our team!
 
-The body of your message.
+You are receiving this email because an account was created for you.
 
-@component('mail::button', ['url' => ''])
-Button Text
+Please click the button bellow to activate your account.
+
+@component('mail::button', ['url' => route('password.request') ])
+    {{ __('Change Your Password') }}
 @endcomponent
+
 
 Thanks,<br>
-{{ config('app.name') }}
+Jewelry Warehouse Management System Team
 @endcomponent
+

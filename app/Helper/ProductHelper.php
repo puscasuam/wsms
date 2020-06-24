@@ -180,7 +180,7 @@ class ProductHelper implements InterfaceHelper
             'name' => 'required | min:2',
             'brand' => 'required',
             'category' => 'required',
-            'image' => 'required',
+            'image.*' => 'required | string',
         ]);
 
         $product = new Product();
@@ -193,12 +193,12 @@ class ProductHelper implements InterfaceHelper
         $product->description = $request->description;
         $product->save();
 
-        //for relations many to many
+        // For relations many to many
         $product->gemstone()->attach($request->gemstone);
         $product->material()->attach($request->material);
 
-        // stave image in public/storage/product
-        ImageHelper::base64ToPng($request->image['body'], $product->image);
+        // Save image in public/storage/product
+        ImageHelper::base64ToPng('product', $request->image['body'], $product->image);
 
         return redirect()->route('productsAll');
     }

@@ -6,14 +6,14 @@
     <!-- Form -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <input type="hidden" id="product-form-type" value="{{$type}}"/>
+            <input type="hidden" id="employee-form-type" value="{{$type}}"/>
 
             @if ($type == 'new')
-                <h6 class="m-0 font-weight-bold text-back">Add new employee</h6>
+                <h6 class="m-0 font-weight-bold text-dark">Add new employee</h6>
             @elseif ($type == 'edit')
-                <h6 class="m-0 font-weight-bold text-back">Edit employee</h6>
+                <h6 class="m-0 font-weight-bold text-dark">Edit employee</h6>
             @else ()
-                <h6 class="m-0 font-weight-bold text-back">View employee</h6>
+                <h6 class="m-0 font-weight-bold text-dark">View employee</h6>
             @endif
 
         </div>
@@ -189,7 +189,7 @@
                         @elseif($type == 'edit')
                             <button type="submit" class="btn btn-dark">Edit employee</button>
                         @endif
-                        <a href="{{ URL::route('productsAll') }}" class="btn btn-secondary float-right">Back</a>
+                        <a href="{{ URL::route('employeesAll') }}" class="btn btn-secondary float-right">Back</a>
                     </div>
                     <div class="col-sm-1"></div>
                 </div>

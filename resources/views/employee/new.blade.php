@@ -27,20 +27,30 @@
                         <div class="form-row form-group row">
                             <label for="username" class="col-sm-2 col-form-label">Username</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" id="username" name="username"
-                                       {{--                                       value="{{ isset($product->name) ? $product->name : '' }}"--}}
+                                <input type="text" class="form-control @error('username') is-invalid @enderror"
+                                       id="username" name="username"
+                                       value="{{ isset($employee->user->name) ? $employee->user->name : '' }}"
                                        placeholder="Enter username" autocomplete="off">
-                                <div class="validation">@error('username') {{$message}} @enderror </div>
+                                @error('username')
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
                         </div>
 
                         <div class="form-row form-group row">
                             <label for="firstName" class="col-sm-2 col-form-label">First name</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" id="firstName" name="firstName"
-                                       {{--                                       value="{{ isset($product->name) ? $product->name : '' }}"--}}
+                                <input type="text" class="form-control @error('firstName') is-invalid @enderror"
+                                       id="firstName" name="firstName"
+                                       value="{{ isset($employee->firstname) ? $employee->firstname : '' }}"
                                        placeholder="Enter first name" autocomplete="off">
-                                <div class="validation">@error('firstName') {{$message}} @enderror </div>
+                                @error('firstName')
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
                         </div>
 
@@ -48,62 +58,93 @@
                         <div class="form-row form-group row">
                             <label for="lastName" class="col-sm-2 col-form-label">Last name</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" id="lastName" name="lastName"
-                                       {{--                                       value="{{ isset($product->name) ? $product->name : '' }}"--}}
+                                <input type="text" class="form-control @error('lastName') is-invalid @enderror"
+                                       id="lastName" name="lastName"
+                                       value="{{ isset($employee->lastname) ? $employee->lastname : '' }}"
                                        placeholder="Enter last name" autocomplete="off">
-                                <div class="validation">@error('lastName') {{$message}} @enderror </div>
+                                @error('lastName')
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
                         </div>
 
                         <div class="form-row form-group row">
                             <label for="mobile" class="col-sm-2 col-form-label">Mobile</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" id="mobile" name="mobile"
-                                       {{--                                       value="{{ isset($product->name) ? $product->name : '' }}"--}}
+                                <input type="text" class="form-control @error('mobile') is-invalid @enderror"
+                                       id="mobile" name="mobile"
+                                       value="{{ isset($employee->mobile) ? $employee->mobile : '' }}"
                                        placeholder="Enter mobile phone" autocomplete="off">
-                                <div class="validation">@error('mobile') {{$message}} @enderror </div>
+                                @error('mobile')
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
                         </div>
 
                         <div class="form-row form-group row">
                             <label for="email" class="col-sm-2 col-form-label">Email</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" id="email" name="email"
-                                       {{--                                       value="{{ isset($product->name) ? $product->name : '' }}"--}}
+                                <input type="text" class="form-control @error('email') is-invalid @enderror" id="email" name="email"
+                                       value="{{ isset($employee->user->email) ? $employee->user->email : '' }}"
                                        placeholder="Enter email" autocomplete="off">
-                                <div class="validation">@error('email') {{$message}} @enderror </div>
+                                @error('email')
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
                         </div>
 
-
-                        <div class="form-row form-group row">
-                            <label for="password" class="col-sm-2 col-form-label">Password</label>
-                            <div class="col-sm-8">
-                                <input type="password" class="form-control" id="password" name="password"
-                                       {{--                                       value="{{ isset($product->name) ? $product->name : '' }}"--}}
-                                       placeholder="Enter password" autocomplete="off">
-                                <div class="validation">@error('password') {{$message}} @enderror </div>
+                        @if ($type == 'new')
+                            <div class="form-row form-group row">
+                                <label for="password" class="col-sm-2 col-form-label">Password</label>
+                                <div class="col-sm-8">
+                                    <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password"
+                                           placeholder="Enter password" autocomplete="off">
+                                    @error('password')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="form-row form-group row">
-                            <label for="confirm-password" class="col-sm-2 col-form-label">Confirm password</label>
-                            <div class="col-sm-8">
-                                <input type="password" class="form-control" id="password-confirmation"
-                                       name="password_confirmation"
-{{--                                                                              value="{{ isset($product->name) ? $product->name : '' }}"--}}
-                                       placeholder="Confirm password" autocomplete="off">
-                                <div class="validation">@error('confirm-password') {{$message}} @enderror </div>
+                            <div class="form-row form-group row">
+                                <label for="confirm-password" class="col-sm-2 col-form-label">Confirm password</label>
+                                <div class="col-sm-8">
+                                    <input type="password" class="form-control @error('confirm-password') is-invalid @enderror" id="password-confirmation"
+                                           name="password_confirmation"
+                                           placeholder="Confirm password" autocomplete="off">
+                                    @error('confirm-password')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
                             </div>
-                        </div>
+                        @endif
 
                         <div class="form-row form-group row">
                             <label for="role" class="col-sm-2 col-form-label">Is admin</label>
                             <div class="col-sm-8">
-                                <select id="role" name="role" class="form-control">
-                                    <option selected></option>
-                                    <option value="1">Yes</option>
-                                    <option value="0">No</option>
+                                <select style="width: 100%;" id="role" class="form-control" name="role">
+                                    <option value=""></option>
+                                    <option value="1"
+                                            @if (isset($employee->admin) && $employee->role === 1)
+                                            selected="selected"
+                                        @endif
+                                    >Admin
+                                    </option>
+                                    <option value="0"
+                                            @if (isset($employee->admin) && $employee->admin === 0)
+                                            selected="selected"
+                                        @endif
+                                    >Regular
+                                    </option>
                                 </select>
                             </div>
                         </div>
@@ -114,21 +155,29 @@
                             <div class="box" id="box-image">
                                 @if ($type == 'edit' || $type == 'view')
                                     <div class="js--image-preview js--no-default"
-                                         style="background-image: url({{ $product->image }})"></div>
+                                         style="background-image: url({{ $employee->image }})"></div>
                                 @else
                                     <div class="js--image-preview"></div>
                                 @endif
                                 <div class="upload-options">
                                     <label>
-                                        <input type="file" class="image-upload" name="image[name]" accept="image/*"/>
-                                        <input type="hidden" id="image-body" name="image[body]" value=""/>
+                                        @if ($type == 'edit')
+                                            <input type="file" class="image-upload" name="image[name]" accept="image/*"
+                                                   value="{{ $employee->user->email . '.png' }}"/>
+                                            <input type="hidden" id="image-body" name="image[body]"
+                                                   value="{{ $employee->image }}"/>
+                                        @else
+                                            <input type="file" class="image-upload" name="image[name]"
+                                                   accept="image/*"/>
+                                            <input type="hidden" id="image-body" name="image[body]" value=""/>
+                                        @endif
                                     </label>
                                 </div>
                             </div>
-                            <div class="validation" style="margin-left: 10px;">@error('image[name]') {{$message}} @enderror </div>
+                            <div class="validation"
+                                 style="margin-left: 10px;">@error('image[name]') {{$message}} @enderror </div>
                         </div>
                     </div>
-
                     <div class="col-sm-1"></div>
                 </div>
 

@@ -109,7 +109,6 @@ class ProductHelper implements InterfaceHelper
         $sublocations = Sublocation::all();
 
         if($request->isMethod('get')){
-//            $products = Product::paginate(5);
 
             $pipeline = app(Pipeline::class)
                 ->send(Product::query())
@@ -179,8 +178,8 @@ class ProductHelper implements InterfaceHelper
     {
         $data = $request->validate([
             'name' => 'required | min:2',
-            'brand' => 'required',
-            'category' => 'required',
+            'brand' => 'required| not_in:0',
+            'category' => 'required| not_in:0',
             'image.*' => 'required | string',
         ]);
 

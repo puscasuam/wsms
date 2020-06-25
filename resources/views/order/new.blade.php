@@ -10,11 +10,11 @@
             <input type="hidden" id="product-form-type" value="{{$type}}"/>
 
             @if ($type == 'new')
-                <h6 class="m-0 font-weight-bold text-primary">Add new order</h6>
+                <h6 class="m-0 font-weight-bold text-dark">Add new order</h6>
             @elseif ($type == 'edit')
-                <h6 class="m-0 font-weight-bold text-primary">Edit order</h6>
+                <h6 class="m-0 font-weight-bold text-dark">Edit order</h6>
             @else ()
-                <h6 class="m-0 font-weight-bold text-primary">View order</h6>
+                <h6 class="m-0 font-weight-bold text-dark">View order</h6>
             @endif
 
         </div>
@@ -172,9 +172,9 @@
                     <div class="col-sm-1"></div>
                     <div class="col">
                         @if ($type == 'new')
-                            <button type="submit" class="btn btn-primary">Add order</button>
+                            <button type="submit" class="btn btn-dark">Add order</button>
                         @elseif($type == 'edit')
-                            <button type="submit" class="btn btn-primary">Edit order</button>
+                            <button type="submit" class="btn btn-dark">Edit order</button>
                         @endif
                         <a href="{{ URL::route('ordersAll') }}" class="btn btn-secondary float-right">Back</a>
                     </div>

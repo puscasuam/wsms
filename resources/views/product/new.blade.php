@@ -31,22 +31,29 @@
                         <div class="form-row form-group row">
                             <label for="name" class="col-sm-2 col-form-label">Name</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" id="name" name="name"
+                                <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name"
                                        value="{{ isset($product->name) ? $product->name : '' }}"
                                        placeholder="Enter product name" autocomplete="off">
-                                <div class="validation">@error('name') {{$message}} @enderror </div>
+                                @error('name')
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
                         </div>
-
 
                         @if ($type == 'edit' || $type == 'view')
                             <div class="form-row form-group row">
                                 <label for="price" class="col-sm-2 col-form-label">Price</label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control" id="price" name="price"
+                                    <input type="text" class="form-control @error('price') is-invalid @enderror" id="price" name="price"
                                            value="{{ isset($product->price) ? $product->price : '' }}"
                                            placeholder="Enter product price">
-                                    <div class="validation"> @error('price') {{$message}}@enderror </div>
+                                    @error('price')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
                                 </div>
                             </div>
                         @endif
@@ -56,10 +63,14 @@
                             <div class="form-row form-group row">
                                 <label for="stock" class="col-sm-2 col-form-label">Stock</label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control" id="stock" name="stock"
+                                    <input type="text" class="form-control @error('stock') is-invalid @enderror" id="stock" name="stock"
                                            value="{{ isset($product->stock) ? $product->stock : '' }}"
                                            placeholder="Enter product stock">
-                                    <div class="validation"> @error('stock') {{$message}}@enderror </div>
+                                    @error('stock')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
                                 </div>
                             </div>
                         @endif
@@ -68,7 +79,7 @@
                             <label for="brand" class="col-sm-2 col-form-label">Brand</label>
                             <div class="col-sm-8">
                                 <select id="brand" name="brand" class="form-control">
-                                    <option selected>Choose brand</option>
+                                    <option value="0" selected>Choose brand</option>
                                     @foreach($brands as $brand)
                                         <option value={{$brand->id}}
                                         @if (isset($product->brand_id) && $brand->id == $product->brand_id)
@@ -77,6 +88,11 @@
                                         >{{ $brand->name}}</option>
                                     @endforeach
                                 </select>
+                                @error('brand')
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
                         </div>
 
@@ -84,7 +100,7 @@
                             <label for="category" class="col-sm-2 col-form-label">Category</label>
                             <div class="col-sm-8">
                                 <select id="category" name="category" class="form-control">
-                                    <option selected>Choose category</option>
+                                    <option value="0" selected>Choose category</option>
                                     @foreach($categories as $category)
                                         <option value={{$category->id}}
                                         @if (isset($product->category_id) && $category->id == $product->category_id)

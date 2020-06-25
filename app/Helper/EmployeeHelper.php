@@ -4,22 +4,32 @@ namespace App\Helper;
 
 use App\Employee;
 use App\Mail\WelcomeMail;
+use App\QueryFilters\employee\Email;
+use App\QueryFilters\employee\Firstname;
+use App\QueryFilters\employee\FirstnameSort;
+use App\QueryFilters\employee\Lastname;
+use App\QueryFilters\employee\LastnameSort;
+use App\QueryFilters\employee\Mobile;
+use App\QueryFilters\employee\Role;
+use App\QueryFilters\employee\Username;
+use App\QueryFilters\employee\UsernameSort;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Pipeline\Pipeline;
 
 class EmployeeHelper implements InterfaceHelper
 {
 
     public function form($employee = null, $type = 'new')
     {
-        $partner = Employee::all();
-        $user = User::all();
+        if ($type == 'edit' || $type == 'view') {
+            $employee->image = ImageHelper::pngToBase64('employee', $employee->image);
+        }
 
         return view('/employee/new', [
-            'employee' => $partner,
-            'user' => $user,
+            'employee' => $employee,
             'type' => $type,
         ]);
     }
@@ -58,58 +68,49 @@ class EmployeeHelper implements InterfaceHelper
         $users = User::all();
 
         if($request->isMethod('get')){
-            $employees = Employee::paginate(8);
+//            $employees = Employee::paginate(8);
 
-//            $pipeline = app(Pipeline::class)
-//                ->send(Product::query())
-//                ->through([
-//                    Name::class,
-//                    PriceFrom::class,
-//                    PriceTo::class,
-//                    StockFrom::class,
-//                    StockTo::class,
-//                    \App\QueryFilters\Product\Brand::class,
-//                    \App\QueryFilters\Product\Gemstone::class,
-//                    \App\QueryFilters\Product\Material::class,
-//                    \App\QueryFilters\Product\Category::class,
-//                    Location::class,
-//                    NameSort::class,
-//                    BrandSort::class,
-//                    PriceSort::class,
-//                    StockSort::class,
-//                ])
-//                ->thenReturn();
-//
-//            $products = $pipeline->paginate(8);
+            $pipeline = app(Pipeline::class)
+                ->send(Employee::query())
+                ->through([
+                    Firstname::class,
+                    Lastname::class,
+                    Email::class,
+                    Mobile::class,
+                    Username::class,
+                    Role::class,
+                    FirstnameSort::class,
+                    LastnameSort::class,
+                    UsernameSort::class,
+                ])
+                ->thenReturn();
+
+            $employees = $pipeline->paginate(8);
         }
 
-//        if ($request->isMethod('post')) {
-//            $pipeline = app(Pipeline::class)
-//                ->send(Product::query())
-//                ->through([
-//                    Name::class,
-//                    PriceFrom::class,
-//                    PriceTo::class,
-//                    StockFrom::class,
-//                    StockTo::class,
-//                    \App\QueryFilters\Product\Brand::class,
-//                    \App\QueryFilters\Product\Gemstone::class,
-//                    \App\QueryFilters\Product\Material::class,
-//                    \App\QueryFilters\Product\Category::class,
-//                    Location::class,
-//                    NameSort::class,
-//                    BrandSort::class,
-//                    PriceSort::class,
-//                    StockSort::class,
-//                ])
-//                ->thenReturn();
-//
-//            $products = $pipeline->paginate(8);
-//        }
+        if ($request->isMethod('post')) {
+            $pipeline = app(Pipeline::class)
+                ->send(Employee::query())
+                ->through([
+                    Firstname::class,
+                    Lastname::class,
+                    Email::class,
+                    Mobile::class,
+                    Username::class,
+                    Role::class,
+                    FirstnameSort::class,
+                    LastnameSort::class,
+                    UsernameSort::class,
+                ])
+                ->thenReturn();
+
+            $employees = $pipeline->paginate(8);
+        }
 
         return view('employee/all', [
             'employees' => $employees,
             'users' => $users,
+            'filters' => $request,
         ]);
     }
 

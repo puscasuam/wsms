@@ -5,13 +5,13 @@
     <!-- Data tables for Products -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Products</h6>
+            <h6 class="m-0 font-weight-bold text-black">Products</h6>
         </div>
         <div class="card-body">
 
             <div class="card mb-4">
 
-                <a class="nav-link collapsed card-header m-0 text-primary" href="#" data-toggle="collapse"
+                <a class="nav-link collapsed card-header m-0 text-black" href="#" data-toggle="collapse"
                    data-target="#collapseFilters"
                    aria-expanded="true" aria-controls="collapsePages">
                     <i class="fa fas fa-filter"></i>
@@ -31,7 +31,8 @@
                                     <div class="form-row form-group row">
                                         <label for="name" class="col-sm-2 col-form-label">Name</label>
                                         <div class="col-sm-8">
-                                            <input type="text" class="form-control" id="name" name="name">
+                                            <input type="text" class="form-control" id="name" name="name"
+                                                   value="{{ isset($filters->name) ? $filters->name : '' }}">
                                         </div>
                                         <div class="col-sm-1">
                                             <button type="button" class="btn" id="name_sort_button"
@@ -47,10 +48,12 @@
                                     <div class="form-row form-group row">
                                         <label for="price" class="col-sm-2 col-form-label">Price</label>
                                         <div class="col-sm-4">
-                                            <input type="number" class="form-control" id="price_from" name="price_from" min="0">
+                                            <input type="number" class="form-control" id="price_from" name="price_from" min="0"
+                                                   value="{{ isset($filters->price_from) ? $filters->price_from : '' }}">
                                         </div>
                                         <div class="col-sm-4">
-                                            <input type="number" class="form-control" id="price_to" name="price_to" min="0">
+                                            <input type="number" class="form-control" id="price_to" name="price_to" min="0"
+                                                   value="{{ isset($filters->price_to) ? $filters->price_to : '' }}">
                                         </div>
                                         <div class="col-sm-1">
                                             <button type="button" class="btn" id="price_sort_button"
@@ -66,10 +69,12 @@
                                     <div class="form-row form-group row">
                                         <label for="stock" class="col-sm-2 col-form-label">Stock</label>
                                         <div class="col-sm-4">
-                                            <input type="number" class="form-control" id="stock_from" name="stock_from" min="0">
+                                            <input type="number" class="form-control" id="stock_from" name="stock_from" min="0"
+                                                   value="{{ isset($filters->stock_from) ? $filters->stock_from : '' }}">
                                         </div>
                                         <div class="col-sm-4">
-                                            <input type="number" class="form-control" id="stock_to" name="stock_to" min="0">
+                                            <input type="number" class="form-control" id="stock_to" name="stock_to" min="0"
+                                                   value="{{ isset($filters->stock_to) ? $filters->stock_to : '' }}">
                                         </div>
                                         <div class="col-sm-1">
                                             <button type="button" class="btn" id="stock_sort_button"
@@ -88,7 +93,11 @@
                                             <select style="width: 100%;" id="brand" class="form-control" name="brand[]"
                                                     multiple>
                                                 @foreach($brands as $brand)
-                                                    <option value={{$brand->id}}>{{ $brand->name}}</option>
+                                                    <option value={{$brand->id}}
+                                                        @if (isset($filters->brand) && in_array($brand->id, $filters->brand))
+                                                        selected="selected"
+                                                        @endif
+                                                    >{{ $brand->name}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -107,13 +116,16 @@
                                 <div class="col-sm-6 pl-5">
                                     <!-- Filter Category -->
                                     <div class="form-row form-group row">
-                                        {{--                            <label class="col-form-label col-sm-2 pt-0">category</label>--}}
                                         <label for="category" class="col-sm-2 col-form-label">Category</label>
                                         <div class="col-sm-8">
                                             <select style="width: 100%;" id="category" class="form-control"
                                                     name="category[]" multiple>
                                                 @foreach($categories as $category)
-                                                    <option value={{$category->id}}>{{ $category->name}}</option>
+                                                    <option value={{$category->id}}
+                                                        @if (isset($filters->category) && in_array($category->id, $filters->category))
+                                                        selected="selected"
+                                                        @endif
+                                                    >{{ $category->name}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -126,7 +138,11 @@
                                             <select style="width: 100%;" id="material" class="form-control"
                                                     name="material[]" multiple>
                                                 @foreach($materials as $material)
-                                                    <option value={{$material->id}}>{{ $material->name}}</option>
+                                                    <option value={{$material->id}}
+                                                        @if (isset($filters->material) && in_array($material->id, $filters->material))
+                                                        selected="selected"
+                                                        @endif
+                                                    >{{ $material->name}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -139,7 +155,11 @@
                                             <select style="width: 100%;" id="gemstone" class="form-control"
                                                     name="gemstone[]" multiple>
                                                 @foreach($gemstones as $gemstone)
-                                                    <option value={{$gemstone->id}}>{{ $gemstone->name}}</option>
+                                                    <option value={{$gemstone->id}}
+                                                        @if (isset($filters->gemstone) && in_array($gemstone->id, $filters->gemstone))
+                                                        selected="selected"
+                                                        @endif
+                                                    >{{ $gemstone->name}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -152,7 +172,11 @@
                                             <select style="width: 100%;" id="location" class="form-control"
                                                     name="location[]" multiple>
                                                 @foreach($sublocations as $sublocation)
-                                                    <option value={{$sublocation->id}}>{{ $sublocation->name}}</option>
+                                                    <option value={{$sublocation->id}}
+                                                        @if (isset($filters->location) && in_array($sublocation->id, $filters->location))
+                                                        selected="selected"
+                                                        @endif
+                                                    >{{ $sublocation->name}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -163,7 +187,7 @@
 
                             <div class="row">
                                 <div class="col col-sm-12 pl-5">
-                                    <button type="submit" class="btn btn-primary">Apply</button>
+                                    <button type="submit" class="btn btn-dark">Apply</button>
                                     <a class="btn btn-secondary" href="{{ route('productsAll') }}">Reset</a>
                                 </div>
                             </div>
@@ -254,7 +278,7 @@
                                             </div>
                                             <div class="modal-footer">
                                                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                                                <a class="btn btn-primary" href="{{ URL('/product/' . $product->id )}}"
+                                                <a class="btn btn-dark" href="{{ URL('/product/' . $product->id )}}"
                                                    onclick="event.preventDefault(); document.getElementById('delete-product-form-{{ $product->id }}').submit();">Delete</a>
                                                 <form id="delete-product-form-{{ $product->id }}" action="{{ URL('/product/' . $product->id )}}"
                                                       method="post" style="display: none;">

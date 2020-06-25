@@ -189,9 +189,9 @@
                     <div class="col-sm-1"></div>
                     <div class="col">
                         @if ($type == 'new')
-                            <button type="submit" class="btn btn-primary">Add product</button>
+                            <button type="submit" class="btn btn-dark">Add product</button>
                         @elseif($type == 'edit')
-                            <button type="submit" class="btn btn-primary">Edit product</button>
+                            <button type="submit" class="btn btn-dark">Edit product</button>
                         @endif
                         <a href="{{ URL::route('productsAll') }}" class="btn btn-secondary float-right">Back</a>
                     </div>

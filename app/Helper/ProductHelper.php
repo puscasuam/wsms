@@ -164,7 +164,8 @@ class ProductHelper implements InterfaceHelper
             'gemstones' => $gemstones,
             'categories' => $categories,
             'materials' => $materials,
-            'sublocations' => $sublocations
+            'sublocations' => $sublocations,
+            'filters' => $request,
         ]);
     }
 

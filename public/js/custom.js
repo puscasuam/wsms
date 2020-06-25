@@ -359,23 +359,35 @@ function change_sort_direction(button, inputId) {
 
     let directionIcon = $(button.children('i:first')[0]);
 
-    console.log(directionIcon);
-
     let direction = '';
     if (directionIcon.hasClass('fa-sort')) {
         direction = 'asc';
         directionIcon.removeClass('fa-sort');
-        directionIcon.addClass('fa-arrow-up');
-    } else if (directionIcon.hasClass('fa-arrow-up')) {
+        directionIcon.addClass('fa-angle-double-up');
+    } else if (directionIcon.hasClass('fa-angle-double-up')) {
         direction = 'desc';
-        directionIcon.removeClass('fa-arrow-up');
-        directionIcon.addClass('fa-arrow-down');
+        directionIcon.removeClass('fa-angle-double-up');
+        directionIcon.addClass('fa-angle-double-down');
     } else {
         direction = '';
-        directionIcon.removeClass('fa-arrow-down');
+        directionIcon.removeClass('fa-angle-double-down');
         directionIcon.addClass('fa-sort');
     }
 
     $(inputId).val(direction);
+    console.log(direction);
+
+    if (direction === '') {
+        $('button i.fa-sort').each(function(key, sortButton){
+            console.log($(sortButton));
+            $(sortButton).parent('button:first').prop('disabled', false);
+        })
+    } else {
+
+        $('button i.fa-sort').each(function(key, sortButton){
+            console.log($(sortButton));
+            $(sortButton).parent('button:first').prop('disabled', true);
+        })
+    }
 }
 

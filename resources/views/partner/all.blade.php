@@ -5,7 +5,7 @@
     <!-- Data tables for Products -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Partners</h6>
+            <h6 class="m-0 font-weight-bold text-dark">Partners</h6>
         </div>
         <div class="card-body">
 
@@ -31,7 +31,8 @@
                                     <div class="form-row form-group row">
                                         <label for="cif" class="col-sm-2 col-form-label">CIF</label>
                                         <div class="col-sm-8">
-                                            <input type="text" class="form-control" id="cif" name="cif">
+                                            <input type="text" class="form-control" id="cif" name="cif"
+                                                   value="{{ isset($filters->cif) ? $filters->cif : '' }}">
                                         </div>
                                     </div>
 
@@ -39,7 +40,16 @@
                                     <div class="form-row form-group row">
                                         <label for="name" class="col-sm-2 col-form-label">Name</label>
                                         <div class="col-sm-8">
-                                            <input type="text" class="form-control" id="name" name="name">
+                                            <input type="text" class="form-control" id="name" name="name"
+                                                   value="{{ isset($filters->name) ? $filters->name : '' }}">
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <button type="button" class="btn" id="name_sort_button"
+                                                    name="name_sort_button"
+                                                    onclick="change_sort_direction($(this), '#name_sort')">
+                                                <i class="fa fa-sort" aria-hidden="true"></i>
+                                            </button>
+                                            <input type="hidden" id="name_sort" name="name_sort" value="">
                                         </div>
                                     </div>
 
@@ -47,7 +57,8 @@
                                     <div class="form-row form-group row">
                                         <label for="email" class="col-sm-2 col-form-label">Email</label>
                                         <div class="col-sm-8">
-                                            <input type="text" class="form-control" id="email" name="email">
+                                            <input type="text" class="form-control" id="email" name="email"
+                                                   value="{{ isset($filters->email) ? $filters->email : '' }}">
                                         </div>
                                     </div>
                                 </div>
@@ -58,7 +69,8 @@
                                     <div class="form-row form-group row">
                                         <label for="mobile" class="col-sm-2 col-form-label">Mobile</label>
                                         <div class="col-sm-8">
-                                            <input type="text" class="form-control" id="mobile" name="mobile">
+                                            <input type="text" class="form-control" id="mobile" name="mobile"
+                                                   value="{{ isset($filters->mobile) ? $filters->mobile : '' }}">
                                         </div>
                                     </div>
 
@@ -67,7 +79,8 @@
                                     <div class="form-row form-group row">
                                         <label for="address" class="col-sm-2 col-form-label">Address</label>
                                         <div class="col-sm-8">
-                                            <input type="text" class="form-control" id="address" name="address">
+                                            <input type="text" class="form-control" id="address" name="address"
+                                                   value="{{ isset($filters->address) ? $filters->address : '' }}">
                                         </div>
                                     </div>
 
@@ -76,9 +89,17 @@
                                         <label for="type" class="col-sm-2 col-form-label">Type</label>
                                         <div class="col-sm-8">
                                             <select style="width: 100%;" id="type" class="form-control" name="type">
-                                                <option value=""></option>
-                                                <option value="1">Vendor</option>
-                                                <option value="2">Customer</option>
+                                                <option value="" ></option>
+                                                <option value="1"
+                                                        @if (isset($filters->type) && $filters->type === "1")
+                                                        selected="selected"
+                                                    @endif
+                                                >Vendor</option>
+                                                <option value="2"
+                                                        @if (isset($filters->type) && $filters->type === "2")
+                                                        selected="selected"
+                                                    @endif
+                                                >Customer</option>
                                             </select>
                                         </div>
                                     </div>
@@ -89,7 +110,7 @@
 
                             <div class="row">
                                 <div class="col col-sm-12 pl-5">
-                                    <button type="submit" class="btn btn-primary">Apply</button>
+                                    <button type="submit" class="btn btn-dark">Apply</button>
                                     <a class="btn btn-secondary" href="{{ route('partnersAll') }}">Reset</a>
                                 </div>
                             </div>

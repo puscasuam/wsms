@@ -56,4 +56,13 @@ class PartnerController extends Controller
     public function delete(Request $request){
         return $this->partnerHelper->delete($request->id);
     }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function update(Request $request){
+        return $this->partnerHelper->put($request);
+    }
+
 }

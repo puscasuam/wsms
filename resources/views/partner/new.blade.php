@@ -8,17 +8,20 @@
             <input type="hidden" id="product-form-type" value="{{$type}}"/>
 
             @if ($type == 'new')
-                <h6 class="m-0 font-weight-bold text-primary">Add new partner</h6>
+                <h6 class="m-0 font-weight-bold text-dark">Add new partner</h6>
             @elseif ($type == 'edit')
-                <h6 class="m-0 font-weight-bold text-primary">Edit partner</h6>
-            @else ()
-                <h6 class="m-0 font-weight-bold text-primary">View partner</h6>
+                <h6 class="m-0 font-weight-bold text-dark">Edit partner</h6>
             @endif
 
         </div>
         <div class="card-body">
             <form id="product-form" action="/partner" method="post" class="form-horizontal row-fluid">
                 @csrf
+
+                @if ($type == 'edit')
+                    @method('PATCH')
+                    <input type="hidden" name="id" value="{{ $partner->id }}">
+                @endif
 
                 <div class="row">
                     <div class="col-sm-1"></div>
@@ -82,9 +85,9 @@
                     <div class="col-sm-1"></div>
                     <div class="col">
                         @if ($type == 'new')
-                            <button type="submit" class="btn btn-primary">Add partner</button>
+                            <button type="submit" class="btn btn-dark">Add partner</button>
                         @elseif($type == 'edit')
-                            <button type="submit" class="btn btn-primary">Edit partner</button>
+                            <button type="submit" class="btn btn-dark">Edit partner</button>
                         @endif
                         <a href="{{ URL::route('home') }}" class="btn btn-secondary float-right">Back</a>
                     </div>

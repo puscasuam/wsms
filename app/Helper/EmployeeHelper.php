@@ -196,6 +196,8 @@ class EmployeeHelper implements InterfaceHelper
 
         return redirect()->route('employeesAll');
     }
+
+
     public function delete(int $id)
     {
         $employee = Employee::find($id);

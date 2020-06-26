@@ -10,6 +10,7 @@ use App\QueryFilters\Partner\Cif;
 use App\QueryFilters\Partner\Email;
 use App\QueryFilters\Partner\Mobile;
 use App\QueryFilters\Partner\Name;
+use App\QueryFilters\Partner\NameSort;
 use App\QueryFilters\Partner\Type;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Http\Request;
@@ -19,8 +20,6 @@ class PartnerHelper implements InterfaceHelper
 
     public function form($partner = null, $type = 'new')
     {
-        $partner = Partner::all();
-
         return view('/partner/new', [
             'partner' => $partner,
             'type' => $type,
@@ -28,7 +27,7 @@ class PartnerHelper implements InterfaceHelper
     }
 
     /**
-     * Get a product - used for editing the product
+     * Get a partner - used for editing the partner
      *
      * @param int $id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
@@ -42,13 +41,20 @@ class PartnerHelper implements InterfaceHelper
     }
 
     /**
-     * Get a product - used for view a partner
+     * Get a partner - used for view a partner
      *
      * @param int $id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function view(int $id)
     {
+        $partner = Partner::find($id);
+
+        return view('/partner/view', [
+            'partner' => $partner,
+        ]);
+
+
         $partner = Partner::find($id);
         if ($partner) {
             return $this->form($partner, 'view');
@@ -58,21 +64,22 @@ class PartnerHelper implements InterfaceHelper
 
     public function all(Request $request)
     {
-
         if($request->isMethod('get')){
-            $partners = Partner::paginate(6);
 
-//            $pipeline = app(Pipeline::class)
-//                ->send(Product::query())
-//                ->through([
-//                    NameSort::class,
-//                    BrandSort::class,
-//                    PriceSort::class,
-//                    StockSort::class,
-//                ])
-//                ->thenReturn();
-//
-//            $products = $pipeline->paginate(5);
+            $pipeline = app(Pipeline::class)
+                ->send(Partner::query())
+                ->through([
+                    Address::class,
+                    Cif::class,
+                    Email::class,
+                    Mobile::class,
+                    Name::class,
+                    Type::class,
+                    NameSort::class,
+                ])
+                ->thenReturn();
+
+            $partners = $pipeline->paginate(5);
         }
 
 
@@ -86,6 +93,7 @@ class PartnerHelper implements InterfaceHelper
                     Mobile::class,
                     Name::class,
                     Type::class,
+                    NameSort::class,
 
                 ])
                 ->thenReturn();
@@ -95,8 +103,8 @@ class PartnerHelper implements InterfaceHelper
 
         return view('partner/all', [
             'partners' => $partners,
+            'filters' => $request,
         ]);
-
     }
 
     /**
@@ -128,7 +136,24 @@ class PartnerHelper implements InterfaceHelper
 
     public function put(Request $request)
     {
-        // TODO: Implement put() method.
+        $dataValidation = $request->validate([
+            'cif' => 'required | max:8',
+            'name' => 'required',
+            'email' => 'required',
+            'mobile' => 'required | regex:/(0)[0-9]{9}/',
+            'address' => 'required',
+        ]);
+
+        //Update employee
+        $partner = Partner::find($request->id);
+        $partner->cif = $request->cif;
+        $partner->name = $request->name;
+        $partner->email = $request->email;
+        $partner->mobile = $request->mobile;
+        $partner->address = $request->address;
+        $partner->save();
+
+        return redirect()->route('partnersAll');
     }
 
     public function delete(int $id)

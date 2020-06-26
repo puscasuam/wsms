@@ -30,14 +30,14 @@ class ProductController extends Controller
         return $this->productHelper->form();
     }
 
-    /**
-     * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function post(Request $request)
-    {
-        return $this->productHelper->post($request);
-    }
+//    /**
+//     * @param Request $request
+//     * @return \Illuminate\Http\RedirectResponse
+//     */
+//    public function post(Request $request)
+//    {
+//        return $this->productHelper->post($request);
+//    }
 
 
     /**
@@ -74,6 +74,7 @@ class ProductController extends Controller
 
     /**
      * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request){
         return $this->productHelper->put($request);

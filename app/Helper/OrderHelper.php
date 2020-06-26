@@ -12,6 +12,7 @@ use App\QueryFilters\Order\DateFrom;
 use App\QueryFilters\Order\DateTo;
 use App\QueryFilters\Order\OrderType;
 use App\QueryFilters\Order\Partner as PartnerFilter;
+use App\Sublocation;
 use Carbon\Carbon;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Http\Request;
@@ -128,24 +129,54 @@ class OrderHelper implements InterfaceHelper
         foreach ($request->product as $key => $product_id) {
 
             if (!is_null($product_id)) {
-                if (isset($request->product_units[$key]) && isset($request->product_price[$key]) && $request->product_units[$key] !== '0') {
+                if (isset($request->product_units[$key]) && isset($request->product_price[$key]) && intval($request->product_units[$key]) > 0) {
                     $order->products()->attach($product_id, ['units' => $request->product_units[$key], 'price' => $request->product_price[$key]]);
-                }
 
-                $product = Product::find($product_id);
-                $oldStock = $product->stock;
-                $oldPrice = $product->price;
+                    /** @var Product $product */
+                    $product = Product::find($product_id);
+                    $oldStock = $product->stock;
+                    $oldPrice = $product->price;
 
-                if ($request->order_type === '1') {
-                    $newStock = $oldStock + $request->product_units[$key];
-                    $newPrice = ($oldPrice + $request->product_price[$key]) / 2;
-                    $product->stock = $newStock;
-                    $product->price = $newPrice;
-                } elseif ($request->order_type === '2') {
-                    $newStock = $oldStock - $request->product_units[$key];
-                    $product->stock = $newStock;
+                    if ($request->order_type === '1') {
+                        $newStock = $oldStock + $request->product_units[$key];
+                        $newPrice = ($oldPrice + $request->product_price[$key]) / 2;
+                        $product->stock = $newStock;
+                        $product->price = $newPrice;
+
+                        // Allocate products on sublocations
+                        $sublocations = Sublocation::query()
+                            ->where('capacity', '>', 0)
+                            ->get();
+
+                        $productUnitesToInsert = intval($request->product_units[$key]);
+
+                        while ($productUnitesToInsert > 0) {
+                            foreach ($sublocations as $sublocation){
+                                if ($productUnitesToInsert == 0) {
+                                    break;
+                                }
+
+                                if ($productUnitesToInsert <= $sublocation->capacity) {
+                                    $product->sublocation()->attach($sublocation->id, ['units' => $productUnitesToInsert]);
+                                    $sublocation->capacity = $sublocation->capacity - $productUnitesToInsert;
+                                    $sublocation->save();
+                                    $productUnitesToInsert = 0;
+                                }
+                                elseif ($productUnitesToInsert > $sublocation->capacity){
+                                    $productUnitesToInsert = $productUnitesToInsert - $sublocation->capacity;
+                                    $product->sublocation()->attach($sublocation->id, ['units' => $sublocation->capacity]);
+                                    $sublocation->capacity = 0;
+                                    $sublocation->save();
+                                }
+                            }
+                        }
+
+                    } elseif ($request->order_type === '2') {
+                        $newStock = $oldStock - $request->product_units[$key];
+                        $product->stock = $newStock;
+                    }
+                    $product->save();
                 }
-                $product->save();
             }
         }
 

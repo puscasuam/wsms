@@ -1,18 +1,19 @@
 <?php
 
 
-namespace App\QueryFilters\employee;
+namespace App\QueryFilters\Employee;
 
 
 use App\QueryFilters\Filter;
 
-class Username extends Filter
+class UsernameSort extends Filter
 {
     protected function applyFilter($builder)
     {
         return $builder
-            ->select('employees.*')
+            ->select('employees.*', 'users.*')
             ->join('users', 'employees.id', '=', 'users.employee_id')
-            ->where('users.name', 'like', '%' . request($this->filterName()) . '%');
+            ->prderBy('users.name', request($this->filterName()));
     }
+
 }

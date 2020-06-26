@@ -4,15 +4,15 @@ namespace App\Helper;
 
 use App\Employee;
 use App\Mail\WelcomeMail;
-use App\QueryFilters\employee\Email;
-use App\QueryFilters\employee\Firstname;
-use App\QueryFilters\employee\FirstnameSort;
-use App\QueryFilters\employee\Lastname;
-use App\QueryFilters\employee\LastnameSort;
-use App\QueryFilters\employee\Mobile;
-use App\QueryFilters\employee\Role;
-use App\QueryFilters\employee\Username;
-use App\QueryFilters\employee\UsernameSort;
+use App\QueryFilters\Employee\Email;
+use App\QueryFilters\Employee\Firstname;
+use App\QueryFilters\Employee\FirstnameSort;
+use App\QueryFilters\Employee\Lastname;
+use App\QueryFilters\Employee\LastnameSort;
+use App\QueryFilters\Employee\Mobile;
+use App\QueryFilters\Employee\Role;
+use App\QueryFilters\Employee\Username;
+use App\QueryFilters\Employee\UsernameSort;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -131,7 +131,6 @@ class EmployeeHelper implements InterfaceHelper
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'role' => 'required',
             'image.*' => 'required | string',
-
         ]);
 
         // Create new employee
@@ -162,9 +161,37 @@ class EmployeeHelper implements InterfaceHelper
 
     public function put(Request $request)
     {
-        // TODO: Implement put() method.
-    }
+        $dataValidation = $request->validate([
+            'username'=> 'required',
+            'firstName' => 'required | min:2',
+            'lastName' => 'required | min:2',
+            'mobile' => 'required | regex:/(0)[0-9]{9}/',
+            'role' => 'required',
+//            'image.*' => 'required | string',
+        ]);
 
+        //Update employee
+        $employee = Employee::find($request->id);
+        $employee->firstname = $request->firstName;
+        $employee->lastname = $request->lastName;
+        $employee->mobile = $request->mobile;
+        $employee->admin = $request->role === "1" ? 1 : 0;
+        $employee->image = $employee->user->email . '.png';
+        $employee->save();
+
+        //Update associated user
+        $user = User::query()
+            ->where('employee_id', '=', $employee->id)
+            ->get();
+
+        $user[0]->name = $request->username;
+        $user[0]->save();
+
+        // Save image in public/storage/employee
+        ImageHelper::base64ToPng('employee', $request->image['body'], $employee->image);
+
+        return redirect()->route('employeesAll');
+    }
     public function delete(int $id)
     {
         $employee = Employee::find($id);

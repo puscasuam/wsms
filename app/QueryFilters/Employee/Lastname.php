@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\QueryFilters\employee;
+namespace App\QueryFilters\Employee;
 
 
 use App\QueryFilters\Filter;

@@ -1,18 +1,18 @@
 <?php
 
 
-namespace App\QueryFilters\employee;
+namespace App\QueryFilters\Employee;
 
 
 use App\QueryFilters\Filter;
 
-class Email extends Filter
+class Username extends Filter
 {
     protected function applyFilter($builder)
     {
         return $builder
             ->select('employees.*')
             ->join('users', 'employees.id', '=', 'users.employee_id')
-            ->where('users.email', 'like', '%' . request($this->filterName()) . '%');
+            ->where('users.name', 'like', '%' . request($this->filterName()) . '%');
     }
 }

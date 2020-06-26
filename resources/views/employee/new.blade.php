@@ -21,6 +21,11 @@
             <form id="employee-form" action="/employee" method="post" class="form-horizontal row-fluid">
                 @csrf
 
+                @if ($type == 'edit')
+                    @method('PATCH')
+                    <input type="hidden" name="id" value="{{ $employee->id }}">
+                @endif
+
                 <div class="row">
                     <div class="col-sm-1"></div>
                     <div class="col-sm-6">
@@ -85,25 +90,27 @@
                             </div>
                         </div>
 
-                        <div class="form-row form-group row">
-                            <label for="email" class="col-sm-2 col-form-label">Email</label>
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control @error('email') is-invalid @enderror" id="email" name="email"
-                                       value="{{ isset($employee->user->email) ? $employee->user->email : '' }}"
-                                       placeholder="Enter email" autocomplete="off">
-                                @error('email')
-                                <span class="invalid-feedback" role="alert">
+                        @if ($type == 'new')
+                            <div class="form-row form-group row">
+                                <label for="email" class="col-sm-2 col-form-label">Email</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control @error('email') is-invalid @enderror"
+                                           id="email" name="email"
+                                           value="{{ isset($employee->user->email) ? $employee->user->email : '' }}"
+                                           placeholder="Enter email" autocomplete="off">
+                                    @error('email')
+                                    <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
-                                @enderror
+                                    @enderror
+                                </div>
                             </div>
-                        </div>
 
-                        @if ($type == 'new')
                             <div class="form-row form-group row">
                                 <label for="password" class="col-sm-2 col-form-label">Password</label>
                                 <div class="col-sm-8">
-                                    <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password"
+                                    <input type="password" class="form-control @error('password') is-invalid @enderror"
+                                           id="password" name="password"
                                            placeholder="Enter password" autocomplete="off">
                                     @error('password')
                                     <span class="invalid-feedback" role="alert">
@@ -116,7 +123,9 @@
                             <div class="form-row form-group row">
                                 <label for="confirm-password" class="col-sm-2 col-form-label">Confirm password</label>
                                 <div class="col-sm-8">
-                                    <input type="password" class="form-control @error('confirm-password') is-invalid @enderror" id="password-confirmation"
+                                    <input type="password"
+                                           class="form-control @error('confirm-password') is-invalid @enderror"
+                                           id="password-confirmation"
                                            name="password_confirmation"
                                            placeholder="Confirm password" autocomplete="off">
                                     @error('confirm-password')

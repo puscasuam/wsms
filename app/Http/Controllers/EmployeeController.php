@@ -41,7 +41,7 @@ class EmployeeController extends Controller
     }
 
     /**
-     * @return Employee[]|\Illuminate\Database\Eloquent\Collection
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function all(Request $request){
         return $this->employeeHelper->all($request);
@@ -69,5 +69,13 @@ class EmployeeController extends Controller
 
     public function view(Request $request){
         return $this->employeeHelper->view($request->id);
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function update(Request $request){
+        return $this->employeeHelper->put($request);
     }
 }

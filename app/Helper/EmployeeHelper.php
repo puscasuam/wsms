@@ -57,9 +57,14 @@ class EmployeeHelper implements InterfaceHelper
     public function view(int $id)
     {
         $employee = Employee::find($id);
+
         if ($employee) {
-            return $this->form($employee, 'view');
+            $employee->image = ImageHelper::pngToBase64('employee', $employee->image);
         }
+
+        return view('/employee/view', [
+            'employee' => $employee,
+        ]);
     }
 
     public function all(Request $request)
@@ -68,7 +73,6 @@ class EmployeeHelper implements InterfaceHelper
         $users = User::all();
 
         if($request->isMethod('get')){
-//            $employees = Employee::paginate(8);
 
             $pipeline = app(Pipeline::class)
                 ->send(Employee::query())

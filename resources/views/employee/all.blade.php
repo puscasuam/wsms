@@ -222,8 +222,6 @@
                     </tbody>
 
                 </table>
-                {{--                {!! $products->appends(\Request::except('page'))->render()!!}--}}
-                {{--                {{ $products->links()}}--}}
                 {{ $employees->appends(request()->input())->links()}}
             </div>
         </div>

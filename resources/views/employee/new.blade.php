@@ -143,7 +143,7 @@
                                 <select style="width: 100%;" id="role" class="form-control" name="role">
                                     <option value=""></option>
                                     <option value="1"
-                                            @if (isset($employee->admin) && $employee->role === 1)
+                                            @if (isset($employee->admin) && $employee->admin === 1)
                                             selected="selected"
                                         @endif
                                     >Admin

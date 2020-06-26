@@ -89,17 +89,19 @@
                                         <label for="type" class="col-sm-2 col-form-label">Type</label>
                                         <div class="col-sm-8">
                                             <select style="width: 100%;" id="type" class="form-control" name="type">
-                                                <option value="" ></option>
+                                                <option value=""></option>
                                                 <option value="1"
                                                         @if (isset($filters->type) && $filters->type === "1")
                                                         selected="selected"
                                                     @endif
-                                                >Vendor</option>
+                                                >Vendor
+                                                </option>
                                                 <option value="2"
                                                         @if (isset($filters->type) && $filters->type === "2")
                                                         selected="selected"
                                                     @endif
-                                                >Customer</option>
+                                                >Customer
+                                                </option>
                                             </select>
                                         </div>
                                     </div>
@@ -151,18 +153,25 @@
                                     <ul class="dropdown-menu" style="text-align: left; padding-left: 20px">
                                         <li><a href="{{ URL('/partner/'. $partner->id . '/view')}}"><i
                                                     class="fa fa-eye"></i> View</a></li>
-                                        <li><a href="{{ URL('/partner/'.$partner->id )}}"><i class="fa fa-cog"></i> Edit</a>
-                                        </li>
-                                        <li>
-                                            <a href="#" aria-label="Delete" data-toggle="modal" data-target="#deletePartnerModal-{{ $partner->id }}">
-                                                <i class="fa fa-eraser"></i> Delete
-                                            </a>
-                                        </li>
+                                        @can('update', $partner)
+                                            <li><a href="{{ URL('/partner/'.$partner->id )}}"><i class="fa fa-cog"></i>
+                                                    Edit</a>
+                                            </li>
+                                        @endcan
+                                        @can('delete', $partner)
+                                            <li>
+                                                <a href="#" aria-label="Delete" data-toggle="modal"
+                                                   data-target="#deletePartnerModal-{{ $partner->id }}">
+                                                    <i class="fa fa-eraser"></i> Delete
+                                                </a>
+                                            </li>
+                                        @endcan
                                     </ul>
                                 </div>
 
                                 <!-- Delete Partner Modal-->
-                                <div class="modal fade" id="deletePartnerModal-{{ $partner->id }}" tabindex="-1" role="dialog"
+                                <div class="modal fade" id="deletePartnerModal-{{ $partner->id }}" tabindex="-1"
+                                     role="dialog"
                                      aria-labelledby="exampleModalLabel-{{ $partner->id }}" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
@@ -170,7 +179,8 @@
                                                 <h5 class="modal-title" id="exampleModalLabel-{{ $partner->id }}">
                                                     Are you sure you want to delete the partner?
                                                 </h5>
-                                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                                <button class="close" type="button" data-dismiss="modal"
+                                                        aria-label="Close">
                                                     <span aria-hidden="true">×</span>
                                                 </button>
                                             </div>
@@ -178,10 +188,13 @@
                                                 Select "Delete" below if you are ready to delete your selected partner.
                                             </div>
                                             <div class="modal-footer">
-                                                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                                                <button class="btn btn-secondary" type="button" data-dismiss="modal">
+                                                    Cancel
+                                                </button>
                                                 <a class="btn btn-primary" href="{{ URL('/partner/' . $partner->id )}}"
                                                    onclick="event.preventDefault(); document.getElementById('delete-partner-form-{{ $partner->id }}').submit();">Delete</a>
-                                                <form id="delete-partner-form-{{ $partner->id }}" action="{{ URL('/partner/' . $partner->id )}}"
+                                                <form id="delete-partner-form-{{ $partner->id }}"
+                                                      action="{{ URL('/partner/' . $partner->id )}}"
                                                       method="post" style="display: none;">
                                                     @method('delete')
                                                     @csrf

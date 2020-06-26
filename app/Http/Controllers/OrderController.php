@@ -47,6 +47,7 @@ class OrderController extends Controller
      * @return mixed
      */
     public function delete(Request $request){
+        $this->authorize('delete', $request);
         return $this->orderHelper->delete($request->id);
     }
 
@@ -57,6 +58,23 @@ class OrderController extends Controller
     public function post(Request $request)
     {
         return $this->orderHelper->post($request);
+    }
+
+    /**
+     * Get a product by id
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function get(Request $request){
+        return $this->orderHelper->get($request->id);
+    }
+
+    /**
+     * @param Request $request
+     */
+    public function view(Request $request){
+        return $this->orderHelper->view($request->id);
     }
 
 }

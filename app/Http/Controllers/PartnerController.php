@@ -4,6 +4,7 @@
 namespace App\Http\Controllers;
 
 use App\Helper\PartnerHelper;
+use App\Partner;
 use Illuminate\Http\Request;
 
 
@@ -37,6 +38,7 @@ class PartnerController extends Controller
      */
     public function post(Request $request)
     {
+        $this->authorize('create', Partner::class);
         return $this->partnerHelper->post($request);
     }
 
@@ -54,6 +56,7 @@ class PartnerController extends Controller
      * @return mixed
      */
     public function delete(Request $request){
+        $this->authorize('delete', $request);
         return $this->partnerHelper->delete($request->id);
     }
 
@@ -62,6 +65,7 @@ class PartnerController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request){
+        $this->authorize('update', $request);
         return $this->partnerHelper->put($request);
     }
 

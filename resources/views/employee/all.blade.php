@@ -107,17 +107,19 @@
                                         <label for="role" class="col-sm-2 col-form-label">Role</label>
                                         <div class="col-sm-8">
                                             <select style="width: 100%;" id="role" class="form-control" name="role">
-                                                <option value="" ></option>
+                                                <option value=""></option>
                                                 <option value="1"
-                                                    @if (isset($filters->role) && $filters->role === "1")
+                                                        @if (isset($filters->role) && $filters->role === "1")
                                                         selected="selected"
                                                     @endif
-                                                >Admin</option>
+                                                >Admin
+                                                </option>
                                                 <option value="0"
-                                                    @if (isset($filters->role) && $filters->role === "0")
+                                                        @if (isset($filters->role) && $filters->role === "0")
                                                         selected="selected"
                                                     @endif
-                                                >Regular</option>
+                                                >Regular
+                                                </option>
                                             </select>
                                         </div>
                                         <div class="col-sm-1"></div>
@@ -168,15 +170,20 @@
                                     <ul class="dropdown-menu" style="text-align: left; padding-left: 20px">
                                         <li><a href="{{ URL('/employee/'. $employee->id . '/view')}}"><i
                                                     class="fa fa-eye"></i> View</a></li>
-                                        <li><a href="{{ URL('/employee/'.$employee->id )}}"><i class="fa fa-cog"></i>
-                                                Edit</a>
-                                        </li>
-                                        <li>
-                                            <a href="#" aria-label="Delete" data-toggle="modal"
-                                               data-target="#deleteEmployeeModal-{{ $employee->id}}">
-                                                <i class="fa fa-eraser"></i> Delete
-                                            </a>
-                                        </li>
+                                        @can('update', $employee)
+                                            <li><a href="{{ URL('/employee/'.$employee->id )}}"><i
+                                                        class="fa fa-cog"></i>
+                                                    Edit</a>
+                                            </li>
+                                        @endcan
+                                        @can('delete', $employee)
+                                            <li>
+                                                <a href="#" aria-label="Delete" data-toggle="modal"
+                                                   data-target="#deleteEmployeeModal-{{ $employee->id}}">
+                                                    <i class="fa fa-eraser"></i> Delete
+                                                </a>
+                                            </li>
+                                        @endcan
                                     </ul>
                                 </div>
 

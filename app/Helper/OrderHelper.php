@@ -7,15 +7,21 @@ use App\Order_type;
 use App\Partner;
 use App\Product;
 use App\QueryFilters\Order\AmountFrom;
+use App\QueryFilters\Order\AmountSort;
 use App\QueryFilters\Order\AmountTo;
 use App\QueryFilters\Order\DateFrom;
+use App\QueryFilters\Order\DateSort;
 use App\QueryFilters\Order\DateTo;
+use App\QueryFilters\Order\FinalAmountSort;
 use App\QueryFilters\Order\OrderType;
 use App\QueryFilters\Order\Partner as PartnerFilter;
+use App\QueryFilters\Order\PartnerSort;
 use App\Sublocation;
+use App\Transaction;
 use Carbon\Carbon;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OrderHelper implements InterfaceHelper
 {
@@ -26,25 +32,6 @@ class OrderHelper implements InterfaceHelper
         $partners = Partner::all();
         $products = Product::all();
 
-//        if ($type == 'edit') {
-//
-//            $order->order_type = DB::table('order_types')
-//                ->select('material_id')
-//                ->where('product_id', $product->id)
-//                ->pluck('material_id')->toArray();
-//
-//            $product->gemstones = DB::table('gemstone_product')
-//                ->select('gemstone_id')
-//                ->where('product_id', $product->id)
-//                ->pluck('gemstone_id')->toArray();
-//
-//            $product->sublocations = DB::table('product_sublocation')
-//                ->select('sublocation_id')
-//                ->where('product_id', $product->id)
-//                ->pluck('sublocation_id')->toArray();
-//
-//        }
-
         return view('/order/new', [
             'orderTypes' => $orderTypes,
             'partners' => $partners,
@@ -53,14 +40,22 @@ class OrderHelper implements InterfaceHelper
         ]);
     }
 
-    public function get(int $id)
-    {
-        // TODO: Implement get() method.
-    }
 
+    /**
+     * Get an order - used for view an order
+     *
+     * @param int $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function view(int $id)
     {
-        // TODO: Implement view() method.
+        $order = Order::find($id);
+        if ($order) {
+
+            return view('/order/view', [
+                'order' => $order,
+            ]);
+        }
     }
 
     public function all(Request $request)
@@ -71,7 +66,24 @@ class OrderHelper implements InterfaceHelper
         $products = Product::withTrashed()->get();
 
         if ($request->isMethod('get')) {
-            $orders = Order::all();
+            $pipeline = app(Pipeline::class)
+                ->send(Order::query())
+                ->through([
+                    PartnerFilter::class,
+                    OrderType::class,
+                    \App\QueryFilters\Order\Product::class,
+                    AmountFrom::class,
+                    AmountTo::class,
+                    DateFrom::class,
+                    DateTo::class,
+                    PartnerSort::class,
+                    AmountSort::class,
+                    FinalAmountSort::class,
+                    DateSort::class,
+                ])
+                ->thenReturn();
+
+            $orders = $pipeline->paginate(6);;
         }
 
         if ($request->isMethod('post')) {
@@ -85,10 +97,15 @@ class OrderHelper implements InterfaceHelper
                     AmountTo::class,
                     DateFrom::class,
                     DateTo::class,
+                    PartnerSort::class,
+                    PartnerSort::class,
+                    AmountSort::class,
+                    FinalAmountSort::class,
+                    DateSort::class,
                 ])
-                ->thenReturn()->get();
+                ->thenReturn();
 
-            $orders = $pipeline;
+            $orders = $pipeline->paginate(6);;
         }
 
         return view('order/all', [
@@ -96,6 +113,7 @@ class OrderHelper implements InterfaceHelper
             'orderTypes' => $orderTypes,
             'partners' => $partners,
             'products' => $products,
+            'filters' => $request,
         ]);
     }
 
@@ -114,6 +132,10 @@ class OrderHelper implements InterfaceHelper
         $order->amount = $request->amount;
         $order->date = Carbon::parse(strtotime($request->date))->format('Y-m-d H:i:s');
 
+        if ($request->order_type === '1') {
+            $order->final_amount = $request->amount;
+        }
+
         if ($request->order_type === '2') {
 
             if (isset($request->update_type) && isset($request->update_percentage) && isset($request->final_amount)) {
@@ -124,6 +146,14 @@ class OrderHelper implements InterfaceHelper
         }
 
         $order->save();
+
+        //Create new transaction with status pending
+        $transaction = new Transaction();
+        $transaction->order_id = $order->id;
+        $transaction->employee_id = Auth::user()->employee_id;
+        $transaction->status_id = "1";
+        $transaction->date = $order->date;
+        $transaction->save;
 
         //for relations many to many + update stock and price in product table
         foreach ($request->product as $key => $product_id) {
@@ -195,5 +225,10 @@ class OrderHelper implements InterfaceHelper
             $order->delete();
         }
         return redirect()->back();
+    }
+
+    public function get(int $id)
+    {
+        // TODO: Implement get() method.
     }
 }

@@ -30,14 +30,16 @@ class ProductController extends Controller
         return $this->productHelper->form();
     }
 
-//    /**
-//     * @param Request $request
-//     * @return \Illuminate\Http\RedirectResponse
-//     */
-//    public function post(Request $request)
-//    {
-//        return $this->productHelper->post($request);
-//    }
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function post(Request $request)
+    {
+        $this->authorize('create', Product::class);
+        return $this->productHelper->post($request);
+    }
 
 
     /**
@@ -47,6 +49,7 @@ class ProductController extends Controller
      * @return mixed
      */
     public function delete(Request $request){
+        $this->authorize('delete', $request);
         return $this->productHelper->delete($request->id);
     }
 
@@ -77,6 +80,7 @@ class ProductController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request){
+        $this->authorize('update', $request);
         return $this->productHelper->put($request);
     }
 

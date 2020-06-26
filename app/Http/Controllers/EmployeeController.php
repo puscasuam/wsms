@@ -3,6 +3,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Employee;
 use App\Helper\EmployeeHelper;
 use Illuminate\Http\Request;
 
@@ -37,6 +38,7 @@ class EmployeeController extends Controller
      */
     public function post(Request $request)
     {
+        $this->authorize('create', Employee::class);
         return $this->employeeHelper->post($request);
     }
 
@@ -54,6 +56,7 @@ class EmployeeController extends Controller
      * @return mixed
      */
     public function delete(Request $request){
+        $this->authorize('delete', $request);
         return $this->employeeHelper->delete($request->id);
     }
 
@@ -76,6 +79,7 @@ class EmployeeController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request){
+        $this->authorize('update', $request);
         return $this->employeeHelper->put($request);
     }
 }

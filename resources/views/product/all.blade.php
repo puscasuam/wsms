@@ -48,11 +48,13 @@
                                     <div class="form-row form-group row">
                                         <label for="price" class="col-sm-2 col-form-label">Price</label>
                                         <div class="col-sm-4">
-                                            <input type="number" class="form-control" id="price_from" name="price_from" min="0"
+                                            <input type="number" class="form-control" id="price_from" name="price_from"
+                                                   min="0"
                                                    value="{{ isset($filters->price_from) ? $filters->price_from : '' }}">
                                         </div>
                                         <div class="col-sm-4">
-                                            <input type="number" class="form-control" id="price_to" name="price_to" min="0"
+                                            <input type="number" class="form-control" id="price_to" name="price_to"
+                                                   min="0"
                                                    value="{{ isset($filters->price_to) ? $filters->price_to : '' }}">
                                         </div>
                                         <div class="col-sm-1">
@@ -69,11 +71,13 @@
                                     <div class="form-row form-group row">
                                         <label for="stock" class="col-sm-2 col-form-label">Stock</label>
                                         <div class="col-sm-4">
-                                            <input type="number" class="form-control" id="stock_from" name="stock_from" min="0"
+                                            <input type="number" class="form-control" id="stock_from" name="stock_from"
+                                                   min="0"
                                                    value="{{ isset($filters->stock_from) ? $filters->stock_from : '' }}">
                                         </div>
                                         <div class="col-sm-4">
-                                            <input type="number" class="form-control" id="stock_to" name="stock_to" min="0"
+                                            <input type="number" class="form-control" id="stock_to" name="stock_to"
+                                                   min="0"
                                                    value="{{ isset($filters->stock_to) ? $filters->stock_to : '' }}">
                                         </div>
                                         <div class="col-sm-1">
@@ -94,7 +98,7 @@
                                                     multiple>
                                                 @foreach($brands as $brand)
                                                     <option value={{$brand->id}}
-                                                        @if (isset($filters->brand) && in_array($brand->id, $filters->brand))
+                                                    @if (isset($filters->brand) && in_array($brand->id, $filters->brand))
                                                         selected="selected"
                                                         @endif
                                                     >{{ $brand->name}}</option>
@@ -122,7 +126,7 @@
                                                     name="category[]" multiple>
                                                 @foreach($categories as $category)
                                                     <option value={{$category->id}}
-                                                        @if (isset($filters->category) && in_array($category->id, $filters->category))
+                                                    @if (isset($filters->category) && in_array($category->id, $filters->category))
                                                         selected="selected"
                                                         @endif
                                                     >{{ $category->name}}</option>
@@ -139,7 +143,7 @@
                                                     name="material[]" multiple>
                                                 @foreach($materials as $material)
                                                     <option value={{$material->id}}
-                                                        @if (isset($filters->material) && in_array($material->id, $filters->material))
+                                                    @if (isset($filters->material) && in_array($material->id, $filters->material))
                                                         selected="selected"
                                                         @endif
                                                     >{{ $material->name}}</option>
@@ -156,7 +160,7 @@
                                                     name="gemstone[]" multiple>
                                                 @foreach($gemstones as $gemstone)
                                                     <option value={{$gemstone->id}}
-                                                        @if (isset($filters->gemstone) && in_array($gemstone->id, $filters->gemstone))
+                                                    @if (isset($filters->gemstone) && in_array($gemstone->id, $filters->gemstone))
                                                         selected="selected"
                                                         @endif
                                                     >{{ $gemstone->name}}</option>
@@ -173,7 +177,7 @@
                                                     name="location[]" multiple>
                                                 @foreach($sublocations as $sublocation)
                                                     <option value={{$sublocation->id}}
-                                                        @if (isset($filters->location) && in_array($sublocation->id, $filters->location))
+                                                    @if (isset($filters->location) && in_array($sublocation->id, $filters->location))
                                                         selected="selected"
                                                         @endif
                                                     >{{ $sublocation->name}}</option>
@@ -247,21 +251,27 @@
                                                 <i class="fa fa-eye"></i> View
                                             </a>
                                         </li>
-                                        <li>
-                                            <a href="{{ URL('/product/'.$product->id )}}">
-                                                <i class="fa fa-cog"></i> Edit
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#" aria-label="Delete" data-toggle="modal" data-target="#deleteProductModal-{{ $product->id }}">
-                                                <i class="fa fa-eraser"></i> Delete
-                                            </a>
-                                        </li>
+                                        @can('update', $product)
+                                            <li>
+                                                <a href="{{ URL('/product/'.$product->id )}}">
+                                                    <i class="fa fa-cog"></i> Edit
+                                                </a>
+                                            </li>
+                                        @endcan
+                                        @can('delete', $product)
+                                            <li>
+                                                <a href="#" aria-label="Delete" data-toggle="modal"
+                                                   data-target="#deleteProductModal-{{ $product->id }}">
+                                                    <i class="fa fa-eraser"></i> Delete
+                                                </a>
+                                            </li>
+                                        @endcan
                                     </ul>
                                 </div>
 
                                 <!-- Delete Product Modal-->
-                                <div class="modal fade" id="deleteProductModal-{{ $product->id }}" tabindex="-1" role="dialog"
+                                <div class="modal fade" id="deleteProductModal-{{ $product->id }}" tabindex="-1"
+                                     role="dialog"
                                      aria-labelledby="exampleModalLabel-{{ $product->id }}" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
@@ -269,7 +279,8 @@
                                                 <h5 class="modal-title" id="exampleModalLabel-{{ $product->id }}">
                                                     Are you sure you want to delete the product?
                                                 </h5>
-                                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                                <button class="close" type="button" data-dismiss="modal"
+                                                        aria-label="Close">
                                                     <span aria-hidden="true">×</span>
                                                 </button>
                                             </div>
@@ -277,10 +288,13 @@
                                                 Select "Delete" below if you are ready to delete your selected product.
                                             </div>
                                             <div class="modal-footer">
-                                                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                                                <button class="btn btn-secondary" type="button" data-dismiss="modal">
+                                                    Cancel
+                                                </button>
                                                 <a class="btn btn-dark" href="{{ URL('/product/' . $product->id )}}"
                                                    onclick="event.preventDefault(); document.getElementById('delete-product-form-{{ $product->id }}').submit();">Delete</a>
-                                                <form id="delete-product-form-{{ $product->id }}" action="{{ URL('/product/' . $product->id )}}"
+                                                <form id="delete-product-form-{{ $product->id }}"
+                                                      action="{{ URL('/product/' . $product->id )}}"
                                                       method="post" style="display: none;">
                                                     @method('delete')
                                                     @csrf
@@ -296,8 +310,6 @@
                     </tbody>
 
                 </table>
-                {{--                {!! $products->appends(\Request::except('page'))->render()!!}--}}
-                {{--                {{ $products->links()}}--}}
                 {{ $products->appends(request()->input())->links()}}
             </div>
         </div>

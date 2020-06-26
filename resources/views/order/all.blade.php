@@ -5,7 +5,7 @@
     <!-- Data tables for Orders -->
     <div class="card shadow mb-4" id="orders-page">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Orders</h6>
+            <h6 class="m-0 font-weight-bold text-dark">Orders</h6>
         </div>
         <div class="card-body">
 
@@ -34,12 +34,21 @@
                                                     name="partner[]"
                                                     multiple>
                                                 @foreach($partners as $partner)
-                                                    <option value={{$partner->id}}>{{ $partner->name}}</option>
+                                                    <option value={{$partner->id}}
+                                                    @if (isset($filters->partner) && in_array($partner->id, $filters->partner))
+                                                        selected="selected"
+                                                        @endif
+                                                    >{{ $partner->name}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
                                         <div class="col-sm-1">
-                                            <button type="button" class="btn"><i class="fa fa-sort" aria-hidden="true"></i></button>
+                                            <button type="button" class="btn" id="partner_sort_button"
+                                                    name="partner_sort_button"
+                                                    onclick="change_sort_direction($(this), '#partner_sort')">
+                                                <i class="fa fa-sort" aria-hidden="true"></i>
+                                            </button>
+                                            <input type="hidden" id="partner_sort" name="partner_sort" value="">
                                         </div>
                                     </div>
 
@@ -51,12 +60,13 @@
                                                     name="order_type[]"
                                                     multiple>
                                                 @foreach($orderTypes as $orderType)
-                                                    <option value={{$orderType->id}}>{{ $orderType->type}}</option>
+                                                    <option value={{$orderType->id}}
+                                                    @if (isset($filters->order_type) && in_array($orderType->id, $filters->order_type))
+                                                        selected="selected"
+                                                        @endif
+                                                    >{{ $orderType->type}}</option>
                                                 @endforeach
                                             </select>
-                                        </div>
-                                        <div class="col-sm-1">
-                                            <button type="button" class="btn"><i class="fa fa-sort" aria-hidden="true"></i></button>
                                         </div>
                                     </div>
 
@@ -71,9 +81,6 @@
                                                 @endforeach
                                             </select>
                                         </div>
-                                        <div class="col-sm-1">
-                                            <button type="button" class="btn"><i class="fa fa-sort" aria-hidden="true"></i></button>
-                                        </div>
                                     </div>
 
                                 </div>
@@ -85,13 +92,21 @@
                                         <label for="amount" class="col-sm-2 col-form-label">Amount</label>
                                         <div class="col-sm-4">
                                             <input type="number" class="form-control" id="amount_from"
-                                                   name="amount_from">
+                                                   name="amount_from" min="0"
+                                                   value="{{ isset($filters->amount_from) ? $filters->amount_from : '' }}">
                                         </div>
                                         <div class="col-sm-4">
-                                            <input type="number" class="form-control" id="amount_to" name="amount_to">
+                                            <input type="number" class="form-control" id="amount_to" name="amount_to"
+                                                   min="0"
+                                                   value="{{ isset($filters->amount_to) ? $filters->amount_to : '' }}">
                                         </div>
                                         <div class="col-sm-1">
-                                            <button type="button" class="btn"><i class="fa fa-sort" aria-hidden="true"></i></button>
+                                            <button type="button" class="btn" id="amount_sort_button"
+                                                    name="amount_sort_button"
+                                                    onclick="change_sort_direction($(this), '#amount_sort')">
+                                                <i class="fa fa-sort" aria-hidden="true"></i>
+                                            </button>
+                                            <input type="hidden" id="amount_sort" name="amount_sort" value="">
                                         </div>
                                     </div>
 
@@ -99,24 +114,29 @@
                                     <div class="form-row form-group row">
                                         <label for="date" class="col-sm-2 col-form-label">Date</label>
                                         <div class="col-sm-4">
-                                            <input type="text" class="form-control" id="date_from" name="date_from">
+                                            <input type="text" class="form-control" id="date_from" name="date_from"
+                                                   value="{{ isset($filters->date_from) ? $filters->date_from : '' }}">
                                         </div>
                                         <div class="col-sm-4">
-                                            <input type="text" class="form-control" id="date_to" name="date_to">
+                                            <input type="text" class="form-control" id="date_to" name="date_to"
+                                                   value="{{ isset($filters->date_to) ? $filters->date_to : '' }}">
                                         </div>
                                         <div class="col-sm-1">
-                                            <button type="button" class="btn"><i class="fa fa-sort" aria-hidden="true"></i></button>
+                                            <button type="button" class="btn" id="data_sort_button"
+                                                    name="data_sort_button"
+                                                    onclick="change_sort_direction($(this), '#data_sort')">
+                                                <i class="fa fa-sort" aria-hidden="true"></i>
+                                            </button>
+                                            <input type="hidden" id="data_sort" name="data_sort" value="">
                                         </div>
                                     </div>
-
                                 </div>
-
                             </div>
 
                             <div class="row">
                                 <div class="col col-sm-12 pl-5">
-                                    <button type="submit" class="btn btn-primary">Apply</button>
-                                    <button type="button" class="btn btn-primary">Reset</button>
+                                    <button type="submit" class="btn btn-dark">Apply</button>
+                                    <a class="btn btn-secondary" href="{{ route('ordersAll') }}">Reset</a>
                                 </div>
                             </div>
                         </form>
@@ -128,11 +148,11 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                     <tr class="card-header">
-                        <th>Partner<i class="fa fa-sort" aria-hidden="true"></i></th>
-                        <th>Order type <i class="fa fa-sort" aria-hidden="true"></i></th>
+                        <th>Partner</th>
+                        <th>Order type</th>
                         <th>Products</th>
-                        <th>Amount <i class="fa fa-sort" aria-hidden="true"></i></th>
-                        <th>Date<i class="fa fa-sort" aria-hidden="true"></i></th>
+                        <th>Amount</th>
+                        <th>Date</th>
                         <th>Actions</th>
                     </tr>
                     </thead>
@@ -148,7 +168,7 @@
                                     {{$product->name}}{{$loop->last ? '' : ','}}
                                 @endforeach
                             </td>
-                            <td> {{$order->amount}} </td>
+                            <td> {{$order->final_amount}} </td>
                             <td> {{\Carbon\Carbon::parse($order->date)->format('d-m-Y')}} </td>
                             <td>
                                 <div class="open">
@@ -159,9 +179,9 @@
                                     <ul class="dropdown-menu" style="text-align: left; padding-left: 20px">
                                         <li><a href="{{ URL('/order/'. $order->id . '/view')}}"><i
                                                     class="fa fa-eye"></i> View</a></li>
-                                        <li><a href="{{ URL('/order/'.$order->id )}}"><i class="fa fa-cog"></i> Edit</a>
-                                        </li>
-                                        <li><a href="#"><i class="fa fa-eraser"></i> Delete</a></li>
+                                        @can('delete', $order)
+                                            <li><a href="#"><i class="fa fa-eraser"></i> Delete</a></li>
+                                        @endcan
                                     </ul>
                                 </div>
                             </td>
@@ -200,8 +220,7 @@
                     </tbody>
 
                 </table>
-                {{--                                {{ $products->appends(request()->input())->links()}}--}}
-                {{--                                {{ $products->links()}}--}}
+                {{ $orders->appends(request()->input())->links()}}
             </div>
         </div>
     </div>

@@ -22,10 +22,25 @@ class TransactionController extends Controller
     }
 
     /**
-     * @return Transaction[]|\Illuminate\Database\Eloquent\Collection
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function all(Request $request){
 
         return $this->transactionHelper->all($request);
+    }
+
+    public function get(Request $request){
+        return $this->transactionHelper->get($request->id);
+    }
+
+    public function view(Request $request){
+        $this->authorize('view', $request);
+        return $this->transactionHelper->view($request->id);
+    }
+
+
+    public function update(Request $request){
+        $this->authorize('update', $request);
+        return $this->transactionHelper->put($request);
     }
 }

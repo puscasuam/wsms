@@ -179,7 +179,7 @@
                                     <ul class="dropdown-menu" style="text-align: left; padding-left: 20px">
                                         <li><a href="{{ URL('/order/'. $order->id . '/view')}}"><i
                                                     class="fa fa-eye"></i> View</a></li>
-                                        @can('delete', $order)
+                                        @can('isAuthorized', \App\Order::class)
                                             <li><a href="#"><i class="fa fa-eraser"></i> Delete</a></li>
                                         @endcan
                                     </ul>

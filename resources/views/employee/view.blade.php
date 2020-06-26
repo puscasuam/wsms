@@ -46,8 +46,16 @@
             <div class="row mt-3">
                 <div class="col-sm-1"></div>
                 <div class="col">
-                    <a href="{{ URL('/employee/'.$employee->id )}}"class="btn btn-dark">
-                        Edit</a>
+                    @if(Auth::user()->employee_id == $employee->id && $employee->admin == 0)
+                        <a href="{{ URL('/employee/'.$employee->id )}}"class="btn btn-dark">
+                            Edit
+                        </a>
+                    @endif
+                    @can('isAuthorized', \App\Employee::class)
+                    <a href="{{ URL('/employee/'.$employee->id )}}" class="btn btn-dark">
+                        Edit
+                    </a>
+                    @endcan
                     <a href="{{ URL::route('employeesAll') }}" class="btn btn-secondary float-right">Back</a>
                 </div>
                 <div class="col-sm-1"></div>

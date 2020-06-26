@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Employee;
 use App\Helper\EmployeeHelper;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class EmployeeController extends Controller
 {
@@ -38,14 +39,15 @@ class EmployeeController extends Controller
      */
     public function post(Request $request)
     {
-        $this->authorize('create', Employee::class);
+        $this->authorize('isAuthorized', Employee::class);
         return $this->employeeHelper->post($request);
     }
 
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function all(Request $request){
+    public function all(Request $request)
+    {
         return $this->employeeHelper->all($request);
     }
 
@@ -55,8 +57,9 @@ class EmployeeController extends Controller
      * @param Request $request
      * @return mixed
      */
-    public function delete(Request $request){
-        $this->authorize('delete', $request);
+    public function delete(Request $request)
+    {
+        $this->authorize('isAuthorized', Employee::class);
         return $this->employeeHelper->delete($request->id);
     }
 
@@ -66,11 +69,13 @@ class EmployeeController extends Controller
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function get(Request $request){
+    public function get(Request $request)
+    {
         return $this->employeeHelper->get($request->id);
     }
 
-    public function view(Request $request){
+    public function view(Request $request)
+    {
         return $this->employeeHelper->view($request->id);
     }
 
@@ -78,8 +83,13 @@ class EmployeeController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request){
-        $this->authorize('update', $request);
+    public function update(Request $request)
+    {
+        if (Auth::user()->employee_id === intval($request->id)) {
+            return $this->employeeHelper->put($request);
+        }
+
+        $this->authorize('isAuthorized',Employee::class);
         return $this->employeeHelper->put($request);
     }
 }

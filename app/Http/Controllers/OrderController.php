@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 
 use App\Helper\OrderHelper;
+use App\Order;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -35,7 +36,8 @@ class OrderController extends Controller
     /**
      * @return Order[]|\Illuminate\Database\Eloquent\Collection
      */
-    public function all(Request $request){
+    public function all(Request $request)
+    {
         return $this->orderHelper->all($request);
     }
 
@@ -46,8 +48,9 @@ class OrderController extends Controller
      * @param Request $request
      * @return mixed
      */
-    public function delete(Request $request){
-        $this->authorize('delete', $request);
+    public function delete(Request $request)
+    {
+        $this->authorize('isAuthorized', Order::class);
         return $this->orderHelper->delete($request->id);
     }
 
@@ -66,14 +69,16 @@ class OrderController extends Controller
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function get(Request $request){
+    public function get(Request $request)
+    {
         return $this->orderHelper->get($request->id);
     }
 
     /**
      * @param Request $request
      */
-    public function view(Request $request){
+    public function view(Request $request)
+    {
         return $this->orderHelper->view($request->id);
     }
 

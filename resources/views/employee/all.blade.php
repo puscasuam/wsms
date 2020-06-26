@@ -170,13 +170,13 @@
                                     <ul class="dropdown-menu" style="text-align: left; padding-left: 20px">
                                         <li><a href="{{ URL('/employee/'. $employee->id . '/view')}}"><i
                                                     class="fa fa-eye"></i> View</a></li>
-                                        @can('update', $employee)
+                                        @can('isAuthorized', \App\Employee::class)
                                             <li><a href="{{ URL('/employee/'.$employee->id )}}"><i
                                                         class="fa fa-cog"></i>
                                                     Edit</a>
                                             </li>
                                         @endcan
-                                        @can('delete', $employee)
+                                        @can('isAuthorized', \App\Employee::class)
                                             <li>
                                                 <a href="#" aria-label="Delete" data-toggle="modal"
                                                    data-target="#deleteEmployeeModal-{{ $employee->id}}">

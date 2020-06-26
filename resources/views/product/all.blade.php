@@ -169,22 +169,22 @@
                                         </div>
                                     </div>
 
-                                    <!-- Filter Location -->
-                                    <div class="form-row form-group row">
-                                        <label for="location" class="col-sm-2 col-form-label">Locations</label>
-                                        <div class="col-sm-8">
-                                            <select style="width: 100%;" id="location" class="form-control"
-                                                    name="location[]" multiple>
-                                                @foreach($sublocations as $sublocation)
-                                                    <option value={{$sublocation->id}}
-                                                    @if (isset($filters->location) && in_array($sublocation->id, $filters->location))
-                                                        selected="selected"
-                                                        @endif
-                                                    >{{ $sublocation->name}}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
+                                    {{--                                    <!-- Filter Location -->--}}
+                                    {{--                                    <div class="form-row form-group row">--}}
+                                    {{--                                        <label for="location" class="col-sm-2 col-form-label">Locations</label>--}}
+                                    {{--                                        <div class="col-sm-8">--}}
+                                    {{--                                            <select style="width: 100%;" id="location" class="form-control"--}}
+                                    {{--                                                    name="location[]" multiple>--}}
+                                    {{--                                                @foreach($sublocations as $sublocation)--}}
+                                    {{--                                                    <option value={{$sublocation->id}}--}}
+                                    {{--                                                    @if (isset($filters->location) && in_array($sublocation->id, $filters->location))--}}
+                                    {{--                                                        selected="selected"--}}
+                                    {{--                                                        @endif--}}
+                                    {{--                                                    >{{ $sublocation->name}}</option>--}}
+                                    {{--                                                @endforeach--}}
+                                    {{--                                            </select>--}}
+                                    {{--                                        </div>--}}
+                                    {{--                                    </div>--}}
                                 </div>
 
                             </div>
@@ -236,9 +236,8 @@
                                 @endforeach
                             </td>
                             <td>
-                            @foreach($product->sublocation as $sublocation)
-                                {{$sublocation->name}}{{$loop->last ? '' : ','}}
-                            @endforeach
+                                {{ \App\Helper\ProductHelper::getProductsNoFromSublocation($product) }}
+                            </td>
                             <td>
                                 <div class="open">
                                     <button role="button" type="button" class="btn" data-toggle="dropdown">
@@ -251,21 +250,21 @@
                                                 <i class="fa fa-eye"></i> View
                                             </a>
                                         </li>
-                                        @can('update', $product)
+                                        @can('isAuthorized', \App\Product::class)
                                             <li>
                                                 <a href="{{ URL('/product/'.$product->id )}}">
                                                     <i class="fa fa-cog"></i> Edit
                                                 </a>
                                             </li>
                                         @endcan
-
+                                        @can('isAuthorized', \App\Product::class)
                                             <li>
                                                 <a href="#" aria-label="Delete" data-toggle="modal"
                                                    data-target="#deleteProductModal-{{ $product->id }}">
                                                     <i class="fa fa-eraser"></i> Delete
                                                 </a>
                                             </li>
-
+                                        @endcan
                                     </ul>
                                 </div>
 

@@ -106,7 +106,7 @@ class ProductHelper implements InterfaceHelper
         $gemstones = Gemstone::all();
         $categories = Category::all();
         $materials = Material::all();
-        $sublocations = Sublocation::all();
+        $sublocations = Sublocation::query()->where('capacity', '<', '10')->get();
 
         if($request->isMethod('get')){
 
@@ -213,6 +213,7 @@ class ProductHelper implements InterfaceHelper
         ]);
 
         $product = Product::find($request->id);
+
         $product->name = $request->name;
         $product->price = $request->price;
         $product->stock = $request->stock;
@@ -252,5 +253,32 @@ class ProductHelper implements InterfaceHelper
             $product->delete();
         }
         return redirect()->back();
+    }
+
+    /**
+     * Get Number of Products displayed on each Sublocation that
+     * he is part from.
+     *
+     * @param Product $product
+     * @return false|string
+     */
+    public static function getProductsNoFromSublocation(Product $product)
+    {
+        // Deallocate products from sublocations
+        $productSublocations = DB::table('product_sublocation')
+            ->groupBy('sublocation_id')
+            ->selectRaw('sublocation_id, sum(units) as sum_units')
+            ->where('product_id', '=', $product->id)
+            ->having('sum_units', '>', 0)
+            ->get();
+
+        $productNoFromSublocationsString = '';
+        foreach ($productSublocations as $productSublocation) {
+            $sublocation = Sublocation::find($productSublocation->sublocation_id);
+
+            $productNoFromSublocationsString .= $sublocation->name . '[ ' . $productSublocation->sum_units . ' ], ';
+        }
+
+        return substr($productNoFromSublocationsString, 0 , -2);
     }
 }

@@ -37,7 +37,7 @@ class ProductController extends Controller
      */
     public function post(Request $request)
     {
-        $this->authorize('create', Product::class);
+        $this->authorize('isAuthorized', Product::class);
         return $this->productHelper->post($request);
     }
 
@@ -48,8 +48,9 @@ class ProductController extends Controller
      * @param Request $request
      * @return mixed
      */
-    public function delete(Request $request){
-//        $this->authorize('delete', $request);
+    public function delete(Request $request)
+    {
+        $this->authorize('isAuthorized', Product::class);
         return $this->productHelper->delete($request->id);
     }
 
@@ -59,11 +60,13 @@ class ProductController extends Controller
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function get(Request $request){
+    public function get(Request $request)
+    {
         return $this->productHelper->get($request->id);
     }
 
-    public function view(Request $request){
+    public function view(Request $request)
+    {
         return $this->productHelper->view($request->id);
     }
 
@@ -71,7 +74,8 @@ class ProductController extends Controller
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function all(Request $request){
+    public function all(Request $request)
+    {
         return $this->productHelper->all($request);
     }
 
@@ -79,8 +83,9 @@ class ProductController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request){
-        $this->authorize('update', $request);
+    public function update(Request $request)
+    {
+        $this->authorize('isAuthorized', Product::class);
         return $this->productHelper->put($request);
     }
 

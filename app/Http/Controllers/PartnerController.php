@@ -24,11 +24,13 @@ class PartnerController extends Controller
         return $this->partnerHelper->form();
     }
 
-    public function get(Request $request){
+    public function get(Request $request)
+    {
         return $this->partnerHelper->get($request->id);
     }
 
-    public function view(Request $request){
+    public function view(Request $request)
+    {
         return $this->partnerHelper->view($request->id);
     }
 
@@ -38,14 +40,15 @@ class PartnerController extends Controller
      */
     public function post(Request $request)
     {
-        $this->authorize('create', Partner::class);
+        $this->authorize('isAuthorized', Partner::class);
         return $this->partnerHelper->post($request);
     }
 
     /**
      * @return Product[]|\Illuminate\Database\Eloquent\Collection
      */
-    public function all(Request $request){
+    public function all(Request $request)
+    {
         return $this->partnerHelper->all($request);
     }
 
@@ -55,8 +58,9 @@ class PartnerController extends Controller
      * @param Request $request
      * @return mixed
      */
-    public function delete(Request $request){
-        $this->authorize('delete', $request);
+    public function delete(Request $request)
+    {
+        $this->authorize('isAuthorized', Partner::class);
         return $this->partnerHelper->delete($request->id);
     }
 
@@ -64,8 +68,9 @@ class PartnerController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request){
-        $this->authorize('update', $request);
+    public function update(Request $request)
+    {
+        $this->authorize('isAuthorized', Partner::class);
         return $this->partnerHelper->put($request);
     }
 

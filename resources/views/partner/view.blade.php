@@ -43,8 +43,10 @@
             <div class="row mt-3">
                 <div class="col-sm-1"></div>
                 <div class="col">
+                    @can('isAuthorized', \App\Partner::class)
                     <a href="{{ URL('/partner/'.$partner->id )}}"class="btn btn-dark">
                         Edit</a>
+                    @endcan
                     <a href="{{ URL::route('partnersAll') }}" class="btn btn-secondary float-right">Back</a>
                 </div>
                 <div class="col-sm-1"></div>

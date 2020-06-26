@@ -34,13 +34,13 @@ class TransactionController extends Controller
     }
 
     public function view(Request $request){
-        $this->authorize('view', $request);
+        $this->authorize('isAuthorized', Transaction::class);
         return $this->transactionHelper->view($request->id);
     }
 
 
     public function update(Request $request){
-        $this->authorize('update', $request);
+        $this->authorize('isAuthorized', Transaction::class);
         return $this->transactionHelper->put($request);
     }
 }

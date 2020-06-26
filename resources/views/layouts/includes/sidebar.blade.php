@@ -33,7 +33,7 @@
         </a>
         <div id="collapseProducts" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                @can('create', \App\Product::class)
+                @can('isAuthorized', \App\Product::class)
                     <a class="collapse-item" href="{{ route('newProduct')}}">New product</a>
                 @endcan
                 <a class="collapse-item" href="{{ route('productsAll')}}">Show products</a>
@@ -48,7 +48,7 @@
         </a>
         <div id="collapsePartners" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                @can('create', \App\Partner::class)
+                @can('isAuthorized', \App\Partner::class)
                     <a class="collapse-item" href="{{ route('partnerAdd')}}">New partner</a>
                 @endcan
                 <a class="collapse-item" href="{{ route('partnersAll')}}">Show partners</a>
@@ -67,20 +67,20 @@
             </div>
         </div>
 
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTransactions"
-           aria-expanded="true" aria-controls="collapseTransactions">
-            <i class="fas fa-fw fa-folder"></i>
-            <span>Transactions</span>
-        </a>
+        @can('isAuthorized', \App\Transaction::class)
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTransactions"
+               aria-expanded="true" aria-controls="collapseTransactions">
+                <i class="fas fa-fw fa-folder"></i>
+                <span>Transactions</span>
+            </a>
 
-        <div id="collapseTransactions" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-{{--                @can('view', $transaction)--}}
+            <div id="collapseTransactions" class="collapse" aria-labelledby="headingPages"
+                 data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
                     <a class="collapse-item" href="{{ route('transactionsAll')}}">Show transactions</a>
-{{--                @endcan--}}
+                </div>
             </div>
-        </div>
-
+        @endcan
 
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseEmployee"
            aria-expanded="true" aria-controls="collapseEmployee">
@@ -89,8 +89,8 @@
         </a>
         <div id="collapseEmployee" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                @can('create', \App\Employee::class)
-                <a class="collapse-item" href="{{ route('employeeNew')}}">New employee</a>
+                @can('isAuthorized', \App\Employee::class)
+                    <a class="collapse-item" href="{{ route('employeeNew')}}">New employee</a>
                 @endcan
                 <a class="collapse-item" href="{{ route('employeesAll')}}">Show employees</a>
             </div>

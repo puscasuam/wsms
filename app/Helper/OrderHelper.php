@@ -130,10 +130,7 @@ class OrderHelper implements InterfaceHelper
         $order->partner_id = $request->partner;
         $order->amount = $request->amount;
         $order->date = Carbon::parse(strtotime($request->date))->format('Y-m-d H:i:s');
-
-        if ($request->order_type === '1') {
-            $order->final_amount = $request->amount;
-        }
+        $order->final_amount = $request->amount;
 
         if ($request->order_type === '2') {
 

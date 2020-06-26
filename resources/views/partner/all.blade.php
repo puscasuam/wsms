@@ -153,19 +153,19 @@
                                     <ul class="dropdown-menu" style="text-align: left; padding-left: 20px">
                                         <li><a href="{{ URL('/partner/'. $partner->id . '/view')}}"><i
                                                     class="fa fa-eye"></i> View</a></li>
-                                        @can('update', $partner)
+                                        @can('isAuthorized', \App\Partner::class)
                                             <li><a href="{{ URL('/partner/'.$partner->id )}}"><i class="fa fa-cog"></i>
                                                     Edit</a>
                                             </li>
                                         @endcan
-
+                                        @can('isAuthorized', \App\Partner::class)
                                             <li>
                                                 <a href="#" aria-label="Delete" data-toggle="modal"
                                                    data-target="#deletePartnerModal-{{ $partner->id }}">
                                                     <i class="fa fa-eraser"></i> Delete
                                                 </a>
                                             </li>
-
+                                        @endcan
                                     </ul>
                                 </div>
 

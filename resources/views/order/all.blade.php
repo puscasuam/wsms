@@ -114,11 +114,11 @@
                                     <div class="form-row form-group row">
                                         <label for="date" class="col-sm-2 col-form-label">Date</label>
                                         <div class="col-sm-4">
-                                            <input type="text" class="form-control" id="date_from" name="date_from"
+                                            <input type="text" class="form-control" id="date_from" name="date_from" autocomplete="off"
                                                    value="{{ isset($filters->date_from) ? $filters->date_from : '' }}">
                                         </div>
                                         <div class="col-sm-4">
-                                            <input type="text" class="form-control" id="date_to" name="date_to"
+                                            <input type="text" class="form-control" id="date_to" name="date_to" autocomplete="off"
                                                    value="{{ isset($filters->date_to) ? $filters->date_to : '' }}">
                                         </div>
                                         <div class="col-sm-1">

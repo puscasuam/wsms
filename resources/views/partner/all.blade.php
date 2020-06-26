@@ -158,14 +158,14 @@
                                                     Edit</a>
                                             </li>
                                         @endcan
-                                        @can('delete', $partner)
+
                                             <li>
                                                 <a href="#" aria-label="Delete" data-toggle="modal"
                                                    data-target="#deletePartnerModal-{{ $partner->id }}">
                                                     <i class="fa fa-eraser"></i> Delete
                                                 </a>
                                             </li>
-                                        @endcan
+
                                     </ul>
                                 </div>
 

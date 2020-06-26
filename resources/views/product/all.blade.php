@@ -258,14 +258,14 @@
                                                 </a>
                                             </li>
                                         @endcan
-                                        @can('delete', $product)
+
                                             <li>
                                                 <a href="#" aria-label="Delete" data-toggle="modal"
                                                    data-target="#deleteProductModal-{{ $product->id }}">
                                                     <i class="fa fa-eraser"></i> Delete
                                                 </a>
                                             </li>
-                                        @endcan
+
                                     </ul>
                                 </div>
 

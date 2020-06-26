@@ -22,6 +22,7 @@ use Carbon\Carbon;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class OrderHelper implements InterfaceHelper
 {
@@ -62,8 +63,8 @@ class OrderHelper implements InterfaceHelper
     {
         $orders = Order::all();
         $orderTypes = Order_type::all();
-        $partners = Partner::withTrashed()->get();
-        $products = Product::withTrashed()->get();
+        $partners = Partner::all();
+        $products = Product::all();
 
         if ($request->isMethod('get')) {
             $pipeline = app(Pipeline::class)
@@ -78,7 +79,6 @@ class OrderHelper implements InterfaceHelper
                     DateTo::class,
                     PartnerSort::class,
                     AmountSort::class,
-                    FinalAmountSort::class,
                     DateSort::class,
                 ])
                 ->thenReturn();
@@ -100,7 +100,6 @@ class OrderHelper implements InterfaceHelper
                     PartnerSort::class,
                     PartnerSort::class,
                     AmountSort::class,
-                    FinalAmountSort::class,
                     DateSort::class,
                 ])
                 ->thenReturn();
@@ -153,7 +152,7 @@ class OrderHelper implements InterfaceHelper
         $transaction->employee_id = Auth::user()->employee_id;
         $transaction->status_id = "1";
         $transaction->date = $order->date;
-        $transaction->save;
+        $transaction->save();
 
         //for relations many to many + update stock and price in product table
         foreach ($request->product as $key => $product_id) {
@@ -169,7 +168,11 @@ class OrderHelper implements InterfaceHelper
 
                     if ($request->order_type === '1') {
                         $newStock = $oldStock + $request->product_units[$key];
-                        $newPrice = ($oldPrice + $request->product_price[$key]) / 2;
+                        if ($oldPrice != 0) {
+                            $newPrice = ($oldPrice + $request->product_price[$key]) / 2;
+                        } else {
+                            $newPrice = $request->product_price[$key];
+                        }
                         $product->stock = $newStock;
                         $product->price = $newPrice;
 
@@ -181,7 +184,7 @@ class OrderHelper implements InterfaceHelper
                         $productUnitesToInsert = intval($request->product_units[$key]);
 
                         while ($productUnitesToInsert > 0) {
-                            foreach ($sublocations as $sublocation){
+                            foreach ($sublocations as $sublocation) {
                                 if ($productUnitesToInsert == 0) {
                                     break;
                                 }
@@ -191,8 +194,7 @@ class OrderHelper implements InterfaceHelper
                                     $sublocation->capacity = $sublocation->capacity - $productUnitesToInsert;
                                     $sublocation->save();
                                     $productUnitesToInsert = 0;
-                                }
-                                elseif ($productUnitesToInsert > $sublocation->capacity){
+                                } elseif ($productUnitesToInsert > $sublocation->capacity) {
                                     $productUnitesToInsert = $productUnitesToInsert - $sublocation->capacity;
                                     $product->sublocation()->attach($sublocation->id, ['units' => $sublocation->capacity]);
                                     $sublocation->capacity = 0;
@@ -204,6 +206,37 @@ class OrderHelper implements InterfaceHelper
                     } elseif ($request->order_type === '2') {
                         $newStock = $oldStock - $request->product_units[$key];
                         $product->stock = $newStock;
+
+                        // Deallocate products from sublocations
+                        $productSublocations = DB::table('product_sublocation')
+                            ->groupBy('sublocation_id')
+                            ->selectRaw('sublocation_id, sum(units) as sum_units')
+                            ->where('product_id', '=', $product_id)
+                            ->get();
+
+                        $productUnitesToDelete = intval($request->product_units[$key]);
+
+                        while ($productUnitesToDelete > 0) {
+                            foreach ($productSublocations as $productSublocation) {
+                                if ($productUnitesToDelete == 0) {
+                                    break;
+                                }
+
+                                $sublocation = Sublocation::find($productSublocation->sublocation_id);
+
+                                if ($productUnitesToDelete <= $productSublocation->sum_units) {
+                                    $product->sublocation()->attach($sublocation->id, ['units' => 0 - $productUnitesToDelete]);
+                                    $sublocation->capacity = $sublocation->capacity + $productUnitesToDelete;
+                                    $sublocation->save();
+                                    $productUnitesToDelete = 0;
+                                } elseif ($productUnitesToDelete > $productSublocation->sum_units) {
+                                    $productUnitesToDelete = $productUnitesToDelete - $productSublocation->sum_units;
+                                    $product->sublocation()->attach($sublocation->id, ['units' => 0 - $productSublocation->sum_units]);
+                                    $sublocation->capacity = $sublocation->capacity + $productSublocation->sum_units;
+                                    $sublocation->save();
+                                }
+                            }
+                        }
                     }
                     $product->save();
                 }

@@ -12,7 +12,7 @@ class Order extends Model
 
     public function partner()
     {
-        return $this->belongsTo(Partner::class);
+        return $this->belongsTo(Partner::class)->withTrashed();;
     }
 
     public function order_type()
@@ -22,6 +22,6 @@ class Order extends Model
 
     public function products()
     {
-        return $this->belongsToMany(Product::class, 'order_product');
+        return $this->belongsToMany(Product::class, 'order_product')->withTrashed();
     }
 }

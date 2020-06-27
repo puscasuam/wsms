@@ -43,4 +43,16 @@ class TransactionController extends Controller
         $this->authorize('isAuthorized', Transaction::class);
         return $this->transactionHelper->put($request);
     }
+
+    public function paid(Request $request)
+    {
+        $this->authorize('isAuthorized', Transaction::class);
+        return $this->transactionHelper->paid($request->id);
+    }
+
+    public function canceled(Request $request)
+    {
+        $this->authorize('isAuthorized', Transaction::class);
+        return $this->transactionHelper->canceled($request->id);
+    }
 }

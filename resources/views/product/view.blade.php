@@ -51,7 +51,7 @@
                                 @endforeach
                                 <br/>
                                 Locations:
-                                {{ \App\Helper\ProductHelper::getProductsNoFromSublocation($product) }}
+                            {{ \App\Helper\ProductHelper::getProductsNoFromSublocation($product) }}
                             <p class="card-text">
 
                             </p>
@@ -66,9 +66,11 @@
             <div class="row mt-3">
                 <div class="col-sm-1"></div>
                 <div class="col">
-                    <a href="{{ URL('/product/'.$product->id )}}" class="btn btn-dark">
-                        Edit
-                    </a>
+                    @can('isAuthorized', \App\Product::class)
+                        <a href="{{ URL('/product/'.$product->id )}}" class="btn btn-dark">
+                            Edit
+                        </a>
+                    @endcan
                     <a href="{{ URL::route('productsAll') }}" class="btn btn-secondary float-right">Back</a>
                 </div>
                 <div class="col-sm-1"></div>
@@ -78,5 +80,3 @@
     </div>
 
 @endsection
-
-

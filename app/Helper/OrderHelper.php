@@ -13,7 +13,6 @@ use App\QueryFilters\Order\AmountTo;
 use App\QueryFilters\Order\DateFrom;
 use App\QueryFilters\Order\DateSort;
 use App\QueryFilters\Order\DateTo;
-use App\QueryFilters\Order\FinalAmountSort;
 use App\QueryFilters\Order\OrderType;
 use App\QueryFilters\Order\Partner as PartnerFilter;
 use App\QueryFilters\Order\PartnerSort;

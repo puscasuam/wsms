@@ -127,6 +127,13 @@ $(document).ready(function () {
         $("#div_" + deleteindex).remove();
 
     });
+
+    // Show Error Transaction Modal
+    let errorTransaction = $('#error-transaction');
+
+    if (errorTransaction && errorTransaction.val() !== '') {
+        $('#errorTransactionModal').modal('show');
+    }
 });
 
 function add_or_remove_product_row(button) {

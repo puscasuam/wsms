@@ -85,14 +85,12 @@
                             <div class="col-sm-2">
                                 <input type="number" class="form-control product_units" name="product_units[]" data-initial=""
                                        onchange="recalculate_amount($(this))"
-                                       {{--                                       value="{{ isset($product->name) ? $product->name : '' }}"--}}
                                        placeholder="units">
                                 <div class="validation">@error('product_units') {{$message}} @enderror </div>
                             </div>
                             <div class="col-sm-2">
                                 <input type="number" class="form-control product_price" name="product_price[]"
                                        onchange="recalculate_amount($(this))"
-                                       {{--                                       value="{{ isset($product->name) ? $product->name : '' }}"--}}
                                        placeholder="price">
                                 <div class="validation">@error('product_price') {{$message}} @enderror </div>
                             </div>
@@ -125,7 +123,6 @@
                             </div>
                         </div>
 
-                        {{--                        @if ($orderType->value == "out")--}}
                         <div class="form-row form-group row d-none price-update-row">
                             <label for="update_type" class="col-sm-2 col-form-label">Price update</label>
                             <div class="col-sm-6">
@@ -150,10 +147,8 @@
                             <div class="col-sm-8">
                                 <input readonly type="text" class="form-control" id="final_amount"
                                        name="final_amount">
-                                {{--                                           value="{{ isset($order->amont) ? $order->amount : '' }}">--}}
                             </div>
                         </div>
-                        {{--                        @endif--}}
 
 
                         <div class="form-row form-group row">
@@ -203,14 +198,12 @@
         <div class="col-sm-2">
             <input type="number" class="form-control product_units" name="product_units[]" data-initial=""
                    onchange="recalculate_amount($(this))"
-                   {{--                                       value="{{ isset($product->name) ? $product->name : '' }}"--}}
                    placeholder="units">
             <div class="validation">@error('product_units') {{$message}} @enderror </div>
         </div>
         <div class="col-sm-2">
             <input type="number" class="form-control product_price" name="product_price[]"
                    onchange="recalculate_amount($(this))"
-                   {{--                                       value="{{ isset($product->name) ? $product->name : '' }}"--}}
                    placeholder="price">
             <div class="validation">@error('product_price') {{$message}} @enderror </div>
         </div>

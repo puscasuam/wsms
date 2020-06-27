@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Sublocation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -24,5 +26,16 @@ class HomeController extends Controller
     public function index()
     {
         return view('home');
+    }
+
+
+    public function getWareHouseOccupancyRate(Request $request)
+    {
+
+        $sublocationsOccupancyRate = Sublocation::query()
+            ->sum('capacity')
+            ->get();
+
+        return json_encode($sublocationsOccupancyRate);
     }
 }

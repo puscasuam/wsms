@@ -180,43 +180,43 @@
                                     <ul class="dropdown-menu" style="text-align: left; padding-left: 20px">
                                         <li><a href="{{ URL('/order/'. $order->id . '/view')}}"><i
                                                     class="fa fa-eye"></i> View</a></li>
-                                        @can('isAuthorized', \App\Order::class)
-                                            <li><a href="#"><i class="fa fa-eraser"></i> Delete</a></li>
-                                        @endcan
+{{--                                        @can('isAuthorized', \App\Order::class)--}}
+{{--                                            <li><a href="#"><i class="fa fa-eraser"></i> Delete</a></li>--}}
+{{--                                        @endcan--}}
                                     </ul>
                                 </div>
                             </td>
                         </tr>
 
                         <!-- Delete Order Modal-->
-                        <div class="modal fade" id="deleteOrderModal" tabindex="-1" role="dialog"
-                             aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Are you sure you want to delete
-                                            the order?</h5>
-                                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">×</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">Select "Delete" below if you are ready to delete your
-                                        selected order.
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel
-                                        </button>
-                                        <a class="btn btn-primary" href="{{ URL('/order/'.$order->id )}}"
-                                           onclick="event.preventDefault(); document.getElementById('delete-order-form').submit();">Delete</a>
-                                        <form id="delete-order-form" action="{{ URL('/order/'.$order->id )}}"
-                                              method="post" style="display: none;">
-                                            @method('delete')
-                                            @csrf
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+{{--                        <div class="modal fade" id="deleteOrderModal" tabindex="-1" role="dialog"--}}
+{{--                             aria-labelledby="exampleModalLabel" aria-hidden="true">--}}
+{{--                            <div class="modal-dialog" role="document">--}}
+{{--                                <div class="modal-content">--}}
+{{--                                    <div class="modal-header">--}}
+{{--                                        <h5 class="modal-title" id="exampleModalLabel">Are you sure you want to delete--}}
+{{--                                            the order?</h5>--}}
+{{--                                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">--}}
+{{--                                            <span aria-hidden="true">×</span>--}}
+{{--                                        </button>--}}
+{{--                                    </div>--}}
+{{--                                    <div class="modal-body">Select "Delete" below if you are ready to delete your--}}
+{{--                                        selected order.--}}
+{{--                                    </div>--}}
+{{--                                    <div class="modal-footer">--}}
+{{--                                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel--}}
+{{--                                        </button>--}}
+{{--                                        <a class="btn btn-primary" href="{{ URL('/order/'.$order->id )}}"--}}
+{{--                                           onclick="event.preventDefault(); document.getElementById('delete-order-form').submit();">Delete</a>--}}
+{{--                                        <form id="delete-order-form" action="{{ URL('/order/'.$order->id )}}"--}}
+{{--                                              method="post" style="display: none;">--}}
+{{--                                            @method('delete')--}}
+{{--                                            @csrf--}}
+{{--                                        </form>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
                     @endforeach
                     </tbody>
 

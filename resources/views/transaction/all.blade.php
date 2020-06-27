@@ -104,28 +104,134 @@
                             <td> {{ ($transaction->status_id === 1) ? "Pending" : (($transaction->status_id === 2) ? "Paid" : "Canceled")}} </td>
                             <td style="width: 15%;">
                                 <div class="open" style="text-align:center;">
-                                    <button role="button" type="button" class="btn" data-toggle="dropdown">
-                                        <i class="fa fa-bars"></i>
-                                    </button>
-
-                                    <ul class="dropdown-menu" style="text-align: left; padding-left: 20px">
-                                        <li><a>
-                                                <i class="fa fa-check"></i> Paid
-                                            </a>
-                                        </li>
-                                        <li><a>
-                                                <i class="fa fa-ban"></i> Canceled
-                                            </a>
-                                        </li>
-
-                                    </ul>
+                                    @if($transaction->status_id === 1)
+                                        <button role="button" type="button" class="btn" data-toggle="dropdown">
+                                            <i class="fa fa-bars"></i>
+                                        </button>
+                                        <ul class="dropdown-menu" style="text-align: left; padding-left: 20px">
+                                            <li>
+                                                <a href="#" aria-label="Paid" data-toggle="modal"
+                                                   data-target="#paidTransactionModal-{{ $transaction->id }}">
+                                                    <i class="fa fa-check"></i> Paid
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" aria-label="Canceled" data-toggle="modal"
+                                                   data-target="#cancelTransactionModal-{{ $transaction->id }}">
+                                                    <i class="fa fa-ban"></i> Canceled
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    @endif
                                 </div>
 
+
+                                <!-- Paid Transaction Modal-->
+                                <div class="modal fade" id="paidTransactionModal-{{ $transaction->id }}" tabindex="-1"
+                                     role="dialog"
+                                     aria-labelledby="exampleModalLabel-{{ $transaction->id }}" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel-{{ $transaction->id }}">
+                                                    Are you sure you want to mark as paid this transaction?
+                                                </h5>
+                                                <button class="close" type="button" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                    <span aria-hidden="true">×</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Select "Mark as Paid" below if you are ready to mark as paid your
+                                                selected transaction.
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button class="btn btn-secondary" type="button" data-dismiss="modal">
+                                                    Cancel
+                                                </button>
+                                                <a class="btn btn-dark"
+                                                   href="{{ URL('/transaction/paid/' . $transaction->id )}}"
+                                                   onclick="event.preventDefault(); document.getElementById('paid-transaction-form-{{ $transaction->id }}').submit();">Mark
+                                                    as Paid</a>
+                                                <form id="paid-transaction-form-{{ $transaction->id }}"
+                                                      action="{{ URL('/transaction/paid/' . $transaction->id )}}"
+                                                      method="post" style="display: none;">
+                                                    @method('delete')
+                                                    @csrf
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Canceled Transaction Modal-->
+                                <div class="modal fade" id="cancelTransactionModal-{{ $transaction->id }}" tabindex="-1"
+                                     role="dialog"
+                                     aria-labelledby="exampleModalLabel-{{ $transaction->id }}" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel-{{ $transaction->id }}">
+                                                    Are you sure you want to mark as canceled this transaction?
+                                                </h5>
+                                                <button class="close" type="button" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                    <span aria-hidden="true">×</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Select "Mark as Canceled" below if you are ready to mark as canceled
+                                                your selected transaction.
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button class="btn btn-secondary" type="button" data-dismiss="modal">
+                                                    Cancel
+                                                </button>
+                                                <a class="btn btn-dark"
+                                                   href="{{ URL('/transaction/canceled/' . $transaction->id )}}"
+                                                   onclick="event.preventDefault(); document.getElementById('canceled-transaction-form-{{ $transaction->id }}').submit();">Mark
+                                                    as Canceled</a>
+                                                <form id="canceled-transaction-form-{{ $transaction->id }}"
+                                                      action="{{ URL('/transaction/canceled/' . $transaction->id )}}"
+                                                      method="post" style="display: none;">
+                                                    @method('delete')
+                                                    @csrf
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </td>
                         </tr>
 
                     @endforeach
                     </tbody>
+
+                    <!-- Error Transaction Modal-->
+                    <div class="modal fade" id="errorTransactionModal" tabindex="-1" role="dialog"
+                         aria-labelledby="errorTransactionModal" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Error</h5>
+                                </div>
+                                <div class="modal-body">
+                                    @if(!empty($errors))
+                                        {{$errors->first()}}
+                                    @endif
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-secondary" type="button" data-dismiss="modal">
+                                        Cancel
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @if(!empty($errors))
+                        <input type="hidden" value="{{$errors->first()}}" id="error-transaction">
+                    @endif
 
                 </table>
                 {{ $transactions->appends(request()->input())->links()}}

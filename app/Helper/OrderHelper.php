@@ -2,6 +2,7 @@
 
 namespace App\Helper;
 
+use App\Brand;
 use App\Order;
 use App\Order_type;
 use App\Partner;
@@ -50,11 +51,21 @@ class OrderHelper implements InterfaceHelper
      */
     public function view(int $id)
     {
-        $order = Order::find($id);
-        if ($order) {
+        $partners = Partner::all();
+        $products = Product::all();
 
+        $order = Order::find($id);
+        $order->products = DB::table('order_product')
+            ->select('products.name', 'order_product.units', 'order_product.price')
+            ->join('products', 'order_product.product_id', '=', 'products.id')
+            ->where('order_product.order_id', $order->id)
+            ->get();
+
+        if ($order) {
             return view('/order/view', [
                 'order' => $order,
+                'partners' => $partners,
+                'products' => $products,
             ]);
         }
     }
@@ -131,6 +142,7 @@ class OrderHelper implements InterfaceHelper
         $order->amount = $request->amount;
         $order->date = Carbon::parse(strtotime($request->date))->format('Y-m-d H:i:s');
         $order->final_amount = $request->amount;
+        $order->employee_id = Auth::user()->employee_id;
 
         if ($request->order_type === '2') {
 

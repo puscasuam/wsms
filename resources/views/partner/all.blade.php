@@ -131,7 +131,7 @@
                         <th>Email</th>
                         <th>Mobile</th>
                         <th>Address</th>
-                        <th>Actions</th>
+                        <th style="text-align:center;">Actions</th>
                     </tr>
                     </thead>
 
@@ -145,7 +145,7 @@
                             <td> {{$partner->mobile}} </td>
                             <td> {{$partner->address}} </td>
                             <td>
-                                <div class="open">
+                                <div class="open" style="text-align:center;">
                                     <button role="button" type="button" class="btn" data-toggle="dropdown">
                                         <i class="fa fa-bars"></i>
                                     </button>

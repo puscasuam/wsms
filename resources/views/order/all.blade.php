@@ -7,6 +7,7 @@
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-dark">Orders</h6>
         </div>
+
         <div class="card-body">
 
             <div class="card mb-4">
@@ -153,7 +154,7 @@
                         <th>Products</th>
                         <th>Amount</th>
                         <th>Date</th>
-                        <th>Actions</th>
+                        <th style="text-align:center;">Actions</th>
                     </tr>
                     </thead>
 
@@ -171,7 +172,7 @@
                             <td> {{$order->final_amount}} </td>
                             <td> {{\Carbon\Carbon::parse($order->date)->format('d-m-Y')}} </td>
                             <td>
-                                <div class="open">
+                                <div class="open" style="text-align:center;">
                                     <button role="button" type="button" class="btn" data-toggle="dropdown">
                                         <i class="fa fa-bars"></i>
                                     </button>

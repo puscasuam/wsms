@@ -29,3 +29,6 @@ Route::post('/products', 'ProductController@all')->name('productsAll');
 
 //Used in out order to get product details
 Route::post('/product-details-json', 'ProductController@detailsJson')->name('productDetailsJson');
+
+//Used in out order to get product details
+Route::post('/product-counted-by-category-json', 'ProductController@countProductsByCategoryJson')->name('countProductsByCategoryJson');

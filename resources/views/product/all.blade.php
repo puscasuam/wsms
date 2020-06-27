@@ -212,7 +212,7 @@
                         <th>Materials</th>
                         <th>Gemstones</th>
                         <th>Location</th>
-                        <th>Actions</th>
+                        <th style="text-align:center;">Actions</th>
                     </tr>
                     </thead>
 
@@ -239,7 +239,7 @@
                                 {{ \App\Helper\ProductHelper::getProductsNoFromSublocation($product) }}
                             </td>
                             <td>
-                                <div class="open">
+                                <div class="open" style="text-align:center;">
                                     <button role="button" type="button" class="btn" data-toggle="dropdown">
                                         <i class="fa fa-bars"></i>
                                     </button>

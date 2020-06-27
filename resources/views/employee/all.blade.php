@@ -148,7 +148,7 @@
                         <th>Mobile</th>
                         <th>Username</th>
                         <th>Role</th>
-                        <th>Actions</th>
+                        <th style="text-align:center;">Actions</th>
                     </tr>
                     </thead>
 
@@ -162,7 +162,7 @@
                             <td> {{$employee->user->name}} </td>
                             <td> {{ ($employee->admin) ? "Admin" : "Regular"}} </td>
                             <td>
-                                <div class="open">
+                                <div class="open" style="text-align:center;">
                                     <button role="button" type="button" class="btn" data-toggle="dropdown">
                                         <i class="fa fa-bars"></i>
                                     </button>

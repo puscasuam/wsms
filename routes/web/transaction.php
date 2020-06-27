@@ -22,6 +22,6 @@ Route::get('/transactions', 'TransactionController@all')->name('transactionsAll'
 ////Used to delete a product
 //Route::delete('/product/{id}', 'ProductController@delete')->name('productDelete');
 //
-////Used for filter form
-//Route::post('/products', 'ProductController@all')->name('productsAll');
+//Used for filter form
+Route::post('/transactions', 'TransactionController@all')->name('transactionsAll');
 

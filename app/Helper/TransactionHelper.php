@@ -7,11 +7,10 @@ namespace App\Helper;
 use App\Employee;
 use App\Order;
 use App\Order_type;
-use App\Partner;
-use App\Product;
 use App\Status;
 use App\Transaction;
 use Illuminate\Http\Request;
+use Illuminate\Pipeline\Pipeline;
 
 class TransactionHelper implements InterfaceHelper
 {
@@ -36,44 +35,41 @@ class TransactionHelper implements InterfaceHelper
         $transactions = Transaction::all();
         $orders = Order::all();
         $orderTypes = Order_type::all();
-        $partners = Partner::all();
-        $products = Product::all();
         $employees = Employee::all();
         $statuses = Status::all();
 
         if($request->isMethod('get')){
-            $transactions = Transaction::all();
+
+            $pipeline = app(Pipeline::class)
+                ->send(Transaction::query())
+                ->through([
+                    \App\QueryFilters\Transaction\Order::class,
+                    \App\QueryFilters\Transaction\Status::class,
+                ])
+                ->thenReturn();
+
+            $transactions = $pipeline->paginate(6);
         }
 
-//        if ($request->isMethod('post')) {
-//            $pipeline = app(Pipeline::class)
-//                ->send(Product::query())
-//                ->through([
-//                    Name::class,
-//                    PriceFrom::class,
-//                    PriceTo::class,
-//                    StockFrom::class,
-//                    StockTo::class,
-//                    \App\QueryFilters\Product\Brand::class,
-//                    \App\QueryFilters\Product\Gemstone::class,
-//                    \App\QueryFilters\Product\Material::class,
-//                    \App\QueryFilters\Product\Category::class,
-//                    Location::class,
-////                    NameSort::class,
-//                ])
-//                ->thenReturn();
-//
-//            $products = $pipeline->get();
-//        }
+        if ($request->isMethod('post')) {
+            $pipeline = app(Pipeline::class)
+                ->send(Transaction::query())
+                ->through([
+                    \App\QueryFilters\Transaction\Order::class,
+                    \App\QueryFilters\Transaction\Status::class,
+                ])
+                ->thenReturn();
+
+            $transactions = $pipeline->paginate(6);
+        }
 
         return view('transaction/all', [
             'orders' => $orders,
             'orderTypes' => $orderTypes,
-            'partners' => $partners,
-            'products' => $products,
             'transactions' => $transactions,
             'employees' => $employees,
             'statuses' => $statuses,
+            'filters' => $request,
         ]);
     }
 

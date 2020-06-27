@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helper\ProductHelper;
 use App\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -105,5 +106,19 @@ class ProductController extends Controller
         ];
 
         return json_encode($productArray);
+    }
+
+    /**
+     * @param Request $request
+     * @return false|string
+     */
+    public function countProductsByCategoryJson(Request $request)
+    {
+        $countedProductsByCategory = DB::table('products')
+            ->groupBy('category_id')
+            ->selectRaw('category_id, count(id) as count')
+            ->get();
+
+        return json_encode($countedProductsByCategory);
     }
 }

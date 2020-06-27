@@ -93,10 +93,41 @@ class ProductHelper implements InterfaceHelper
      */
     public function view(int $id)
     {
+        $brands = Brand::all();
         $product = Product::find($id);
+        $categories = Category::all();
+        $materials = Material::all();
+        $gemstones = Gemstone::all();
+
         if ($product) {
-            return $this->form($product, 'view');
+            $product->materials = DB::table('material_product')
+                ->select('material_product.material_id', 'materials.name')
+                ->join('materials', 'material_product.material_id', '=', 'materials.id')
+                ->where('product_id', $product->id)
+                ->get();
+
+            $product->gemstones = DB::table('gemstone_product')
+                ->select('gemstone_product.gemstone_id', 'gemstones.name')
+                ->join('gemstones', 'gemstone_product.gemstone_id', '=', 'gemstones.id')
+                ->where('product_id', $product->id)
+                ->get();
+
+            $product->sublocations = DB::table('product_sublocation')
+                ->select('sublocation_id')
+                ->where('product_id', $product->id)
+                ->pluck('sublocation_id')->toArray();
+
+            $product->image = ImageHelper::pngToBase64('product', $product->image);
         }
+
+        return view('/product/view', [
+            'brands' => $brands,
+            'gemstones' => $gemstones,
+            'categories' => $categories,
+            'materials' => $materials,
+//            'sublocations' => $sublocations,
+            'product' => $product,
+        ]);
     }
 
     public function all(Request $request)

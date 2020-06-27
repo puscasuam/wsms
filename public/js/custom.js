@@ -112,7 +112,6 @@ $(document).ready(function () {
 
             // Adding element to <div>
             $("#div_" + nextindex).append("<input type='text' placeholder='Enter your skill' id='txt_" + nextindex + "'>&nbsp;<span id='remove_" + nextindex + "' class='remove'>X</span>");
-
         }
     });
 
@@ -130,10 +129,40 @@ $(document).ready(function () {
 
     // Show Error Transaction Modal
     let errorTransaction = $('#error-transaction');
-
     if (errorTransaction && errorTransaction.val() !== '') {
         $('#errorTransactionModal').modal('show');
     }
+
+    // Get occupancy rate
+    let occupancyRateText = $('#occupancy-rate-text');
+    let occupancyRateValue = $('#occupancy-rate-value');
+    if (occupancyRateText && occupancyRateValue) {
+        get_occupancy_rate(occupancyRateText, occupancyRateValue);
+    }
+
+    //Get employees number
+    let employeesNoText = $('#employees-no-text');
+    if(employeesNoText){
+        get_employees_no(employeesNoText);
+    }
+
+    // Get income number
+    let incomeNumber = $('#income-number-text');
+    if(incomeNumber){
+        get_income_no(incomeNumber);
+    }
+
+    // Get outcome number
+    let outcomeNumber = $('#outcome-number-text');
+    if(outcomeNumber){
+        get_outcome_no(outcomeNumber);
+    }
+
+    // Get Location Occupancy
+    if ( $('#location-a-text') &&  $('#location-a-value')) {
+        get_location_occupancy();
+    }
+
 });
 
 function add_or_remove_product_row(button) {
@@ -396,5 +425,131 @@ function change_sort_direction(button, inputId) {
             $(sortButton).parent('button:first').prop('disabled', true);
         })
     }
+}
+
+function get_occupancy_rate(occupancyRateText, occupancyRateValue) {
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $.ajax({
+        url: '/occupancy-rate-json',
+        method: 'POST',
+        data: {},
+        success: function (occupancyRate) {
+
+            occupancyRate = JSON.parse(occupancyRate);
+            occupancyRateText.text(occupancyRate + '%');
+            occupancyRateValue.css("width", occupancyRate+ '%');
+
+        },
+        failure: function (errMsg) {
+            alert(errMsg);
+        }
+    });
+}
+
+function get_employees_no(employeesNoText) {
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $.ajax({
+        url: '/employees-no-json',
+        method: 'POST',
+        data: {},
+        success: function (employeesNo) {
+
+            employeesNo = JSON.parse(employeesNo);
+            employeesNoText.text(employeesNo);
+
+        },
+        failure: function (errMsg) {
+            alert(errMsg);
+        }
+    });
+}
+
+function get_income_no(incomeNoText) {
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $.ajax({
+        url: '/income-no-json',
+        method: 'POST',
+        data: {},
+        success: function (incomeNo) {
+
+            incomeNo = JSON.parse(incomeNo);
+            incomeNoText.text('$' + incomeNo);
+
+        },
+        failure: function (errMsg) {
+            alert(errMsg);
+        }
+    });
+}
+
+function get_outcome_no(outcomeNoText) {
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $.ajax({
+        url: '/outcome-no-json',
+        method: 'POST',
+        data: {},
+        success: function (outcomeNo) {
+
+            outcomeNo = JSON.parse(outcomeNo);
+            outcomeNoText.text('$' + outcomeNo);
+
+        },
+        failure: function (errMsg) {
+            alert(errMsg);
+        }
+    });
+}
+
+function get_location_occupancy() {
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $.ajax({
+        url: '/location-occupancy-json',
+        method: 'POST',
+        data: {},
+        success: function (locations) {
+
+            locations = JSON.parse(locations);
+
+            console.log(locations);
+            $.each(locations, function (index, location) {
+                $('#location-' + index + '-text').text(location.text);
+                $('#location-' + index + '-value').css("width", location.value + '%');
+            });
+
+        },
+        failure: function (errMsg) {
+            alert(errMsg);
+        }
+    });
 }
 

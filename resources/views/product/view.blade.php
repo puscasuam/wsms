@@ -52,9 +52,9 @@
                                 <br/>
                                 Locations:
                             {{ \App\Helper\ProductHelper::getProductsNoFromSublocation($product) }}
-                            <p class="card-text">
-
-                            </p>
+                                <br/>
+                                Description: {{ isset($product->description) ? $product->description : '' }}<br/>
+                            <p class="card-text"></p>
                             <p class="card-text"><small class="text-muted">
                                     Added at {{ isset($product->created_at) ? $product->created_at : '' }}
                                 </small></p>

@@ -53,6 +53,21 @@
                     <th class="card-header">Final amount</th>
                     <td>{{ isset($order->final_amount) ? $order->final_amount : '' }}</td>
                 </tr>
+
+                <tr>
+                    <th class="card-header">Added at</th>
+                    <td>{{ isset($order->created_at) ? $order->created_at : '' }}</td>
+                </tr>
+
+                <tr>
+                    <th class="card-header">Added by</th>
+                    <td>
+                        @foreach($employees as $employee)
+                            {{(isset($order->employee_id) && $employee->id == $order->employee_id) ?  $employee->firstname : ''}}
+                        @endforeach
+                    </td>
+                </tr>
+
             </table>
 
         </div>
@@ -64,7 +79,6 @@
             </div>
             <div class="col-sm-1"></div>
         </div>
-
     </div>
 
 @endsection

@@ -172,8 +172,7 @@ class TransactionHelper implements InterfaceHelper
                 if ($product) {
 
                     $totalCapacityOfWarehouse = DB::table('sublocations')
-                        ->sum('capacity')
-                        ->get();
+                        ->sum('capacity');
 
 
                     if ($product->stock > $totalCapacityOfWarehouse) {

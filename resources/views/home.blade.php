@@ -215,8 +215,8 @@
                         <h6 class="m-0 font-weight-bold text-primary">Development Approach</h6>
                     </div>
                     <div class="card-body">
-                        <p>SB Admin 2 makes extensive use of Bootstrap 4 utility classes in order to reduce CSS bloat and poor page performance. Custom CSS classes are used to create custom components and custom utility classes.</p>
-                        <p class="mb-0">Before working with this theme, you should become familiar with the Bootstrap framework, especially the utility classes.</p>
+                        <p>This project was started with the idea of developing a jewelery warehouse management system. </p>
+                        <p class="mb-0"> Made with <i class="fa fa-heart" aria-hidden="true"></i> by Team 2, using Laravel, JavaScript (jQuery) and MySQL.</p>
                     </div>
                 </div>
 

@@ -175,7 +175,7 @@ class PartnerHelper implements InterfaceHelper
     public function checkUniquePartnerCif(string $partnerCif)
     {
         // Get Partner with specified cif
-        $partners = Partner::query()
+        $partners = Partner::withTrashed()
             ->where('cif', $partnerCif)
             ->get();
 

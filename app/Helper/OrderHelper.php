@@ -3,6 +3,7 @@
 namespace App\Helper;
 
 use App\Brand;
+use App\Employee;
 use App\Order;
 use App\Order_type;
 use App\Partner;
@@ -52,6 +53,7 @@ class OrderHelper implements InterfaceHelper
     {
         $partners = Partner::all();
         $products = Product::all();
+        $employees = Employee::all();
 
         $order = Order::find($id);
         $order->products = DB::table('order_product')
@@ -65,6 +67,7 @@ class OrderHelper implements InterfaceHelper
                 'order' => $order,
                 'partners' => $partners,
                 'products' => $products,
+                'employees'=> $employees,
             ]);
         }
     }

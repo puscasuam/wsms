@@ -322,7 +322,7 @@ class ProductHelper implements InterfaceHelper
     public function checkUniqueProductName(string $productName)
     {
         // Get Product with specified name
-        $products = Product::query()
+        $products = Product::withTrashed()
             ->where('name', $productName)
             ->get();
 

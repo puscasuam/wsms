@@ -170,7 +170,7 @@ class EmployeeHelper implements InterfaceHelper
             'firstName' => 'required | min:2',
             'lastName' => 'required | min:2',
             'mobile' => 'required | regex:/(0)[0-9]{9}/',
-            'role' => 'required',
+            'role' => $request->role === "1" ? 'required' : '',
 //            'image.*' => 'required | string',
         ]);
 
@@ -221,6 +221,17 @@ class EmployeeHelper implements InterfaceHelper
             ->get();
 
         if ($users->count() > 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public static function isAdmin($employeeId)
+    {
+        $employee = Employee::find($employeeId);
+
+        if ($employee && $employee->admin === 1) {
             return true;
         }
 

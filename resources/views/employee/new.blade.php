@@ -140,26 +140,28 @@
                             </div>
                         @endif
 
-                        <div class="form-row form-group row">
-                            <label for="role" class="col-sm-2 col-form-label">Is admin</label>
-                            <div class="col-sm-8">
-                                <select style="width: 100%;" id="role" class="form-control" name="role">
-                                    <option value=""></option>
-                                    <option value="1"
-                                            @if (isset($employee->admin) && $employee->admin === 1)
-                                            selected="selected"
-                                        @endif
-                                    >Admin
-                                    </option>
-                                    <option value="0"
-                                            @if (isset($employee->admin) && $employee->admin === 0)
-                                            selected="selected"
-                                        @endif
-                                    >Regular
-                                    </option>
-                                </select>
+                        @if(\App\Helper\EmployeeHelper::isAdmin(Auth::user()->employee_id))
+                            <div class="form-row form-group row">
+                                <label for="role" class="col-sm-2 col-form-label">Is admin</label>
+                                <div class="col-sm-8">
+                                    <select style="width: 100%;" id="role" class="form-control" name="role">
+                                        <option value=""></option>
+                                        <option value="1"
+                                                @if (isset($employee->admin) && $employee->admin === 1)
+                                                selected="selected"
+                                            @endif
+                                        >Admin
+                                        </option>
+                                        <option value="0"
+                                                @if (isset($employee->admin) && $employee->admin === 0)
+                                                selected="selected"
+                                            @endif
+                                        >Regular
+                                        </option>
+                                    </select>
+                                </div>
                             </div>
-                        </div>
+                        @endif
                     </div>
 
                     <div class="col-sm-4">

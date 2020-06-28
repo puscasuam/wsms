@@ -217,6 +217,8 @@
                     <div class="card-body">
                         <p>This project was started with the idea of developing a jewelery warehouse management system. </p>
                         <p class="mb-0"> Made with <i class="fa fa-heart" aria-hidden="true"></i> by Team 2, using Laravel, JavaScript (jQuery) and MySQL.</p>
+
+                        <p class="mb-0"> Team members: Ana Maria Puscasu, Virginia Rosianu, Oana Pop, Mirel Palii, Darius Vanta.</p>
                     </div>
                 </div>
 

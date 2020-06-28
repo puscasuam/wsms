@@ -5,7 +5,7 @@ Chart.defaults.global.defaultFontColor = '#858796';
 // Get Products by Category Pie element
 let productsByCategoryPie = $('#products-by-category-pie');
 
-if (productsByCategoryPie) {
+if (productsByCategoryPie.length) {
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

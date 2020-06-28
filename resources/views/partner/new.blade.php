@@ -2,6 +2,8 @@
 
 @section('content')
 
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <!-- Form -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
@@ -31,7 +33,8 @@
                             <div class="col-sm-8">
                                 <input type="text" class="form-control" id="cif" name="cif"
                                        value="{{ isset($partner->cif) ? $partner->cif : '' }}"
-                                       placeholder="Enter partner CIF" autocomplete="off">
+                                       placeholder="Enter partner CIF" autocomplete="off"
+                                       onchange="check_unique_partner_cif($(this))">
                                 <div class="validation">@error('cif') {{$message}} @enderror </div>
                             </div>
                         </div>

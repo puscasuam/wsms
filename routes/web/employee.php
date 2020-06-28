@@ -27,3 +27,6 @@ Route::delete('/employee/{id}', 'EmployeeController@delete')->name('employeeDele
 
 //Used for filter form
 Route::post('/employees', 'EmployeeController@all')->name('employeesAll');
+
+//Used to check if user email is unique
+Route::post('/check-unique-user-email', 'EmployeeController@checkUniqueUserEmail')->name('checkUniqueUserEmail');

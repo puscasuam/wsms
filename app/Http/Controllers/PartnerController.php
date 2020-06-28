@@ -37,6 +37,7 @@ class PartnerController extends Controller
     /**
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function post(Request $request)
     {
@@ -57,6 +58,7 @@ class PartnerController extends Controller
      *
      * @param Request $request
      * @return mixed
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function delete(Request $request)
     {
@@ -67,11 +69,17 @@ class PartnerController extends Controller
     /**
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function update(Request $request)
     {
         $this->authorize('isAuthorized', Partner::class);
         return $this->partnerHelper->put($request);
+    }
+
+    public function checkUniquePartnerCif(Request $request)
+    {
+        return json_encode($this->partnerHelper->checkUniquePartnerCif($request->partner_cif));
     }
 
 }

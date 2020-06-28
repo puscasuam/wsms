@@ -92,4 +92,9 @@ class EmployeeController extends Controller
         $this->authorize('isAuthorized',Employee::class);
         return $this->employeeHelper->put($request);
     }
+
+    public function checkUniqueUserEmail(Request $request)
+    {
+        return json_encode($this->employeeHelper->checkUniqueUserEmail($request->user_email));
+    }
 }

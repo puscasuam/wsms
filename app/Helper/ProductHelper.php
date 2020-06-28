@@ -312,4 +312,24 @@ class ProductHelper implements InterfaceHelper
 
         return substr($productNoFromSublocationsString, 0 , -2);
     }
+
+    /**
+     * Check if Product Name is unique
+     *
+     * @param string $productName
+     * @return bool
+     */
+    public function checkUniqueProductName(string $productName)
+    {
+        // Get Product with specified name
+        $products = Product::query()
+            ->where('name', $productName)
+            ->get();
+
+        if ($products->count() > 0) {
+            return true;
+        }
+
+        return false;
+    }
 }

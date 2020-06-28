@@ -121,4 +121,13 @@ class ProductController extends Controller
 
         return json_encode($countedProductsByCategory);
     }
+
+    /**
+     * @param Request $request
+     * @return false|string
+     */
+    public function checkUniqueProductName(Request $request)
+{
+    return json_encode($this->productHelper->checkUniqueProductName($request->product_name));
+}
 }

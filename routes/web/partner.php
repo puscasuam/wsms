@@ -25,3 +25,6 @@ Route::delete('/partner/{id}', 'PartnerController@delete')->name('partnerDelete'
 
 //Used for filter form
 Route::post('/partners', 'PartnerController@all')->name('partnersAll');
+
+//Used to check if cif is unique
+Route::post('/check-unique-partner-cif', 'PartnerController@checkUniquePartnerCif')->name('checkUniquePartnerCif');

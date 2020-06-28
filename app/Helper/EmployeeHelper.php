@@ -207,4 +207,23 @@ class EmployeeHelper implements InterfaceHelper
         return redirect()->back();
     }
 
+    /**
+     *  Check if Email is unique
+     *
+     * @param string $email
+     * @return bool
+     */
+    public function checkUniqueUserEmail(string $email)
+    {
+        // Get user with specified email
+        $users = User::query()
+            ->where('email', $email)
+            ->get();
+
+        if ($users->count() > 0) {
+            return true;
+        }
+
+        return false;
+    }
 }

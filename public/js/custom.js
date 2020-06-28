@@ -136,30 +136,30 @@ $(document).ready(function () {
     // Get occupancy rate
     let occupancyRateText = $('#occupancy-rate-text');
     let occupancyRateValue = $('#occupancy-rate-value');
-    if (occupancyRateText && occupancyRateValue) {
+    if (occupancyRateText.length && occupancyRateValue.length) {
         get_occupancy_rate(occupancyRateText, occupancyRateValue);
     }
 
     //Get employees number
     let employeesNoText = $('#employees-no-text');
-    if(employeesNoText){
+    if(employeesNoText.length){
         get_employees_no(employeesNoText);
     }
 
     // Get income number
     let incomeNumber = $('#income-number-text');
-    if(incomeNumber){
+    if(incomeNumber.length){
         get_income_no(incomeNumber);
     }
 
     // Get outcome number
     let outcomeNumber = $('#outcome-number-text');
-    if(outcomeNumber){
+    if(outcomeNumber.length){
         get_outcome_no(outcomeNumber);
     }
 
     // Get Location Occupancy
-    if ( $('#location-a-text') &&  $('#location-a-value')) {
+    if ( $('#location-1-text').length &&  $('#location-1-value').length) {
         get_location_occupancy();
     }
 
@@ -411,7 +411,6 @@ function change_sort_direction(button, inputId) {
     }
 
     $(inputId).val(direction);
-    console.log(direction);
 
     if (direction === '') {
         $('button i.fa-sort').each(function(key, sortButton){
@@ -440,11 +439,9 @@ function get_occupancy_rate(occupancyRateText, occupancyRateValue) {
         method: 'POST',
         data: {},
         success: function (occupancyRate) {
-
             occupancyRate = JSON.parse(occupancyRate);
             occupancyRateText.text(occupancyRate + '%');
             occupancyRateValue.css("width", occupancyRate+ '%');
-
         },
         failure: function (errMsg) {
             alert(errMsg);
@@ -465,10 +462,8 @@ function get_employees_no(employeesNoText) {
         method: 'POST',
         data: {},
         success: function (employeesNo) {
-
             employeesNo = JSON.parse(employeesNo);
             employeesNoText.text(employeesNo);
-
         },
         failure: function (errMsg) {
             alert(errMsg);
@@ -489,10 +484,8 @@ function get_income_no(incomeNoText) {
         method: 'POST',
         data: {},
         success: function (incomeNo) {
-
             incomeNo = JSON.parse(incomeNo);
             incomeNoText.text('$' + incomeNo);
-
         },
         failure: function (errMsg) {
             alert(errMsg);
@@ -513,10 +506,8 @@ function get_outcome_no(outcomeNoText) {
         method: 'POST',
         data: {},
         success: function (outcomeNo) {
-
             outcomeNo = JSON.parse(outcomeNo);
             outcomeNoText.text('$' + outcomeNo);
-
         },
         failure: function (errMsg) {
             alert(errMsg);
@@ -539,8 +530,6 @@ function get_location_occupancy() {
         success: function (locations) {
 
             locations = JSON.parse(locations);
-
-            console.log(locations);
             $.each(locations, function (index, location) {
                 $('#location-' + index + '-text').text(location.text);
                 $('#location-' + index + '-value').css("width", location.value + '%');
@@ -553,3 +542,113 @@ function get_location_occupancy() {
     });
 }
 
+function check_unique_product_name(product) {
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $.ajax({
+        url: '/check-unique-product-name',
+        method: 'POST',
+        data: {
+            product_name: product.val()
+        },
+        success: function (productNameExists) {
+
+            productNameExists = JSON.parse(productNameExists);
+            if (productNameExists) {
+                product.val('');
+                if (!product.hasClass('is-invalid')) {
+                    product.addClass('is-invalid');
+                    product.parent('.col-sm-8:first').append("<span class='invalid-feedback' role='alert'><strong>This name already exists</strong></span>");
+                }
+            } else {
+                if (product.hasClass('is-invalid')) {
+                    product.removeClass('is-invalid');
+                    product.parent('.col-sm-8:first').child('.invalid-feedback:first').remove();
+                }
+
+            }
+        },
+        failure: function (errMsg) {
+            alert(errMsg);
+        }
+    });
+}
+
+function check_unique_user_email(user) {
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $.ajax({
+        url: '/check-unique-user-email',
+        method: 'POST',
+        data: {
+            user_email: user.val()
+        },
+        success: function (userEmailExists) {
+
+            userEmailExists = JSON.parse(userEmailExists);
+            if (userEmailExists) {
+                user.val('');
+                if (!user.hasClass('is-invalid')) {
+                    user.addClass('is-invalid');
+                    user.parent('.col-sm-8:first').append("<span class='invalid-feedback' role='alert'><strong>This email already exists</strong></span>");
+                }
+            } else {
+                if (user.hasClass('is-invalid')) {
+                    user.removeClass('is-invalid');
+                    user.parent('.col-sm-8:first').child('.invalid-feedback:first').remove();
+                }
+
+            }
+        },
+        failure: function (errMsg) {
+            alert(errMsg);
+        }
+    });
+}
+
+function check_unique_partner_cif(partner) {
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $.ajax({
+        url: '/check-unique-partner-cif',
+        method: 'POST',
+        data: {
+            partner_cif: partner.val()
+        },
+        success: function (partnerCifExist) {
+
+            partnerCifExist = JSON.parse(partnerCifExist);
+            if (partnerCifExist) {
+                partner.val('');
+                if (!partner.hasClass('is-invalid')) {
+                    partner.addClass('is-invalid');
+                    partner.parent('.col-sm-8:first').append("<span class='invalid-feedback' role='alert'><strong>This CIF already exists</strong></span>");
+                }
+            } else {
+                if (partner.hasClass('is-invalid')) {
+                    partner.removeClass('is-invalid');
+                    partner.parent('.col-sm-8:first').child('.invalid-feedback:first').remove();
+                }
+
+            }
+        },
+        failure: function (errMsg) {
+            alert(errMsg);
+        }
+    });
+}

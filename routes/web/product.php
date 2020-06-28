@@ -32,3 +32,6 @@ Route::post('/product-details-json', 'ProductController@detailsJson')->name('pro
 
 //Used in out order to get product details
 Route::post('/product-counted-by-category-json', 'ProductController@countProductsByCategoryJson')->name('countProductsByCategoryJson');
+
+//Used in order to check if product name is unique
+Route::post('/check-unique-product-name', 'ProductController@checkUniqueProductName')->name('checkUniqueProductName');

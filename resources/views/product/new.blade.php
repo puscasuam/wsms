@@ -2,6 +2,8 @@
 
 @section('content')
 
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <!-- Form -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
@@ -33,11 +35,12 @@
                             <div class="col-sm-8">
                                 <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name"
                                        value="{{ isset($product->name) ? $product->name : '' }}"
-                                       placeholder="Enter product name" autocomplete="off">
+                                       placeholder="Enter product name" autocomplete="off"
+                                       onchange="check_unique_product_name($(this))">
                                 @error('name')
                                 <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
+                                    <strong>{{ $message }}</strong>
+                                </span>
                                 @enderror
                             </div>
                         </div>

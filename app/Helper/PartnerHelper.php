@@ -164,4 +164,25 @@ class PartnerHelper implements InterfaceHelper
         }
         return redirect()->back();
     }
+
+
+    /**
+     * Check if CIF is unique
+     *
+     * @param string $partnerCif
+     * @return bool
+     */
+    public function checkUniquePartnerCif(string $partnerCif)
+    {
+        // Get Partner with specified cif
+        $partners = Partner::query()
+            ->where('cif', $partnerCif)
+            ->get();
+
+        if ($partners->count() > 0) {
+            return true;
+        }
+
+        return false;
+    }
 }

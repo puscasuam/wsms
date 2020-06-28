@@ -3,6 +3,8 @@
 
 @section('content')
 
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <!-- Form -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
@@ -97,7 +99,8 @@
                                     <input type="text" class="form-control @error('email') is-invalid @enderror"
                                            id="email" name="email"
                                            value="{{ isset($employee->user->email) ? $employee->user->email : '' }}"
-                                           placeholder="Enter email" autocomplete="off">
+                                           placeholder="Enter email" autocomplete="off"
+                                           onchange="check_unique_user_email($(this))">
                                     @error('email')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
